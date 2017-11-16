@@ -1,7 +1,8 @@
 import pygame
 from pygame.locals import *
+from ButtonClass import Button
 
-#Starts the game by initializing pygame
+# Starts the game by initializing pygame
 pygame.init()
 # Sets to screen size to a specified size and makes the screen fullscreen
 screen = pygame.display.set_mode((1920, 1080), FULLSCREEN)
@@ -10,10 +11,12 @@ gameIsRunning = True
 # Gets a sort of timer from pygame (you can use clock to change the FPS with clock.tick for instance)
 clock = pygame.time.Clock()
 
+TowerDefenseBtn = Button("Tower Defense", [20, 150, 10], [0, 0, 0], [40, 140, 40], 300, 300, 1320, 80)
+
 # The gameloop
 while gameIsRunning:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:# If the event QUIT is raised close the game
+        if event.type == pygame.QUIT:  # If the event QUIT is raised close the game
             gameIsRunning = False
 
     # This is a list, all of the keys that are pressed during this frame are added in this list
@@ -24,10 +27,13 @@ while gameIsRunning:
         gameIsRunning = False
 
     # Fills the screen with the color green
-    screen.fill((0, 0, 0))
+    screen.fill((50, 0, 0))
 
-    # Updates the screen (this method draws the screen)
-    pygame.display.flip()
+    TowerDefenseBtn.draw(screen)
+    if TowerDefenseBtn.click(): # Go to Tower Defense Game
+        gameIsRunning = False
+
+    pygame.display.update()
 
     # How many frames must there be made per second (increase the number to get more FPS)
     clock.tick(60)
