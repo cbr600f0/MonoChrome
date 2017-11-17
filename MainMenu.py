@@ -1,39 +1,30 @@
 import pygame
-from pygame.locals import *
+from Scene import Scene as Scene
+import SceneManager
 from ButtonClass import Button
 
-# Starts the game by initializing pygame
-pygame.init()
-# Sets to screen size to a specified size and makes the screen fullscreen
-screen = pygame.display.set_mode((1920, 1080), FULLSCREEN)
-# A bool wich says if the game is running or not (if this bool becomes False the whole game will close)
-gameIsRunning = True
-# Gets a sort of timer from pygame (you can use clock to change the FPS with clock.tick for instance)
-clock = pygame.time.Clock()
 
-TowerDefenseBtn = Button("Tower Defense", [20, 150, 10], [0, 0, 0], [40, 140, 40], 300, 300, 1320, 80)
+class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich is the base class of all scenes)
 
-# The gameloop
-while gameIsRunning:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:  # If the event QUIT is raised close the game
-            gameIsRunning = False
+    def __init__(self):
+        super(MainMenuScene, self).__init__()  # get the methods and variables from the base class wich is Scene
 
-    # This is a list, all of the keys that are pressed during this frame are added in this list
-    keysPressed = pygame.key.get_pressed()
+        self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 100, None, 40)
 
-    # If a key is pressed down AND that key is ESCAPE make gameIsRunning false so that the game will close
-    if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-        gameIsRunning = False
+    # The function of this method is explained in the class Scene
+    def render(self, screen):
+        pygame.display.set_caption("Main Menu")  # Changes the text of the window
+        screen.fill((0, 200, 0))
+        self.towerDefenseBtn.draw(screen)
+        pass
 
-    # Fills the screen with the color green
-    screen.fill((50, 0, 0))
+    # The function of this method is explained in the class Scene
+    def update(self):
+        if self.towerDefenseBtn.click():
+            SceneManager.SceneMananger.goToScene("TowerDefense") # Changes the scene to TowerDefense
 
-    TowerDefenseBtn.draw(screen)
-    if TowerDefenseBtn.click(): # Go to Tower Defense Game
-        gameIsRunning = False
-
-    pygame.display.update()
-
-    # How many frames must there be made per second (increase the number to get more FPS)
-    clock.tick(60)
+    # The function of this method is explained in the class Scene
+    def handle_events(self, events):
+        for e in events:
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
+                pass  # In python you must implement stuff like this if statement, i dont want to implement it yet so i simple write pass wich does nothing you could say that this if statements implementation is empty
