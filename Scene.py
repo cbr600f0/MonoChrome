@@ -5,10 +5,10 @@ class Scene(object): # The base class of all scenes
     def __init__(self):
         pass
 
-    def render(self, screen):  # The base method wich the other use classes like: MainMenuScene, implement to render stuff of that scene
+    def render(self, screen):  # The base method wich the other classes use like: MainMenuScene, implement to render stuff of that scene
         raise NotImplementedError
 
-    def update(self):  # The base method wich the other classes use like: MainMenuScene, implement to update stuff of that scene
+    def update(self, deltaTime):  # The base method wich the other classes use like: MainMenuScene, implement to update stuff of that scene
         raise NotImplementedError
 
     def handle_events(self, events):  # The base method wich the other classes use like: MainMenuScene, implement to handle events of that scene
