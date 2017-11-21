@@ -11,12 +11,13 @@ class PongScene (Scene):
         self.y = 330
 
     def render(self, screen):
+        screen.fill((0,0, 255))
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(self.x, self.y, 60, 240))
 
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_UP]: self.y -= 8
-        if pressed[pygame.K_DOWN]: self.y += 8
+        if pressed[pygame.K_UP]: self.y -= 200 * deltaTime
+        if pressed[pygame.K_DOWN]: self.y += 200 * deltaTime
 
     def handle_events(self, events):
         pass

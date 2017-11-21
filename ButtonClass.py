@@ -1,8 +1,4 @@
 import pygame
-Button.mark
-
-mark = Button()
-mark.text
 
 class Button:
 
