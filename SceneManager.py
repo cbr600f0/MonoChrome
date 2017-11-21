@@ -1,7 +1,7 @@
 import MainMenu
 from TowerDefense.TowerDefenseScene import TowerDefenseScene
 from MonoChromeIntroScene import MonoChromeIntroScene
-
+from Pong.PongScene import PongScene
 
 # LEES DEZE COMMENT
 # Boys ik weet niet zeker als je een nieuwe Scene kiest deze Scene dan verder moet gaan hoe hij was zoals ik het nu gedaaan heb of dat als je voor de tweede keer terug gaat naar bijvoorbeeld towerdefense deze weer vanaf het begin moet beginnen
@@ -13,6 +13,7 @@ class SceneMananger(object):  # This is the class SceneManager wich manages scen
     __mainMenuScene__ = None  # An empty reference to mainMenuScene this can change if we deside to change the way of changing scenes is handled
     __monoChromeIntroScene__ = None  # An empty reference to mainMenuScene this can change if we deside to change the way of changing scenes is handled
     __towerDefenseScene__ = None  # An empty reference to mainMenuScene this can change if we deside to change the way of changing scenes is handled
+    __pongScene__ = None
 
     # If you dont know what a class is or how it works look at this: https://docs.python.org/3/tutorial/classes.html
 
@@ -43,3 +44,9 @@ class SceneMananger(object):  # This is the class SceneManager wich manages scen
                 SceneMananger.__monoChromeIntroScene__ = MonoChromeIntroScene()
 
             SceneMananger.currentScene = SceneMananger.__monoChromeIntroScene__
+
+        elif sceneName == "PongScene":
+            if SceneMananger.__pongScene__ == None:  # was the monochromeIntroScene already loaded once use that scene
+                SceneMananger.__pongScene__ = PongScene()
+
+            SceneMananger.currentScene = SceneMananger.__pongScene__
