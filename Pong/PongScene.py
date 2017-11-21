@@ -11,7 +11,7 @@ class PongScene (Scene):
         self.y = 330
 
     def render(self, screen):
-        screen.fill((0,0, 255))
+        screen.fill((0, 0, 0))
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(self.x, self.y, 60, 240))
 
     def update(self, deltaTime):
