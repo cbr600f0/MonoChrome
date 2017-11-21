@@ -7,6 +7,8 @@ class MonoChromeIntroScene(Scene): # MainMenuScene inherits from the class Scene
 
     def __init__(self):
         super(MonoChromeIntroScene, self).__init__()  # get the methods and variables from the base class wich is Scene
+        self.headerFont = pygame.font.SysFont("monospace", 28)
+        self.headerFont.set_bold(True)
 
 
     # The function of this method is explained in the class Scene
@@ -14,11 +16,8 @@ class MonoChromeIntroScene(Scene): # MainMenuScene inherits from the class Scene
         pygame.display.set_caption("MonoChrome intro (Press ESCAPE to close the game)")  # Changes the text of the window
         screen.fill((30, 30, 30))
 
-        myfont = pygame.font.SysFont("monospace", 28)
-        myfont.set_bold(True)
-
         # render text
-        label = myfont.render("PRESS SPACE TO START THE GAME", 1, (255, 255, 255))
+        label = self.headerFont.render("PRESS SPACE TO START THE GAME", 1, (255, 255, 255))
         screen.blit(label, (70, 20))
 
     # The function of this method is explained in the class Scene

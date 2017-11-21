@@ -7,7 +7,7 @@ import SceneManager # This class takes care of switching between scenes (Example
 pygame.init()
 
 # Sets to screen size to a specified size and makes the screen fullscreen
-screen = pygame.display.set_mode((600, 400))
+screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
 
 # A bool wich says if the game is running or not (if this bool becomes False the whole game will close)
 gameIsRunning = True
@@ -21,6 +21,13 @@ SceneManager.SceneMananger.goToScene("MonoChromeIntroScene")
 # Time that has passed since the last frame
 deltaTime = 0
 
+FPSLblFont = pygame.font.SysFont("monospace", 18)
+FPSLblFont.set_bold(True)
+
+pygame.mouse.set_visible(False) #makes mouse invisible
+currentCursorImage = pygame.image.load("SteamPunkCursor.png")
+currentCursorImage = pygame.transform.scale(currentCursorImage, (50, 50))
+
 while gameIsRunning:
 
     allEvents = pygame.event.get()
@@ -31,7 +38,14 @@ while gameIsRunning:
     SceneManager.SceneMananger.currentScene.handle_events(allEvents)  #Handles the events of the currentScene (the currentScene is the scene wich is playing now)
     SceneManager.SceneMananger.currentScene.update(deltaTime)  #Handles the updates of the currentScene (the currentScene is the scene wich is playing now)
     SceneManager.SceneMananger.currentScene.render(screen)  #Handles the rendering of the currentScene (the currentScene is the scene wich is playing now)
+
+    # draw FPS text
+    FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
+    screen.blit(FPSLbl, (4, 4))
+
+    mousePos = pygame.mouse.get_pos()
+    screen.blit(currentCursorImage, mousePos)
     pygame.display.update()  # This makes pygame update its canvas thus rendering everything on the screen
 
-    deltaTime = clock.tick(60) / 1000.0  # Calculates time since last frame wich is the deltaTime
+    deltaTime = clock.tick(400) / 1000.0  # Calculates time since last frame wich is the deltaTime
 

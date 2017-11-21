@@ -14,7 +14,7 @@ class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich 
     # The function of this method is explained in the class Scene
     def render(self, screen):
         pygame.display.set_caption("Main Menu (Press ESCAPE to close the game)")  # Changes the text of the window
-        screen.fill((0, 200, 0))
+        screen.fill((90, 90, 90))
         self.towerDefenseBtn.draw(screen)
         pass
 

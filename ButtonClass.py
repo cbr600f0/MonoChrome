@@ -1,7 +1,13 @@
 import pygame
+Button.mark
 
+mark = Button()
+mark.text
 
 class Button:
+
+    mark = 10
+
     def __init__(self, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), xPos = 10, yPos = 30, width = None, height = 20):
         self.text = text
         self.xPos = xPos

@@ -9,6 +9,7 @@ from MonoChromeIntroScene import MonoChromeIntroScene
 class SceneMananger(object):  # This is the class SceneManager wich manages scenes like changing the currentScene that is playing
 
     currentScene = None  # This scene that is currently playing
+
     __mainMenuScene__ = None  # An empty reference to mainMenuScene this can change if we deside to change the way of changing scenes is handled
     __monoChromeIntroScene__ = None  # An empty reference to mainMenuScene this can change if we deside to change the way of changing scenes is handled
     __towerDefenseScene__ = None  # An empty reference to mainMenuScene this can change if we deside to change the way of changing scenes is handled
