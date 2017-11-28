@@ -9,6 +9,9 @@ from Vector2D import Vector2D
 class TowerDefenseScene(Scene):  # TowerDefenseScene inherits from the class Scene (wich is the base class of all scenes)
 
     def __init__(self):
+        self.mainBG = pygame.image.load("MainMenu.png").convert()
+        self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
+
         super(TowerDefenseScene, self).__init__() # get the methods and variables from the base class wich is Scene
         self.boxPos = Vector2D(30, 30)
         self.backToMainMenuBtn = Button("Click to go back to the Main Menu", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 100, None, 40)
@@ -19,7 +22,7 @@ class TowerDefenseScene(Scene):  # TowerDefenseScene inherits from the class Sce
     # The function of this method is explained in the class Scene
     def render(self, screen):
         pygame.display.set_caption("Tower Defense (Press ESCAPE to close the game)")
-        screen.fill((0,0, 120))
+        screen.blit(self.mainBG, (0, 0))
         self.backToMainMenuBtn.draw(screen)
         pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(self.boxPos.x, self.boxPos.y, 20, 20))
 
