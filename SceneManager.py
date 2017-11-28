@@ -1,6 +1,7 @@
 import MainMenu
 from TowerDefense.TowerDefenseScene import TowerDefenseScene
 from MonoChromeIntroScene import MonoChromeIntroScene
+from SpaceInvaders.init import SpaceInvaderScene
 from Pong.PongScene import PongScene
 
 # LEES DEZE COMMENT
@@ -31,3 +32,6 @@ class SceneMananger(object):  # This is the class SceneManager wich manages scen
 
         elif sceneName == "PongScene":
             SceneMananger.currentScene = PongScene()
+
+        elif sceneName == "SpaceInvaderScene":
+            SceneMananger.currentScene = SpaceInvaderScene()
