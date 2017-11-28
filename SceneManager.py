@@ -1,7 +1,7 @@
 import MainMenu
 from TowerDefense.TowerDefenseScene import TowerDefenseScene
 from MonoChromeIntroScene import MonoChromeIntroScene
-from SpaceInvaders.init import SpaceInvaderScene
+from SpaceInvaders.SpaceInvaderScene import SpaceInvaderScene
 from Pong.PongScene import PongScene
 
 # LEES DEZE COMMENT
