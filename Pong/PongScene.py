@@ -21,10 +21,10 @@ class PongScene (Scene):
 
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_w]: self.player1y -= 200 * deltaTime
-        if pressed[pygame.K_s]: self.player1y += 200 * deltaTime
-        if pressed[pygame.K_UP]: self.player2y -= 200 * deltaTime
-        if pressed[pygame.K_DOWN]: self.player2y += 200 * deltaTime
+        if pressed[pygame.K_w]: self.player1y -= 200 * deltaTime    #player 1 movement up
+        if pressed[pygame.K_s]: self.player1y += 200 * deltaTime    #player 1 movement down
+        if pressed[pygame.K_UP]: self.player2y -= 200 * deltaTime   #player 2 movement up
+        if pressed[pygame.K_DOWN]: self.player2y += 200 * deltaTime #player 2 movement down
 
 
     def handle_events(self, events):
