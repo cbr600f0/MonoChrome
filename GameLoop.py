@@ -42,7 +42,6 @@ while gameIsRunning:
     # draw FPS text
     FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
     screen.blit(FPSLbl, (4, 4))
-
     mousePos = pygame.mouse.get_pos()
     screen.blit(currentCursorImage, mousePos)
     pygame.display.update()  # This makes pygame update its canvas thus rendering everything on the screen
