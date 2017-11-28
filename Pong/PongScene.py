@@ -7,8 +7,8 @@ class PongScene (Scene):
 
     def __init__(self):
         super(PongScene, self).__init__()
-        self.x = 30
-        self.y = 330
+        self.x = 30     #player
+        self.y = 330    #player 
 
     def render(self, screen):
         screen.fill((0, 0, 0))
