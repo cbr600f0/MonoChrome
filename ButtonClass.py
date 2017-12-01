@@ -37,8 +37,13 @@ class Button:
         self.buttonUpSurface = self.pyg.Surface((self.width, self.height))
         self.buttonDownSurface = self.pyg.Surface((self.width, self.height))
         self.buttonHoverSurface = self.pyg.Surface((self.width, self.height))
+
         self.buttonOnlyTextSurface = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
         self.buttonOnlyTextSurface = self.buttonOnlyTextSurface.convert_alpha()
+
+        self.buttonOnlyTextSurfaceHover = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
+        self.buttonOnlyTextSurfaceHover = self.buttonOnlyTextSurfaceHover.convert_alpha()
+
         self.__update__()
 
     def __update__(self):
@@ -77,7 +82,20 @@ class Button:
                                                                                     (self.height / 2) - (self.text_height / 2)))
 
         if self.onlyShowText:
+            r, g, b = self.fontColor
+
+            if r - 20 < 0:
+                r = 0
+
+            if g - 20 < 0:
+                g = 0
+
+            if b - 20 < 0:
+                b = 0
+
             self.buttonOnlyTextSurface.blit(self.font.render(self.text, False, self.fontColor), ((self.width / 2) - (self.text_width / 2),
+                                                                                    (self.height / 2) - (self.text_height / 2)))
+            self.buttonOnlyTextSurfaceHover.blit(self.font.render(self.text, False, (r, g, b)), ((self.width / 2) - (self.text_width / 2),
                                                                                     (self.height / 2) - (self.text_height / 2)))
 
     def draw(self, surface):
@@ -90,7 +108,10 @@ class Button:
             elif self.mouseState == "down":
                 surface.blit(self.buttonDownSurface, (self.xPos, self.yPos))
         else:
-            surface.blit(self.buttonOnlyTextSurface, (self.xPos, self.yPos))
+            if self.mouseState == "hover":
+                surface.blit(self.buttonOnlyTextSurfaceHover, (self.xPos, self.yPos))
+            elif self.mouseState == "off" or self.mouseState == "down":
+                surface.blit(self.buttonOnlyTextSurface, (self.xPos, self.yPos))
 
     def __mouse_check__(self):
         _1, _2, _3 = self.pyg.mouse.get_pressed()
