@@ -4,7 +4,7 @@ class Button:
 
     mark = 10
 
-    def __init__(self, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), xPos = 10, yPos = 30, width = None, height = 20):
+    def __init__(self, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), fontColor = (0, 0, 0),  xPos = 10, yPos = 30, width = None, height = 20):
         self.text = text
         self.xPos = xPos
         self.yPos = yPos
@@ -19,8 +19,13 @@ class Button:
         self.mouseState = "off"
         self.clicked = False
         self.pyg = pygame
+        self.fontColor = fontColor
         self.font = self.pyg.font.SysFont(self.fontName, self.fontSize)
         self.text_width, self.text_height = self.pyg.font.Font.size(self.font, self.text)
+        self.onlyShowText = False
+
+        if mainColor == None and borderColor == None:
+            self.onlyShowText = True
 
         if width == None:
             self.width = self.text_width + 20
@@ -32,48 +37,60 @@ class Button:
         self.buttonUpSurface = self.pyg.Surface((self.width, self.height))
         self.buttonDownSurface = self.pyg.Surface((self.width, self.height))
         self.buttonHoverSurface = self.pyg.Surface((self.width, self.height))
+        self.buttonOnlyTextSurface = pygame.Surface([self.width, self.height], pygame.SRCALPHA, 32)
+        self.buttonOnlyTextSurface = self.buttonOnlyTextSurface.convert_alpha()
         self.__update__()
 
     def __update__(self):
 
-        # How should the button look like when the user is performing a keyUp event on this button
-        self.buttonUpSurface.fill(self.mainColor)
-        self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (2, 0), (self.width - 3, 0), 1)
-        self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (2, self.height - 1), (self.width - 3, self.height - 1), 1)
-        self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (0, 2), (0, self.height - 3), 1)
-        self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (self.width - 1, 2), (self.width - 1, self.height - 3), 1)
-        self.buttonUpSurface.blit(self.font.render(self.text, False, (0, 0, 0)),
-                                  ((self.width / 2) - (self.text_width / 2), (self.height / 2) - (self.text_height / 2)))
+        if self.mainColor is not None:
+            # How should the button look like when the user is performing a keyUp event on this button
+            self.buttonUpSurface.fill(self.mainColor)
+            self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (2, 0), (self.width - 3, 0), 1)
+            self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (2, self.height - 1), (self.width - 3, self.height - 1), 1)
+            self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (0, 2), (0, self.height - 3), 1)
+            self.pyg.draw.line(self.buttonUpSurface, self.borderColor, (self.width - 1, 2), (self.width - 1, self.height - 3), 1)
+            self.buttonUpSurface.blit(self.font.render(self.text, False, self.fontColor),
+                                      ((self.width / 2) - (self.text_width / 2), (self.height / 2) - (self.text_height / 2)))
 
-        # How should the button look like when the user is hovering his cursor over the button
-        self.buttonHoverSurface.fill(self.hoverColor)
-        self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (2, 0), (self.width - 3, 0), 1)
-        self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (2, self.height - 1), (self.width - 3, self.height - 1), 1)
-        self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (0, 2), (0, self.height - 3), 1)
-        self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (self.width - 1, 2), (self.width - 1, self.height - 3), 1)
-        self.buttonHoverSurface.blit(self.font.render(self.text, False, (0, 0, 0)),
-                                     ((self.width / 2) - (self.text_width / 2), (self.height / 2) - (self.text_height / 2)))
 
-        # How should the button look like when the user is holding his button down on it
-        r, g, b = self.hoverColor
-        self.buttonDownSurface.fill((r - 20, g - 20, b - 10))
-        self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (2, 0), (self.width - 3, 0), 1)
-        self.pyg.draw.line(self.buttonDownSurface, (r - 20, g - 20, b - 10), (2, 1), (self.width - 3, 1), 2)
-        self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (2, self.height - 1), (self.width - 3, self.height - 1), 1)
-        self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (0, 2), (0, self.height - 3), 1)
-        self.pyg.draw.line(self.buttonDownSurface, (r - 20, g - 20, b - 10), (1, 2), (1, self.height - 3), 2)
-        self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (self.width - 1, 2), (self.width - 1, self.height - 3), 1)
-        self.buttonDownSurface.blit(self.font.render(self.text, False, (0, 0, 0)),
-                                    ((self.width / 2) - (self.text_width / 2) + 1, (self.height / 2) - (self.text_height / 2)))
+        if self.borderColor is not None:
+            # How should the button look like when the user is holding his button down on it
+            r, g, b = self.hoverColor
+            self.buttonDownSurface.fill((r - 20, g - 20, b - 10))
+            self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (2, 0), (self.width - 3, 0), 1)
+            self.pyg.draw.line(self.buttonDownSurface, (r - 20, g - 20, b - 10), (2, 1), (self.width - 3, 1), 2)
+            self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (2, self.height - 1), (self.width - 3, self.height - 1), 1)
+            self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (0, 2), (0, self.height - 3), 1)
+            self.pyg.draw.line(self.buttonDownSurface, (r - 20, g - 20, b - 10), (1, 2), (1, self.height - 3), 2)
+            self.pyg.draw.line(self.buttonDownSurface, self.borderColor, (self.width - 1, 2), (self.width - 1, self.height - 3), 1)
+            self.buttonDownSurface.blit(self.font.render(self.text, False, self.fontColor),
+                                        ((self.width / 2) - (self.text_width / 2) + 1, (self.height / 2) - (self.text_height / 2)))
+
+            # How should the button look like when the user is hovering his cursor over the button
+            self.buttonHoverSurface.fill(self.hoverColor)
+            self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (2, 0), (self.width - 3, 0), 1)
+            self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (2, self.height - 1), (self.width - 3, self.height - 1), 1)
+            self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (0, 2), (0, self.height - 3), 1)
+            self.pyg.draw.line(self.buttonHoverSurface, self.borderColor, (self.width - 1, 2), (self.width - 1, self.height - 3), 1)
+            self.buttonHoverSurface.blit(self.font.render(self.text, False, self.fontColor), ((self.width / 2) - (self.text_width / 2),
+                                                                                    (self.height / 2) - (self.text_height / 2)))
+
+        if self.onlyShowText:
+            self.buttonOnlyTextSurface.blit(self.font.render(self.text, False, self.fontColor), ((self.width / 2) - (self.text_width / 2),
+                                                                                    (self.height / 2) - (self.text_height / 2)))
 
     def draw(self, surface):
         self.__mouse_check__()
-        if self.mouseState == "hover":
-            surface.blit(self.buttonHoverSurface, (self.xPos, self.yPos))
-        elif self.mouseState == "off":
-            surface.blit(self.buttonUpSurface, (self.xPos, self.yPos))
-        elif self.mouseState == "down":
-            surface.blit(self.buttonDownSurface, (self.xPos, self.yPos))
+        if self.onlyShowText == False:
+            if self.mouseState == "hover":
+                surface.blit(self.buttonHoverSurface, (self.xPos, self.yPos))
+            elif self.mouseState == "off":
+                surface.blit(self.buttonUpSurface, (self.xPos, self.yPos))
+            elif self.mouseState == "down":
+                surface.blit(self.buttonDownSurface, (self.xPos, self.yPos))
+        else:
+            surface.blit(self.buttonOnlyTextSurface, (self.xPos, self.yPos))
 
     def __mouse_check__(self):
         _1, _2, _3 = self.pyg.mouse.get_pressed()
