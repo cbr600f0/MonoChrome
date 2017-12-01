@@ -2,8 +2,6 @@ import pygame
 
 class Button:
 
-    mark = 10
-
     def __init__(self, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), fontColor = (0, 0, 0),  xPos = 10, yPos = 30, width = None, height = 20):
         self.text = text
         self.xPos = xPos
@@ -45,6 +43,9 @@ class Button:
         self.buttonOnlyTextSurfaceHover = self.buttonOnlyTextSurfaceHover.convert_alpha()
 
         self.__update__()
+
+    def setText(self, newText):
+        self.text = newText
 
     def __update__(self):
 

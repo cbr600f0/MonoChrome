@@ -11,6 +11,7 @@ gameIsInFullscreen = True  # Change this to False if you want to make the screen
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size
     screen = pygame.display.set_mode((1600, 900))
+    switchScreenButton.text = "Windowed"
 else:
     # Sets to screen size to a specified size and makes the screen fullscreen
     screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
@@ -34,7 +35,11 @@ pygame.mouse.set_visible(False) #makes mouse invisible
 currentCursorImage = pygame.image.load("SteamPunkCursor.png")
 currentCursorImage = pygame.transform.scale(currentCursorImage, (50, 50))
 
-switchScreenButton = Button("Fullscreen", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 1490, 10, None, 25)
+switchScreenButton = Button("Fullscreen", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 120, 2, None, 24)
+
+if gameIsInFullscreen == True:
+    switchScreenButton.set_text("Windowed")
+
 gameIsPaused = False
 while gameIsRunning:
 
@@ -59,6 +64,7 @@ while gameIsRunning:
             screen = pygame.display.set_mode((1600, 900))
             gameIsInFullscreen = False
             changedWindowMode = True
+            switchScreenButton.set_text("Fullscreen")
 
         if gameIsInFullscreen == False and changedWindowMode == False:
             pygame.display.quit()
@@ -66,6 +72,7 @@ while gameIsRunning:
             screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
             gameIsInFullscreen = True
             changedWindowMode = True
+            switchScreenButton.set_text("Windowed")
 
     # draw FPS text
     FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
