@@ -28,12 +28,17 @@ pygame.mouse.set_visible(False) #makes mouse invisible
 currentCursorImage = pygame.image.load("SteamPunkCursor.png")
 currentCursorImage = pygame.transform.scale(currentCursorImage, (50, 50))
 
+gameIsPaused = False
+
 while gameIsRunning:
 
     allEvents = pygame.event.get()
     for event in allEvents:
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  # Did the user press the bigass red button in the top right close the game by ending the while loop wich is the gameloop
             gameIsRunning = False
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+            gameIsPaused = not gameIsPaused
 
     SceneManager.SceneMananger.currentScene.handle_events(allEvents)  #Handles the events of the currentScene (the currentScene is the scene wich is playing now)
     SceneManager.SceneMananger.currentScene.update(deltaTime)  #Handles the updates of the currentScene (the currentScene is the scene wich is playing now)

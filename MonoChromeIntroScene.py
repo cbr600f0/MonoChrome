@@ -10,7 +10,6 @@ class MonoChromeIntroScene(Scene): # MainMenuScene inherits from the class Scene
         self.headerFont = pygame.font.SysFont("monospace", 28)
         self.headerFont.set_bold(True)
 
-
     # The function of this method is explained in the class Scene
     def render(self, screen):
         pygame.display.set_caption("MonoChrome intro (Press ESCAPE to close the game)")  # Changes the text of the window
