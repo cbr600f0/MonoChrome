@@ -7,10 +7,10 @@ from Vector2D import Vector2D
 from TowerDefense.Towers.AkimboRevolverTurret import AkimboRevolverTurret
 from TowerDefense.Enemies.Robber import Robber
 
-class TowerDefenseScene(Scene):
+class Level1(Scene):
 
     def __init__(self):
-        super(TowerDefenseScene, self).__init__()
+        super(Level1, self).__init__()
         self.testTurret = AkimboRevolverTurret()
         self.testEnemy = Robber()
 
