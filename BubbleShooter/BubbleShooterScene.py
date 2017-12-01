@@ -42,7 +42,7 @@ def RaceGame():
     pygame.quit()
     quit()
 
-def TestStuff():
+def RotatingMultipleImages():
     #Rotating image towards the mouse
     spaceship = 'BubbleShooter\Images\Player.png'
     mouse_c = 'BubbleShooter\Images\Enemy.png'
@@ -73,6 +73,28 @@ def TestStuff():
         screen.blit(rotimage, rect)  # I need space_ship to rotate towards my cursor
         pygame.display.update()
 
+def TestStuff(rotatingImage, xSize, ySize):
+    pygame.init()
+    screen = pygame.display.set_mode((1600, 900))
+    rotatingImage = pygame.image.load(rotatingImage).convert_alpha()
+    clock = pygame.time.Clock()
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEBUTTONDOWN and event.button == 1:
+                print("test1")
+            elif event.type == MOUSEBUTTONDOWN and event.button == 3:
+                print("test3")
+            rotatingImage = pygame.transform.scale(rotatingImage, (xSize, ySize))
+            screen.blit(rotatingImage, (0, 0))
+            pos = pygame.mouse.get_pos()
+            angle = 360 - math.atan2(pos[1] - 450, pos[0] - 800) * 180 / math.pi
+            rotimage = pygame.transform.rotate(rotatingImage, angle)
+            rect = rotimage.get_rect(center=(800, 450))
+            screen.blit(rotimage, rect)  # I need space_ship to rotate towards my cursor
+            pygame.display.update()
 
 class BubbleShooterScene():
     def render(self, screen):
@@ -81,4 +103,7 @@ class BubbleShooterScene():
         pass
 
     def update(self, deltaTime):
-        TestStuff()
+        DiscoBallImage = 'BubbleShooter\Images\Player.png'
+        lightImage = 'BubbleShooter\Images\Enemy.png'
+        backgroundImage = 'BubbleShooter\Images\BackgroundDiscoGrid.png'
+        TestStuff(DiscoBallImage, 1600, 900)
