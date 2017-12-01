@@ -1,13 +1,19 @@
 import pygame
+from ButtonClass import Button
 from pygame.locals import *
 import SceneManager # This class takes care of switching between scenes (Examples of scene could be: the main menu, Tower Defense, Pong, ETC) Every game is its own scene (For badbois who already have experience with Unity the concept of a scene is the same here as in Unity)
 
 
 # Starts the game by initializing pygame
 pygame.init()
+gameIsInFullscreen = True  # Change this to False if you want to make the screen windowed at the start
 
-# Sets to screen size to a specified size and makes the screen fullscreen
-screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
+if gameIsInFullscreen == False:
+    # Sets to screen size to a specified size
+    screen = pygame.display.set_mode((1600, 900))
+else:
+    # Sets to screen size to a specified size and makes the screen fullscreen
+    screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
 
 # A bool wich says if the game is running or not (if this bool becomes False the whole game will close)
 gameIsRunning = True
@@ -28,8 +34,8 @@ pygame.mouse.set_visible(False) #makes mouse invisible
 currentCursorImage = pygame.image.load("SteamPunkCursor.png")
 currentCursorImage = pygame.transform.scale(currentCursorImage, (50, 50))
 
+switchScreenButton = Button("Fullscreen", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 1490, 10, None, 25)
 gameIsPaused = False
-
 while gameIsRunning:
 
     allEvents = pygame.event.get()
@@ -43,6 +49,23 @@ while gameIsRunning:
     SceneManager.SceneMananger.currentScene.handle_events(allEvents)  #Handles the events of the currentScene (the currentScene is the scene wich is playing now)
     SceneManager.SceneMananger.currentScene.update(deltaTime)  #Handles the updates of the currentScene (the currentScene is the scene wich is playing now)
     SceneManager.SceneMananger.currentScene.render(screen)  #Handles the rendering of the currentScene (the currentScene is the scene wich is playing now)
+
+    switchScreenButton.draw(screen)
+    if switchScreenButton.click():
+        changedWindowMode = False
+        if gameIsInFullscreen == True:
+            pygame.display.quit()
+            pygame.display.init()
+            screen = pygame.display.set_mode((1600, 900))
+            gameIsInFullscreen = False
+            changedWindowMode = True
+
+        if gameIsInFullscreen == False and changedWindowMode == False:
+            pygame.display.quit()
+            pygame.display.init()
+            screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
+            gameIsInFullscreen = True
+            changedWindowMode = True
 
     # draw FPS text
     FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
