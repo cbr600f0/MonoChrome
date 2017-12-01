@@ -44,9 +44,9 @@ def RaceGame():
 
 def TestStuff():
     #Rotating image towards the mouse
-    spaceship = 'BubbleShooter\Images\BackToBack.jpg'
-    mouse_c = 'BubbleShooter\Images\MSKHigurashi.jpg'
-    backg = 'BubbleShooter\Images\ShionSonozaki.jpg'
+    spaceship = 'BubbleShooter\Images\Player.png'
+    mouse_c = 'BubbleShooter\Images\Enemy.png'
+    backg = 'BubbleShooter\Images\BackgroundDiscoGrid.png'
     pygame.init()
     screen = pygame.display.set_mode((1600, 900))
     bk = pygame.image.load(backg).convert_alpha()
@@ -63,12 +63,13 @@ def TestStuff():
                 print("test1")
             elif event.type == MOUSEBUTTONDOWN and event.button == 3:
                 print("test3")
+        bk = pygame.transform.scale(bk, (1620, 910))
         screen.blit(bk, (0, 0))
         pos = pygame.mouse.get_pos()
         screen.blit(mousec, (pos))
-        angle = 360 - math.atan2(pos[1] - 300, pos[0] - 400) * 180 / math.pi
+        angle = 360 - math.atan2(pos[1] - 450, pos[0] - 800) * 180 / math.pi
         rotimage = pygame.transform.rotate(space_ship, angle)
-        rect = rotimage.get_rect(center=(400, 300))
+        rect = rotimage.get_rect(center=(800, 450))
         screen.blit(rotimage, rect)  # I need space_ship to rotate towards my cursor
         pygame.display.update()
 
