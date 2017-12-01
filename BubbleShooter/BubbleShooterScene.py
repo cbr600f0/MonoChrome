@@ -44,11 +44,11 @@ def RaceGame():
 
 def TestStuff():
     #Rotating image towards the mouse
-    spaceship = ('Images\BackToBack.jpg')
-    mouse_c = ('Images\MSKHigurashi.jpg')
-    backg = ('Images\ShionSonozaki.jpg')
+    spaceship = 'BubbleShooter\Images\BackToBack.jpg'
+    mouse_c = 'BubbleShooter\Images\MSKHigurashi.jpg'
+    backg = 'BubbleShooter\Images\ShionSonozaki.jpg'
     pygame.init()
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1600, 900))
     bk = pygame.image.load(backg).convert_alpha()
     mousec = pygame.image.load(mouse_c).convert_alpha()
     space_ship = pygame.image.load(spaceship).convert_alpha()
@@ -73,5 +73,11 @@ def TestStuff():
         pygame.display.update()
 
 
-class SpecialBubbleShooter():
-    TestStuff()
+class BubbleShooterScene():
+    def render(self, screen):
+        screen.fill((0, 0, 0))  # Create screen
+    def handle_events(self, events):
+        pass
+
+    def update(self, deltaTime):
+        TestStuff()
