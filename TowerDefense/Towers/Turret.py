@@ -7,6 +7,6 @@ class Turret(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
-        self.turretName = "Base Turret Test"
+        self.name = "Base Turret Name"
         self.position = Vector2D(800, 450)
         self.direction = 0 # What is the angle of this turret(Used for rotating the turret)
