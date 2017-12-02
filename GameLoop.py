@@ -6,7 +6,7 @@ import SceneManager # This class takes care of switching between scenes (Example
 
 # Starts the game by initializing pygame
 pygame.init()
-gameIsInFullscreen = True  # Change this to False if you want to make the screen windowed at the start
+gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
 
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size

@@ -1,9 +1,9 @@
 import MainMenu
+from BubbleShooter.BubbleShooterMainMenuScene import BubbleShooterMainMenuScene
 from TowerDefense.TowerDefenseMainMenuScene import TowerDefenseMainMenuScene
 from MonoChromeIntroScene import MonoChromeIntroScene
 from SpaceInvaders.SpaceInvaderScene import SpaceInvaderScene
 from Pong.PongScene import PongScene
-from BubbleShooter.BubbleShooterScene import BubbleShooterScene
 
 # LEES DEZE COMMENT
 # Boys ik weet niet zeker als je een nieuwe Scene kiest deze Scene dan verder moet gaan hoe hij was zoals ik het nu gedaaan heb of dat als je voor de tweede keer terug gaat naar bijvoorbeeld towerdefense deze weer vanaf het begin moet beginnen
@@ -37,5 +37,5 @@ class SceneMananger(object):  # This is the class SceneManager wich manages scen
         elif sceneName == "SpaceInvaderScene":
             SceneMananger.currentScene = SpaceInvaderScene()
 
-        elif sceneName == "BubbleShooterScene":
-            SceneMananger.currentScene = BubbleShooterScene()
+        elif sceneName == "BubbleShooterMainMenuScene":
+            SceneMananger.currentScene = BubbleShooterMainMenuScene()

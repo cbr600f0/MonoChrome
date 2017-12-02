@@ -35,7 +35,7 @@ class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich 
             SceneManager.SceneMananger.goToScene("SpaceInvaderScene") # Changes the scene to SpaceInvaders
 
         if self.BubbleShooterBtn.click():
-            SceneManager.SceneMananger.goToScene("BubbleShooterScene") # Changes the scene to BubbleShooter
+            SceneManager.SceneMananger.goToScene("BubbleShooterMainMenuScene") # Changes the scene to BubbleShooter
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):
