@@ -1,9 +1,7 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 
-
-class MonoChromeIntroScene(Scene): # MainMenuScene inherits from the class Scene (wich is the base class of all scenes)
+class MonoChromeIntroScene(SceneManager.Scene): # MainMenuScene inherits from the class Scene (wich is the base class of all scenes)
 
     def __init__(self):
         super(MonoChromeIntroScene, self).__init__()  # get the methods and variables from the base class wich is Scene
@@ -23,7 +21,7 @@ class MonoChromeIntroScene(Scene): # MainMenuScene inherits from the class Scene
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_SPACE]:
-            SceneManager.SceneMananger.goToScene("MainMenu")  # Changes the scene to MainMenu
+            SceneManager.SceneMananger.goToScene("MainMenu.MainMenuScene")  # Changes the scene to MainMenu
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):

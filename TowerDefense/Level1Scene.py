@@ -1,16 +1,15 @@
 import pygame
-from pygame import gfxdraw
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 from Vector2D import Vector2D
 from TowerDefense.Towers.AkimboRevolverTurret import AkimboRevolverTurret
 from TowerDefense.Enemies.Robber import Robber
 
-class Level1(Scene):
+
+class Level1Scene(SceneManager.Scene):
 
     def __init__(self):
-        super(Level1, self).__init__()
+        super(Level1Scene, self).__init__()
         self.testTurret = AkimboRevolverTurret()
         self.testEnemy = Robber()
 
@@ -40,7 +39,7 @@ class Level1(Scene):
         self.testTurret.PosToFollow = self.testEnemy.position
 
         if self.backToMainMenuBtn.click():
-            SceneManager.SceneMananger.goToScene("TowerDefenseMainMenuScene")
+            SceneManager.SceneMananger.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene")
 
     def handle_events(self, events):
         for event in events:

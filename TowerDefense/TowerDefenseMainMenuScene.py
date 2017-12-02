@@ -1,11 +1,10 @@
 import pygame
 from pygame import gfxdraw
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
 
-class TowerDefenseMainMenuScene(Scene):
+class TowerDefenseMainMenuScene(SceneManager.Scene):
 
     def __init__(self):
         super(TowerDefenseMainMenuScene, self).__init__()
@@ -22,7 +21,7 @@ class TowerDefenseMainMenuScene(Scene):
     def update(self, deltaTime):
 
         if self.startBtn.click():
-            SceneManager.SceneMananger.goToScene("TDLevel1")
+            SceneManager.SceneMananger.goToScene("TowerDefense.Level1Scene.Level1Scene")
 
     def handle_events(self, events):
         for event in events:

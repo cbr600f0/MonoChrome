@@ -1,12 +1,13 @@
 import pygame
+import inspect
 from ButtonClass import Button
 from pygame.locals import *
 from SceneManager import SceneMananger  # This class takes care of switching between scenes (Examples of scene could be: the main menu, Tower Defense, Pong, ETC) Every game is its own scene (For badbois who already have experience with Unity the concept of a scene is the same here as in Unity)
-
+import importlib
 
 # Starts the game by initializing pygame
 pygame.init()
-gameIsInFullscreen = True  # Change this to False if you want to make the screen windowed at the start
+gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
 
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size
@@ -22,7 +23,8 @@ gameIsRunning = True
 clock = pygame.time.Clock()
 
 # Tells the SceneManger to go to the MainMenu Scene (Yes seeing SceneManager.SceneMananger is weird im still trying to understand how i can fix this to be only SceneManager.goToScene(""))
-SceneMananger.goToScene("MonoChromeIntroScene")
+SceneMananger.goToScene("MonoChromeIntroScene.MonoChromeIntroScene")
+
 
 # Time that has passed since the last frame
 deltaTime = 0

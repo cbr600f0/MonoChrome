@@ -1,10 +1,9 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
 
-class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich is the base class of all scenes)
+class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class Scene (wich is the base class of all scenes)
 
     def __init__(self):
         super(MainMenuScene, self).__init__()  # get the methods and variables from the base class wich is Scene
@@ -26,16 +25,16 @@ class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich 
     # The function of this method is explained in the class Scene
     def update(self, deltaTime):
         if self.towerDefenseBtn.click():
-            SceneManager.SceneMananger.goToScene("TowerDefenseMainMenuScene") # Changes the scene to TowerDefense
+            SceneManager.SceneMananger.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene") # Changes the scene to TowerDefense
 
         if self.pongBtn.click():
-            SceneManager.SceneMananger.goToScene("PongScene") # Changes the scene to Pong
+            SceneManager.SceneMananger.goToScene("Pong.PongScene") # Changes the scene to Pong
 
         if self.spaceInvadersBtn.click():
-            SceneManager.SceneMananger.goToScene("SpaceInvaderScene") # Changes the scene to SpaceInvaders
+            SceneManager.SceneMananger.goToScene("SpaceInvaders.SpaceInvaderScene") # Changes the scene to SpaceInvaders
 
         if self.BubbleShooterBtn.click():
-            SceneManager.SceneMananger.goToScene("BubbleShooterScene") # Changes the scene to BubbleShooter
+            SceneManager.SceneMananger.goToScene("BubbleShooter.BubbleShooterScene") # Changes the scene to BubbleShooter
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):
