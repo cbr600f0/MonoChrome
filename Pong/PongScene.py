@@ -1,9 +1,8 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
-class PongScene (Scene):
+class PongScene (SceneManager.Scene):
 
     def __init__(self):
         super(PongScene, self).__init__()

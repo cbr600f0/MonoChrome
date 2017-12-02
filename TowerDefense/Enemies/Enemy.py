@@ -1,5 +1,4 @@
 import pygame
-from pygame import gfxdraw
 from Vector2D import Vector2D
 
 class Enemy(pygame.sprite.Sprite):

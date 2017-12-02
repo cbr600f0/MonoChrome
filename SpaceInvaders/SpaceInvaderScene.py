@@ -1,9 +1,9 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
-class SpaceInvaderScene (Scene):
+
+class SpaceInvaderScene (SceneManager.Scene):
 
     def __init__(self):
         super(SpaceInvaderScene, self).__init__()
