@@ -5,20 +5,25 @@ from Vector2D import Vector2D
 
 class Robber(Enemy):
 
-    def __init__(self):
-        Enemy.__init__(self)
+    def __init__(self, pos, *sprite_groups):
+        Enemy.__init__(self, pos, *sprite_groups)
+
+        self.health = 100
         self.PosToFollow = Vector2D(0, 0)
         self.enemyWidth = 90
         self.enemyHeight = 56
 
-        self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png")
+        self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
         self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
 
         self.image = self.enemyImage
         self.rect = self.enemyImage.get_rect()
         self.rect.move_ip(self.position)
 
-    def update(self, deltaTime):
+    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+
+        if self.health <= 0:
+            self.kill()
 
         #  Move towards mouse pos and stop the cube when its at the mouse position
         self.PosToFollow = Vector2D(pygame.mouse.get_pos())
@@ -31,7 +36,7 @@ class Robber(Enemy):
         if moveToMousePosVector.length > self.PosToFollow.get_distance(self.position):
             moveToMousePosVector.length = self.PosToFollow.get_distance(self.position)
 
-        self.position += moveToMousePosVector * 600 * deltaTime
+        self.position += moveToMousePosVector * self.movementSpeed * deltaTime
 
         self.rotate()
 
