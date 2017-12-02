@@ -1,0 +1,35 @@
+import sys, pygame, math
+from pygame.locals import *
+class ImageRotateTowardsMouse():
+    def __init__(self, rotatingImage, xSize, ySize, screen):
+        rotatingImage = pygame.image.load(rotatingImage).convert_alpha()
+        pygame.mouse.set_visible(True)
+        clock = pygame.time.Clock()
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    print("test1")
+                elif event.type == MOUSEBUTTONDOWN and event.button == 3:
+                    print("test3")
+                rotatingImage = pygame.transform.scale(rotatingImage, (xSize, ySize))
+                pos = pygame.mouse.get_pos()
+                angle = 360 - math.atan2(pos[1] - 450, pos[0] - 800) * 180 / math.pi
+                rotimage = pygame.transform.rotate(rotatingImage, angle)
+                rect = rotimage.get_rect(center=(800, 450))
+                screen.blit(rotimage, rect)
+                pygame.display.update()
+
+
+    def render(self, screen):
+        screen.fill((0, 0, 0))  # Create screen
+
+
+    def handle_events(self, events):
+        pass
+
+
+    def update(self, deltaTime):
+        pass
