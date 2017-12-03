@@ -8,12 +8,13 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
 
         self.position = Vector2D(pos)
-        self.velocity = 1100
+        self.velocity = 600
         self.damage = 50
         self.direction = 0
 
         self.bulletImage = pygame.Surface((8, 14)).convert_alpha()
         self.bulletImage.fill((0, 0, 0))
+        self.bulletMask = pygame.mask.from_surface(self.bulletImage)
 
         self.image = self.bulletImage
         self.enemyToFollow = enemyToFollow
@@ -35,11 +36,9 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
             self.position += moveToPositionVector * self.velocity * deltaTime
             self.rotate()
 
-            # hits is a dict. The enemies are the keys and bullets the values.
-            hits = pygame.sprite.groupcollide(enemySprites, projectileSprites, False, True)
-            for enemy, bullet_list in hits.items():
-                for bullet in bullet_list:
-                    enemy.health -= bullet.damage
+            if pygame.sprite.collide_mask(self, self.enemyToFollow):
+                self.enemyToFollow.takeDamage(self.damage)
+                self.kill()
 
     def rotate(self):
 

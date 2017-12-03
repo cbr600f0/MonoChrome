@@ -18,7 +18,7 @@ class Level1Scene(SceneManager.Scene):
         self.bulletSprites = pygame.sprite.Group()
 
         # Immediately spawn a number of enemies
-        for i in range(0):
+        for i in range(3):
             spawnPos = Vector2D(random.randrange(10, 1500), random.randrange(10, 800))
             Robber(spawnPos, self.allSprites, self.enemySprites)
 
@@ -46,7 +46,7 @@ class Level1Scene(SceneManager.Scene):
     def update(self, deltaTime):
         self.spawnTimer += deltaTime
 
-        if self.spawnTimer > 0.8:
+        if self.spawnTimer > 1.8:
             spawnPos = Vector2D(random.randrange(0, 1600), random.randrange(0, 900))
             Robber(spawnPos, self.allSprites, self.enemySprites)
             self.spawnTimer = 0

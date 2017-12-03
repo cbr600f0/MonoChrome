@@ -8,6 +8,13 @@ class Enemy(pygame.sprite.Sprite):
 
         self.name = "Base Enemy"
         self.position = pos
-        self.direction = 0 # What is the angle of this enemy(used for rotating)
+        self.direction = 0  # What is the angle of this enemy(used for rotating)
         self.health = 100
         self.movementSpeed = 200
+        self.hasDied = False
+
+    def takeDamage(self, damageTaken):
+        raise NotImplemented
+
+    def die(self):
+        raise NotImplemented

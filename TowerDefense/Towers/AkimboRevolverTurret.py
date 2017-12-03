@@ -35,12 +35,12 @@ class AkimboRevolverTurret(Turret):
             self.posToFollow = enemyToShoot.position
             self.rotate()
             self.bulletTimer += deltaTime
-            if self.bulletTimer > 0.5:
+            if self.bulletTimer > 0.7:
 
                 if self.ShootLeftGun:
-                    posToShootFrom = Vector2D(self.rect.centerx - 29, self.rect.centery)
+                    posToShootFrom = self.position
                 else:
-                    posToShootFrom = Vector2D(self.rect.centerx + 29, self.rect.centery)
+                    posToShootFrom = self.position
                     pass
 
                 self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
