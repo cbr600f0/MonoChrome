@@ -26,8 +26,16 @@ class PongMainMenuScene (SceneManager.Scene):
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_w]: self.player1y -= 300 * deltaTime    #player 1 movement up
         if pressed[pygame.K_s]: self.player1y += 300 * deltaTime    #player 1 movement down
+        if self.player1y < 50:
+            self.player1y = 50
+        if self.player1y > 720:
+            self.player1y = 720
         if pressed[pygame.K_UP]: self.player2y -= 300 * deltaTime   #player 2 movement up
         if pressed[pygame.K_DOWN]: self.player2y += 300 * deltaTime #player 2 movement down
+        if self.player2y < 50:
+            self.player2y = 50
+        if self.player2y > 720:
+            self.player2y = 720
 
 
     def handle_events(self, events):
