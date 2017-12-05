@@ -7,7 +7,7 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
     def __init__(self):
         super(SpaceInvaderMainMenuScene, self).__init__()
 
-        self.mainBG = pygame.image.load("SpaceInvaders/images/Start menu.gif").convert()
+        self.mainBG = pygame.image.load("SpaceInvaders/images/Start menu.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
 
         self.startBtn = Button("Start", None, None, [120, 120, 120], [117, 100, 85], 715, 195, None, 70)
