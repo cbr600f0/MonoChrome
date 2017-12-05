@@ -1,6 +1,7 @@
 import pygame
 import SceneManager
 from ButtonClass import Button
+from Vector2D import Vector2D
 
 class DXBallMainMenuScene (SceneManager.Scene):
 
@@ -15,6 +16,7 @@ class DXBallMainMenuScene (SceneManager.Scene):
 
     def render(self, screen):
         screen.fill((0, 0, 0))
+
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30)) #paddle
 
         pygame.draw.rect(screen, [153, 255, 153], pygame.Rect(720, 390, 60, 60)) #ball
