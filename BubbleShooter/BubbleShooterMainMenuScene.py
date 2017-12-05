@@ -1,6 +1,7 @@
 import sys, pygame, math, SceneManager
 from BubbleShooter import BubbleShooterScene
 from pygame.locals import *
+import ButtonClass as Button
 
 class BubbleShooterMainMenuScene(SceneManager.Scene):
 
@@ -13,7 +14,18 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         # shows the mouse
         pygame.mouse.set_visible(True)
 
+        # Adds buttons
+        self.NewGameButton = Button.Button("", None, None, (220, 220, 220), (220, 220, 220), 180, 75, 1280, 120)
+        self.PasswordButton = Button.Button("", None, None, (220, 220, 220), (220, 220, 220), 180, 280, 1280, 120)
+        self.OptionsButton = Button.Button("", None, None, (220, 220, 220), (220, 220, 220), 180, 487, 1280, 120)
+        self.QuitGameButton = Button.Button("", None, None,  (220, 220, 220), (220, 220, 220), 180, 690, 1280, 120)
+
     def render(self, screen):
+        # Draws buttons
+        self.NewGameButton.draw(screen)
+        self.PasswordButton.draw(screen)
+        self.OptionsButton.draw(screen)
+        self.QuitGameButton.draw(screen)
         pass
 
 
@@ -22,13 +34,18 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
 
 
     def update(self, deltaTime):
-        while True:
-            # loads the background and changes it to fit the screen
-            backgroundImage = pygame.image.load('BubbleShooter\Images\MainMenu.png').convert_alpha()
-            backgroundImage = pygame.transform.scale(backgroundImage, (1600, 900))
-            backgroundImageRect = backgroundImage.get_rect()
-            self.screen.blit(backgroundImage, backgroundImageRect)
-            pygame.display.update()
+        # loads the background and changes it to fit the screen
+        backgroundImage = pygame.image.load('BubbleShooter\Images\MainMenu.png').convert_alpha()
+        backgroundImage = pygame.transform.scale(backgroundImage, (1600, 900))
+        backgroundImageRect = backgroundImage.get_rect()
+        self.screen.blit(backgroundImage, backgroundImageRect)
+        pygame.display.update()
 
-
-            # SceneManager.SceneMananger.currentScene = BubbleShooterScene.BubbleShooterScene()
+        if(self.NewGameButton.click()):
+            SceneManager.SceneMananger.currentScene = BubbleShooterScene.BubbleShooterScene()
+        if (self.PasswordButton.click()):
+            pass
+        if (self.OptionsButton.click()):
+            pass
+        if (self.QuitGameButton.click()):
+            pass
