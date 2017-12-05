@@ -8,9 +8,9 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
     def __init__(self):
         super(MainMenuScene, self).__init__()  # get the methods and variables from the base class wich is Scene
 
-        self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 100, None, 40)
-        self.pongBtn = Button("Click to go to Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 140, None, 40)
-        self.DXBallBtn = Button("Click to go to DX-ball", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 180, None, 40)
+        self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 100, None, 40)
+        self.pongBtn = Button("Click to go to Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 140, None, 40)
+        self.DXBallBtn = Button("Click to go to DX-ball", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 260, None, 40)
         self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 100, None, 40)
         self.pongBtn = Button("Click to go to Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 140, None, 40)
         self.spaceInvadersBtn = Button("Click to go to Space Invaders", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 180, None, 40)
@@ -44,7 +44,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
             SceneManager.SceneMananger.goToScene("BubbleShooter.BubbleShooterMainMenuScene.BubbleShooterMainMenuScene") # Changes the scene to BubbleShooter
 
         if self.DXBallBtn.click():
-            SceneManager.SceneMananger.goToScene("DXBallScene") # Changes the scene to DX-ball
+            SceneManager.SceneMananger.goToScene("DXBall.DXBallScene.DXBallScene") # Changes the scene to DX-ball
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):
