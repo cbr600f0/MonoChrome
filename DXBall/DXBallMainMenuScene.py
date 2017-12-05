@@ -1,10 +1,9 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 from Vector2D import Vector2D
 
-class DXBallMainMenuScene (Scene):
+class DXBallMainMenuScene (SceneManager.Scene):
 
     def __init__(self):
         super(DXBallMainMenuScene, self).__init__()
