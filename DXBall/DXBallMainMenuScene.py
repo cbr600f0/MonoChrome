@@ -3,10 +3,10 @@ from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
-class DXBallScene (Scene):
+class DXBallMainMenuScene (Scene):
 
     def __init__(self):
-        super(DXBallScene, self).__init__()
+        super(DXBallMainMenuScene, self).__init__()
         self.x = 800    #player
         self.y = 750   #player
         self.isPaused = False

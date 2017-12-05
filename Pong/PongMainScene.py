@@ -2,10 +2,10 @@ import pygame
 import SceneManager
 from ButtonClass import Button
 
-class PongScene (SceneManager.Scene):
+class PongMainScene (SceneManager.Scene):
 
     def __init__(self):
-        super(PongScene, self).__init__()
+        super(PongMainScene, self).__init__()
         self.player1x = 30     #player 1x
         self.player1y = 330    #player 1y
         self.player2x = 1510   #player 2x
