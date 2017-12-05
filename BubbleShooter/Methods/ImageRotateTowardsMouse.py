@@ -2,7 +2,7 @@ import sys, pygame, math
 from pygame.locals import *
 
 class ImageRotateTowardsMouse():
-    def __init__(self, rotatingImage, screen, width = 0, height = 0, posX = 0, posY = 0,):
+    def __init__(self, rotatingImage, screen, width = 0, height = 0, posX = 0, posY = 0):
         """
         :param rotatingImage holds the path towards the images you want to rotate:
         :param screen is needed to draw the image to the screen:
@@ -24,13 +24,3 @@ class ImageRotateTowardsMouse():
                 rect = rotimage.get_rect(center=(posX, posY))
                 screen.blit(rotimage, rect)
                 pygame.display.update()
-
-
-    def render(self, screen):
-        pass
-
-    def handle_events(self, events):
-        pass
-
-    def update(self, deltaTime):
-        pass
