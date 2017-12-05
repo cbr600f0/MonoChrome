@@ -10,6 +10,9 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
 
         self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 100, None, 40)
         self.pongBtn = Button("Click to go to Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 140, None, 40)
+        self.DXBallBtn = Button("Click to go to DX-ball", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 260, None, 40)
+        self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 100, None, 40)
+        self.pongBtn = Button("Click to go to Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 140, None, 40)
         self.spaceInvadersBtn = Button("Click to go to Space Invaders", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 180, None, 40)
         self.BubbleShooterBtn = Button("Click to go to Bubble Shooter", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 30, 220, None, 40)
 
@@ -21,20 +24,27 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.pongBtn.draw(screen)
         self.spaceInvadersBtn.draw(screen)
         self.BubbleShooterBtn.draw(screen)
+        self.DXBallBtn.draw(screen)
+
 
     # The function of this method is explained in the class Scene
     def update(self, deltaTime):
+        # SceneManager.SceneMananger.goToScene( Folder . File . Class name )
+
         if self.towerDefenseBtn.click():
             SceneManager.SceneMananger.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene") # Changes the scene to TowerDefense
 
         if self.pongBtn.click():
-            SceneManager.SceneMananger.goToScene("Pong.PongScene") # Changes the scene to Pong
+            SceneManager.SceneMananger.goToScene("Pong.PongScene.PongScene") # Changes the scene to Pong
 
         if self.spaceInvadersBtn.click():
-            SceneManager.SceneMananger.goToScene("SpaceInvaders.SpaceInvaderScene") # Changes the scene to SpaceInvaders
+            SceneManager.SceneMananger.goToScene("SpaceInvaders.SpaceInvaderScene.SpaceInvaderScene") # Changes the scene to SpaceInvaders
 
         if self.BubbleShooterBtn.click():
-            SceneManager.SceneMananger.goToScene("BubbleShooterMainMenuScene") # Changes the scene to BubbleShooter
+            SceneManager.SceneMananger.goToScene("BubbleShooter.BubbleShooterMainMenuScene.BubbleShooterMainMenuScene") # Changes the scene to BubbleShooter
+
+        if self.DXBallBtn.click():
+            SceneManager.SceneMananger.goToScene("DXBall.DXBallScene.DXBallScene") # Changes the scene to DX-ball
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):

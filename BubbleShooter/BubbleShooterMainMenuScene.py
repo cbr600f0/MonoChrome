@@ -31,4 +31,4 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
             pygame.display.update()
 
 
-            SceneManager.SceneMananger.currentScene = BubbleShooterScene.BubbleShooterScene()
+            # SceneManager.SceneMananger.currentScene = BubbleShooterScene.BubbleShooterScene()

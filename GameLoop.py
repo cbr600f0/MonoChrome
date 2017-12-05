@@ -60,16 +60,12 @@ while gameIsRunning:
     if switchScreenButton.click():
         changedWindowMode = False
         if gameIsInFullscreen == True:
-            pygame.display.quit()
-            pygame.display.init()
             screen = pygame.display.set_mode((1600, 900))
             gameIsInFullscreen = False
             changedWindowMode = True
             switchScreenButton.set_text("Fullscreen")
 
         if gameIsInFullscreen == False and changedWindowMode == False:
-            pygame.display.quit()
-            pygame.display.init()
             screen = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
             gameIsInFullscreen = True
             changedWindowMode = True

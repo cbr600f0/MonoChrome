@@ -3,9 +3,18 @@ from Vector2D import Vector2D
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
+    def __init__(self, pos, *sprite_groups):
+        super().__init__(*sprite_groups)
 
-        self.name = "Base Turret Test"
-        self.position = Vector2D(0, 0)
-        self.direction = 0 # What is the angle of this enemy(used for rotating)
+        self.name = "Base Enemy"
+        self.position = pos
+        self.direction = 0  # What is the angle of this enemy(used for rotating)
+        self.health = 100
+        self.movementSpeed = 200
+        self.hasDied = False
+
+    def takeDamage(self, damageTaken):
+        raise NotImplemented
+
+    def die(self):
+        raise NotImplemented
