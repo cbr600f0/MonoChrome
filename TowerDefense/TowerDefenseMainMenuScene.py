@@ -31,7 +31,7 @@ class TowerDefenseMainMenuScene(SceneManager.Scene):
             pass
 
         if self.quitBtn.click():
-            SceneManager.SceneMananger.goToScene("MainMenu.MainMenuScene")
+            SceneManager.SceneMananger.goToScene("MainMenuScene.MainMenuScene")
 
     def handle_events(self, events):
         for event in events:
