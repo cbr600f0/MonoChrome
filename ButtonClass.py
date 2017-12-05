@@ -83,23 +83,20 @@ class Button:
                                                                                     (self.height / 2) - (self.text_height / 2)))
 
         if self.onlyShowText:
-            r, g, b = self.fontColor
-            newR = r - 20
-            newG = g - 20
-            newB = b - 20
+            r, g, b = self.hoverColor
 
-            if newR < 0:
-                newR = 0
+            if r < 0:
+                r = 0
 
-            if newG < 0:
-                newG = 0
+            if g < 0:
+                g = 0
 
-            if newB < 0:
-                newB = 0
+            if b < 0:
+                b = 0
 
             self.buttonOnlyTextSurface.blit(self.font.render(self.text, False, self.fontColor), ((self.width / 2) - (self.text_width / 2),
                                                                                     (self.height / 2) - (self.text_height / 2)))
-            self.buttonOnlyTextSurfaceHover.blit(self.font.render(self.text, False, (newR, newG, newB)), ((self.width / 2) - (self.text_width / 2),
+            self.buttonOnlyTextSurfaceHover.blit(self.font.render(self.text, False, (r, g, b)), ((self.width / 2) - (self.text_width / 2),
                                                                                     (self.height / 2) - (self.text_height / 2)))
 
     def draw(self, surface):
