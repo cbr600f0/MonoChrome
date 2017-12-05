@@ -2,6 +2,7 @@ import MainMenu
 from TowerDefense.TowerDefenseScene import TowerDefenseScene
 from MonoChromeIntroScene import MonoChromeIntroScene
 from Pong.PongScene import PongScene
+from DXBall.DXBallScene import DXBallScene
 
 # LEES DEZE COMMENT
 # Boys ik weet niet zeker als je een nieuwe Scene kiest deze Scene dan verder moet gaan hoe hij was zoals ik het nu gedaaan heb of dat als je voor de tweede keer terug gaat naar bijvoorbeeld towerdefense deze weer vanaf het begin moet beginnen
@@ -31,3 +32,6 @@ class SceneMananger(object):  # This is the class SceneManager wich manages scen
 
         elif sceneName == "PongScene":
             SceneMananger.currentScene = PongScene()
+
+        elif sceneName == "DXBallScene":
+            SceneMananger.currentScene = DXBallScene()

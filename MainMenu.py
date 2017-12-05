@@ -11,6 +11,7 @@ class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich 
 
         self.towerDefenseBtn = Button("Click to go to Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 100, None, 40)
         self.pongBtn = Button("Click to go to Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 140, None, 40)
+        self.DXBallBtn = Button("Click to go to DX-ball", [220, 220, 220], [0, 0, 0], [120, 120, 120], 30, 180, None, 40)
 
     # The function of this method is explained in the class Scene
     def render(self, screen):
@@ -18,7 +19,8 @@ class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich 
         screen.fill((90, 90, 90))
         self.towerDefenseBtn.draw(screen)
         self.pongBtn.draw(screen)
-        pass
+        self.DXBallBtn.draw(screen)
+
 
     # The function of this method is explained in the class Scene
     def update(self, deltaTime):
@@ -27,6 +29,9 @@ class MainMenuScene(Scene): # MainMenuScene inherits from the class Scene (wich 
 
         if self.pongBtn.click():
             SceneManager.SceneMananger.goToScene("PongScene") # Changes the scene to Pong
+
+        if self.DXBallBtn.click():
+            SceneManager.SceneMananger.goToScene("DXBallScene") # Changes the scene to DX-ball
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):
