@@ -37,8 +37,6 @@ class PongMultiplayerScene (SceneManager.Scene):
             self.player2y = 50
         if self.player2y > 720:
             self.player2y = 720
-        if pressed[pygame.K_ESCAPE]:
-            SceneManager.SceneMananger.currentScene = PongMainMenuScene.PongMainMenuScene()
 
 
     def handle_events(self, events):
