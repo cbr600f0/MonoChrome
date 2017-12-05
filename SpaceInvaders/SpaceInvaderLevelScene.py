@@ -1,9 +1,8 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
-class SpaceInvaderLevelScene (Scene):
+class SpaceInvaderLevelScene (SceneManager.Scene):
 
     def __init__(self):
         # Background
@@ -15,7 +14,7 @@ class SpaceInvaderLevelScene (Scene):
         self.player = pygame.transform.scale(self.player, (100, 100))
 
         # get the methods and variables from the base class wich is Scene
-        super(SpaceInvaderMainMenuScene, self).__init__()
+        super(SpaceInvaderLevelScene, self).__init__()
 
         # Player
         self.x = 30     # Player
