@@ -1,9 +1,8 @@
 import pygame
-from Scene import Scene as Scene
 import SceneManager
 from ButtonClass import Button
 
-class DXBallMainMenuScene (Scene):
+class DXBallMainMenuScene (SceneManager.Scene):
 
     def __init__(self):
         super(DXBallMainMenuScene, self).__init__()
@@ -15,7 +14,6 @@ class DXBallMainMenuScene (Scene):
         self.pausedSurface.fill((150, 46, 91))
 
     def render(self, screen):
-        width = screen.width
         screen.fill((0, 0, 0))
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30)) #paddle
 
