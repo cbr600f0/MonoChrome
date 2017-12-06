@@ -26,7 +26,7 @@ class DXBallMainMenuScene (SceneManager.Scene):
         screen.fill((0, 0, 0))
 
         self.allSprites.draw(screen)
-        paddle = pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30)) #paddle
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30)) #paddle
 
         if self.isPaused:
             screen.blit(self.pausedSurface, (0, 0))
