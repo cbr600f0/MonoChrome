@@ -1,11 +1,12 @@
 import pygame
 import SceneManager
 from ButtonClass import Button
+from Pong import PongMainMenuScene
 
-class PongMainMenuScene (SceneManager.Scene):
+class PongMultiplayerScene (SceneManager.Scene):
 
     def __init__(self):
-        super(PongMainMenuScene, self).__init__()
+        super(PongMultiplayerScene, self).__init__()
         self.player1x = 30     #player 1x
         self.player1y = 330    #player 1y
         self.player2x = 1540   #player 2x
@@ -24,14 +25,14 @@ class PongMainMenuScene (SceneManager.Scene):
 
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_w]: self.player1y -= 300 * deltaTime    #player 1 movement up
-        if pressed[pygame.K_s]: self.player1y += 300 * deltaTime    #player 1 movement down
+        if pressed[pygame.K_w]: self.player1y -= 400 * deltaTime    #player 1 movement up
+        if pressed[pygame.K_s]: self.player1y += 400 * deltaTime    #player 1 movement down
         if self.player1y < 50:
             self.player1y = 50
         if self.player1y > 720:
             self.player1y = 720
-        if pressed[pygame.K_UP]: self.player2y -= 300 * deltaTime   #player 2 movement up
-        if pressed[pygame.K_DOWN]: self.player2y += 300 * deltaTime #player 2 movement down
+        if pressed[pygame.K_UP]: self.player2y -= 400 * deltaTime   #player 2 movement up
+        if pressed[pygame.K_DOWN]: self.player2y += 400 * deltaTime #player 2 movement down
         if self.player2y < 50:
             self.player2y = 50
         if self.player2y > 720:
@@ -40,6 +41,3 @@ class PongMainMenuScene (SceneManager.Scene):
 
     def handle_events(self, events):
         pass
-
-
-
