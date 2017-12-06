@@ -1,6 +1,6 @@
 import pygame
 from TowerDefense.Towers.Turret import Turret
-from Vector2D import Vector2D
+from Vector2 import Vector2
 from TowerDefense.Towers.Projectiles.AkimboRevolverTurretBullet import AkimboRevolverTurretBullet as Bullet
 
 
@@ -11,7 +11,7 @@ class AkimboRevolverTurret(Turret):
 
         self.bulletTimer = 0
 
-        self.posToFollow = Vector2D(0, 0)
+        self.posToFollow = Vector2(0, 0)
         self.turretWidth = 58
         self.turretHeight = 114
 
@@ -38,12 +38,14 @@ class AkimboRevolverTurret(Turret):
             if self.bulletTimer > 0.7:
 
                 if self.ShootLeftGun:
-                    posToShootFrom = self.position
+                    pass
+                    #posToShootFrom = self.position
                 else:
-                    posToShootFrom = self.position
+                    pass
+                   #posToShootFrom = self.position
                     pass
 
-                self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
+                self.shoot(self.position, allSprites, projectileSprites, enemyToShoot)
                 self.bulletTimer = 0
                 self.ShootLeftGun = not self.ShootLeftGun
 
@@ -52,7 +54,7 @@ class AkimboRevolverTurret(Turret):
 
     def rotate(self):
 
-        MouseLookAt = self.posToFollow - Vector2D((self.rect.centerx, self.rect.centery))
+        MouseLookAt = self.posToFollow - Vector2((self.rect.centerx, self.rect.centery))
         self.direction = -MouseLookAt.angle + 90
         self.image = pygame.transform.rotozoom(self.turretImage, self.direction, 1)  # the image is rotated the wrong way so the plus 90 fixed this
         self.rect = self.image.get_rect()

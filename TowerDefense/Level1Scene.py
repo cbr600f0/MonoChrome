@@ -1,6 +1,6 @@
 import pygame, random, SceneManager
 from ButtonClass import Button
-from Vector2D import Vector2D
+from Vector2 import Vector2
 from TowerDefense.Towers.AkimboRevolverTurret import AkimboRevolverTurret
 from TowerDefense.Enemies.Robber import Robber
 
@@ -21,10 +21,10 @@ class Level1Scene(SceneManager.Scene):
 
         # Immediately spawn a number of enemies
         for i in range(3):
-            spawnPos = Vector2D(random.randrange(10, 1500), random.randrange(10, 800))
+            spawnPos = Vector2(random.randrange(10, 1500), random.randrange(10, 800))
             Robber(spawnPos, self.allSprites, self.enemySprites)
 
-        AkimboRevolverTurret(Vector2D(800, 450), self.allSprites, self.turretSprites)
+        AkimboRevolverTurret(Vector2(800, 450), self.allSprites, self.turretSprites)
 
         # Interface Stuff
         self.mainBG = pygame.Surface((1600, 900))
@@ -49,7 +49,7 @@ class Level1Scene(SceneManager.Scene):
         self.spawnTimer += deltaTime
 
         if self.spawnTimer > 1.8:
-            spawnPos = Vector2D(random.randrange(0, 1600), random.randrange(0, 900))
+            spawnPos = Vector2(random.randrange(0, 1600), random.randrange(0, 900))
             Robber(spawnPos, self.allSprites, self.enemySprites)
             self.spawnTimer = 0
 

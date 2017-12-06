@@ -1,5 +1,5 @@
 import pygame
-from Vector2D import Vector2D
+from Vector2 import Vector2
 
 class Enemy(pygame.sprite.Sprite):
 

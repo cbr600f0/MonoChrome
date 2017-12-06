@@ -1,5 +1,5 @@
 import pygame
-from Vector2D import Vector2D
+from Vector2 import Vector2
 
 
 class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
@@ -7,7 +7,7 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
     def __init__(self, pos, enemyToFollow, *sprite_groups):
         super().__init__(*sprite_groups)
 
-        self.position = Vector2D(pos)
+        self.position = Vector2(pos)
         self.velocity = 600
         self.damage = 50
         self.direction = 0

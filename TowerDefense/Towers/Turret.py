@@ -1,6 +1,6 @@
 import pygame
 from pygame import gfxdraw
-from Vector2D import Vector2D
+from Vector2 import Vector2
 
 class Turret(pygame.sprite.Sprite):
 
@@ -8,5 +8,5 @@ class Turret(pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
 
         self.name = "Base Turret"
-        self.position = Vector2D(800, 450)
+        self.position = Vector2(800, 450)
         self.direction = 0 # What is the angle of this turret(Used for rotating the turret)

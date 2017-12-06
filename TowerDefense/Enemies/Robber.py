@@ -1,6 +1,6 @@
 import pygame
 from TowerDefense.Enemies.Enemy import Enemy
-from Vector2D import Vector2D
+from Vector2 import Vector2
 
 
 class Robber(Enemy):
@@ -9,7 +9,7 @@ class Robber(Enemy):
         Enemy.__init__(self, pos, *sprite_groups)
 
         self.health = 100
-        self.PosToFollow = Vector2D(0, 0)
+        self.PosToFollow = Vector2(0, 0)
         self.enemyWidth = 90
         self.enemyHeight = 56
 
@@ -27,7 +27,7 @@ class Robber(Enemy):
         if self.hasDied is False:
 
             #  Move towards mouse pos and stop the cube when its at the mouse position
-            self.PosToFollow = Vector2D(pygame.mouse.get_pos())
+            self.PosToFollow = Vector2(pygame.mouse.get_pos())
 
             moveToMousePosVector = self.PosToFollow - self.position
 

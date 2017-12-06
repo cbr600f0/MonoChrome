@@ -3,7 +3,7 @@ import SceneManager
 import pygame.gfxdraw
 from DXBall.Ball import Ball
 from ButtonClass import Button
-from Vector2D import Vector2D
+from Vector2 import Vector2
 
 class DXBallMainMenuScene (SceneManager.Scene):
 
@@ -13,7 +13,7 @@ class DXBallMainMenuScene (SceneManager.Scene):
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
 
-        Ball(Vector2D(800, 450), self.allSprites, self.ballSprites)
+        Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
 
         self.x = 800    #player
         self.y = 750   #player
