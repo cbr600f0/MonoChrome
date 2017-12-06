@@ -16,8 +16,10 @@ class Robber(Enemy):
         self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
         self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
         self.enemyMask = pygame.mask.from_surface(self.enemyImage)
+
         self.image = self.enemyImage
         self.rect = self.enemyImage.get_rect()
+
         self.rect.move_ip(self.position)
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):

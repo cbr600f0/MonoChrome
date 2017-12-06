@@ -12,7 +12,9 @@ class Level1Scene(SceneManager.Scene):
         self.spawnTimer = 0
 
         #Gameobject stuff
+
         self.allSprites = pygame.sprite.Group()
+
         self.enemySprites = pygame.sprite.Group()
         self.turretSprites = pygame.sprite.Group()
         self.bulletSprites = pygame.sprite.Group()
@@ -54,7 +56,7 @@ class Level1Scene(SceneManager.Scene):
         self.allSprites.update(deltaTime, self.allSprites, self.turretSprites, self.enemySprites, self.bulletSprites)
 
         if self.backToMainMenuBtn.click():
-            SceneManager.SceneMananger.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene")
+            SceneManager.SceneManager.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene")
 
         self.totalAliveEnemiesLbl = self.enemiesAliveFont.render("Enemies alive: " + str(len(self.enemySprites.sprites())), 1, (255, 255, 255))
 

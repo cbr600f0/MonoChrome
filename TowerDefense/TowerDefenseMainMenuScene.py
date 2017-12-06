@@ -1,5 +1,6 @@
 import pygame
 import SceneManager
+
 from ButtonClass import Button
 
 
@@ -25,13 +26,13 @@ class TowerDefenseMainMenuScene(SceneManager.Scene):
     def update(self, deltaTime):
 
         if self.startBtn.click():
-            SceneManager.SceneMananger.goToScene("TowerDefense.Level1Scene.Level1Scene")
+            SceneManager.SceneManager.goToScene("TowerDefense.Level1Scene.Level1Scene")
 
         if self.optionsBtn.click():
             pass
 
         if self.quitBtn.click():
-            SceneManager.SceneMananger.goToScene("MainMenuScene.MainMenuScene")
+            SceneManager.SceneManager.goToScene("MainMenuScene.MainMenuScene")
 
     def handle_events(self, events):
         for event in events:

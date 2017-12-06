@@ -22,13 +22,13 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
 
     def update(self, deltaTime):
         if self.startBtn.click():
-            SceneManager.SceneMananger.goToScene("SpaceInvaders.SpaceInvaderLevelScene.SpaceInvaderLevelScene")
+            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderLevelScene.SpaceInvaderLevelScene")
 
         if self.optionsBtn.click():
             pass
 
         if self.quitBtn.click():
-            SceneManager.SceneMananger.goToScene("MainMenu.MainMenuScene")
+            SceneManager.SceneManager.goToScene("MainMenu.MainMenuScene")
 
     def handle_events(self, events):
         for event in events:

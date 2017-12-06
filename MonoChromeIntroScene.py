@@ -21,7 +21,7 @@ class MonoChromeIntroScene(SceneManager.Scene): # MainMenuScene inherits from th
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_SPACE]:
-            SceneManager.SceneMananger.goToScene("MainMenuScene.MainMenuScene")  # Changes the scene to MainMenu
+            SceneManager.SceneManager.goToScene("MainMenuScene.MainMenuScene")  # Changes the scene to MainMenu
 
     # The function of this method is explained in the class Scene
     def handle_events(self, events):
