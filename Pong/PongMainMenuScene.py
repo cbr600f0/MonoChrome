@@ -2,17 +2,16 @@ import pygame
 import SceneManager
 from ButtonClass import Button
 from Pong import PongMultiplayerScene
-import MainMenuScene
 
 class PongMainMenuScene (SceneManager.Scene):
 
     def __init__(self):
         super(PongMainMenuScene, self).__init__()
-        self.SinglePlayerButton = Button("Single player", (255, 255, 255,), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 25, 800, 150)
+        self.SinglePlayerButton = Button("Single player", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 25, 800, 150)
         self.MultiplayerButton = Button("Multiplayer", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 200, 800, 150)
-        self.InfiniteButton = Button("Infinite", (255, 255, 255,), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 375, 800, 150)
-        self.AudioButton = Button("Audio", (255, 255, 255,), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 550, 800, 150)
-        self.ExitButton = Button("Exit", (255, 255, 255,), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 725, 800, 150)
+        self.InfiniteButton = Button("Infinite", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 375, 800, 150)
+        self.AudioButton = Button("Audio", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 550, 800, 150)
+        self.ExitButton = Button("Exit", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 400, 725, 800, 150)
 
 
     def render(self, screen):
@@ -29,10 +28,10 @@ class PongMainMenuScene (SceneManager.Scene):
 
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
-        if(self.MultiplayerButton.click()):
-            SceneManager.SceneMananger.currentScene = PongMultiplayerScene.PongMultiplayerScene()
-        if(self.ExitButton.click()):
-            SceneManager.SceneMananger.currentScene = MainMenuScene.MainMenuScene()
+        if self.MultiplayerButton.click():
+            SceneManager.SceneManager.goToScene("Pong.PongMultiplayerScene.PongMultiplayerScene")
+        if self.ExitButton.click():
+            SceneManager.SceneManager.goToScene("MainMenuScene.MainMenuScene")
 
     def handle_events(self, events):
         pass
