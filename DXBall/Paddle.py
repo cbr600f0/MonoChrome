@@ -7,7 +7,7 @@ class Paddle (pygame.sprite.Sprite):
 
     def __init__(self, pos, *sprite_groups):
         super().__init__(*sprite_groups)
-
+        #hoi
         self.position = Vector2D(800, 450)
 
         self.Paddle = pygame.Surface((50,50 )).convert_alpha()
