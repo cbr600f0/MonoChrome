@@ -16,17 +16,23 @@ class PongMainMenuScene (SceneManager.Scene):
 
     def render(self, screen):
         screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(0, 0, 60, 60))        #decoration
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1540, 0, 60, 60))     #|
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(0, 840, 60, 60))      #|
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1540, 840, 60, 60))   #|
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(60, 300, 60, 360))    #|
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1480, 300, 60, 360))  #decoration
-        self.SinglePlayerButton.draw(screen)                                        #button
-        self.MultiplayerButton.draw(screen)                                         #|
-        self.InfiniteButton.draw(screen)                                            #|
-        self.AudioButton.draw(screen)                                               #|
-        self.ExitButton.draw(screen)                                                #button
+
+        #Main Menu Decoration
+
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(0, 0, 60, 60))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1540, 0, 60, 60))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(0, 840, 60, 60))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1540, 840, 60, 60))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(60, 300, 60, 360))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1480, 300, 60, 360))
+
+        #Main Menu Buttons
+
+        self.SinglePlayerButton.draw(screen)
+        self.MultiplayerButton.draw(screen)
+        self.InfiniteButton.draw(screen)
+        self.AudioButton.draw(screen)
+        self.ExitButton.draw(screen)
         label = self.myfont.render("PONG", 1, (255, 255, 255))
         screen.blit(label, (700, 100))
 
