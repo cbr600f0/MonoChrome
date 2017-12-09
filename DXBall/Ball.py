@@ -9,7 +9,7 @@ class Ball(pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
         self.position = Vector2(800, 450)
 
-        self.enemyImage = pygame.Surface((50,50 )).convert_alpha()
+        self.enemyImage = pygame.Surface((50, 50)).convert_alpha()
         pygame.draw.ellipse(self.enemyImage, [153, 255, 153], pygame.Rect(0, 0, 50, 50))  # ball
 
         self.velocityVector = Vector2(-1000, 100)

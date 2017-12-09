@@ -12,9 +12,9 @@ class TowerDefenseMainMenuScene(SceneManager.Scene):
         self.mainBG = pygame.image.load("TowerDefense\Images\MainMenu.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
 
-        self.startBtn = Button("Start", None, None, [120, 120, 120], [117, 100, 85], 715, 195, None, 70)
-        self.optionsBtn = Button("Options", None, None, [120, 120, 120], [117, 100, 85], 680, 360, None, 70)
-        self.quitBtn = Button("Quit to main menu", None, None, [120, 120, 120], [117, 100, 85], 560, 525, None, 70)
+        self.startBtn = Button("Start", None, None, [127, 110, 95], [110, 90, 73], 715, 195, None, 70)
+        self.optionsBtn = Button("Options", None, None, [127, 110, 95], [110, 90, 73], 680, 360, None, 70)
+        self.quitBtn = Button("Quit to main menu", None, None, [127, 110, 95], [110, 90, 73], 560, 525, None, 70)
 
     def render(self, screen):
         screen.blit(self.mainBG, (0, 0))

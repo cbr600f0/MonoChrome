@@ -5,46 +5,68 @@ from Vector2 import Vector2
 
 class Robber(Enemy):
 
-    def __init__(self, pos, *sprite_groups):
-        Enemy.__init__(self, pos, *sprite_groups)
+    def __init__(self, positionsToFollow, levelReference, *sprite_groups):
+        Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
         self.health = 100
-        self.PosToFollow = Vector2(0, 0)
         self.enemyWidth = 90
         self.enemyHeight = 56
+
+        self.levelReference = levelReference
+
+        self.goldToSteal = 100
+        self.goldOnKill = 100
+        self.scoreOnKill = 20
 
         self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
         self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
         self.enemyMask = pygame.mask.from_surface(self.enemyImage)
 
+        self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/RobloxDeathSound.ogg")
+
         self.image = self.enemyImage
         self.rect = self.enemyImage.get_rect()
+        self.rect.center = self.position
 
-        self.rect.move_ip(self.position)
+        self.destinationPosIndex += 1
+        self.nextPositionToGoTo = Vector2(self.positionsToFollow[self.destinationPosIndex][0],
+                                          self.positionsToFollow[self.destinationPosIndex][1])
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
 
         if self.hasDied is False:
 
-            #  Move towards mouse pos and stop the cube when its at the mouse position
-            self.PosToFollow = Vector2(pygame.mouse.get_pos())
+            moveToPositionVector = self.nextPositionToGoTo - self.position
 
-            moveToMousePosVector = self.PosToFollow - self.position
+            if self.position.get_distance(self.nextPositionToGoTo) > 0:
+                moveToPositionVector.length = 1
 
-            if self.position.get_distance(self.PosToFollow) > 0:
-                moveToMousePosVector.length = 1
+            if moveToPositionVector.length > self.nextPositionToGoTo.get_distance(self.position):
+                moveToPositionVector.length = self.nextPositionToGoTo.get_distance(self.position)
 
-            if moveToMousePosVector.length > self.PosToFollow.get_distance(self.position):
-                moveToMousePosVector.length = self.PosToFollow.get_distance(self.position)
+                if self.destinationPosIndex + 1 < len(self.positionsToFollow):
+                    self.destinationPosIndex += 1
+                    self.nextPositionToGoTo = Vector2(self.positionsToFollow[self.destinationPosIndex][0],
+                                                      self.positionsToFollow[self.destinationPosIndex][1])
+                    self.rotate()
+                else:
+                    self.levelReference.gold -= self.goldToSteal
+                    self.hasDied = True
+                    self.kill()
 
-            self.position += moveToMousePosVector * self.movementSpeed * deltaTime
-            self.rotate()
+            self.position += moveToPositionVector * self.movementSpeed * deltaTime
+
+            self.image = pygame.transform.rotate(self.enemyImage, self.direction)
+            self.rect = self.image.get_rect()
+            self.rect.center = self.position
+
+        pass
 
 
     def rotate(self):
 
         #  Move towards PosToFollow
-        PosToFollowLookatVector = self.PosToFollow - self.position
+        PosToFollowLookatVector = self.nextPositionToGoTo - self.position
         self.direction = -PosToFollowLookatVector.angle - 90
         self.image = pygame.transform.rotate(self.enemyImage, self.direction)  # the image is rotated the wrong way so the plus 90 fixed this
         self.rect = self.image.get_rect()
@@ -60,5 +82,10 @@ class Robber(Enemy):
 
     def die(self):
         if self.hasDied is False:
+
+            self.levelReference.gold += self.goldOnKill
+            self.levelReference.score += self.scoreOnKill
+
+            self.deathSound.play()
             self.kill()
             self.hasDied = True
