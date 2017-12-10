@@ -26,12 +26,12 @@ class PongMultiplayerScene (SceneManager.Scene):
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(395, 0, 5, 45))  #scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(795, 0, 5, 45))  # scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1195, 0, 5, 45))  # scoreboard border
-        labelMultiplayer = self.myfont.render("Mode: Multiplayer", 1, (255, 255, 255))
-        screen.blit(labelMultiplayer, (410, 8))
-        labelP1Lives = self.myfont.render("P1 Lives:", 1, (255, 255, 255))
-        screen.blit(labelP1Lives, (15, 8))
-        labelP2Lives = self.myfont.render("P2 Lives:", 1, (255, 255, 255))
-        screen.blit(labelP2Lives, (1210, 8))
+        Multiplayer = self.myfont.render("Mode: Multiplayer", 1, (255, 255, 255))
+        screen.blit(Multiplayer, (410, 8))
+        P1Lives = self.myfont.render("P1 Lives:", 1, (255, 255, 255))
+        screen.blit(P1Lives, (15, 8))
+        P2Lives = self.myfont.render("P2 Lives:", 1, (255, 255, 255))
+        screen.blit(P2Lives, (1210, 8))
 
 
     def update(self, deltaTime):

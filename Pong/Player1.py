@@ -5,8 +5,8 @@ class Player1 (pygame.sprite.Sprite):
     def __init__(self, *sprite_groups):
         super().__init__(*sprite_groups)
 
-        self.x = 30
-        self.y = 330
+        self.x = 60
+        self.y = 420
 
         self.player1Surface = pygame.Surface((30, 180)).convert_alpha()
         self.player1Surface.fill((255, 255, 255))
@@ -22,8 +22,8 @@ class Player1 (pygame.sprite.Sprite):
             self.y -= 500 * deltaTime
         if pressed[pygame.K_s]:
             self.y += 500 * deltaTime
-        if self.y < 50:
-            self.y = 50
-        if self.y > 720:
-            self.y = 720
+        if self.y < 140:
+            self.y = 140
+        if self.y > 810:
+            self.y = 810
         self.rect.center = Vector2(self.x, self.y)
