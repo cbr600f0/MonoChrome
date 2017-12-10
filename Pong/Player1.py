@@ -8,7 +8,11 @@ class Player1 (pygame.sprite.Sprite):
         self.player1x = 30
         self.player1y = 330
 
-        self.player1 = pygame.draw.rect(self.player1, [255, 255, 255], pygame.Rect(self.player1x, self.player1y, 30, 180))
+        self.player1 = pygame.Surface((50, 50)).convert_alpha()
+        pygame.draw.rect(self.player1, [255, 255, 255], pygame.Rect(self.player1x, self.player1y, 30, 180))
+
+        self.image = self.player1
+        self.rect = self.player1.get_rect()
 
 
     def update(self, deltaTime):
