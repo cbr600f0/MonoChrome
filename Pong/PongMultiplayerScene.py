@@ -6,12 +6,14 @@ from Vector2 import Vector2
 from Pong.Player1 import Player1
 from Pong.Player2 import Player2
 
+
 class PongMultiplayerScene (SceneManager.Scene):
 
     def __init__(self):
         super(PongMultiplayerScene, self).__init__()
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
+
         Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
 
         self.player1Sprites = pygame.sprite.Group()

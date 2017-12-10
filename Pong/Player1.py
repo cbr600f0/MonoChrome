@@ -25,3 +25,4 @@ class Player1 (pygame.sprite.Sprite):
             self.player1y = 50
         if self.player1y > 720:
             self.player1y = 720
+
