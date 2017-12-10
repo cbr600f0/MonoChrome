@@ -1,14 +1,13 @@
 import pygame
 import SceneManager
 from ButtonClass import Button
-from Pong import PongMultiplayerScene
 
 class PongMainMenuScene (SceneManager.Scene):
 
     def __init__(self):
         super(PongMainMenuScene, self).__init__()
         self.SinglePlayerButton = Button("Single player", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 225, 400, 75)
-        self.MultiplayerButton = Button("Multiplayer" (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 325, 400, 75)
+        self.MultiplayerButton = Button("Multiplayer", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 325, 400, 75)
         self.InfiniteButton = Button("Infinite", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 425, 400, 75)
         self.AudioButton = Button("Audio", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 525, 400, 75)
         self.ExitButton = Button("Exit", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 625, 400, 75)
