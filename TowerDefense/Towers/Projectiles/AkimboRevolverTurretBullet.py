@@ -9,10 +9,11 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
         self.position = Vector2(pos)
         self.velocity = 820
-        self.damage = 50
+        self.damage = 20
         self.direction = 0
 
-        self.bulletImage = pygame.Surface((6, 8)).convert_alpha()
+        self.bulletImage = pygame.Surface((4, 6)).convert_alpha()
+
         self.bulletImage.fill((0, 0, 0))
         self.bulletMask = pygame.mask.from_surface(self.bulletImage)
 
