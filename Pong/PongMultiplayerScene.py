@@ -15,6 +15,7 @@ class PongMultiplayerScene (SceneManager.Scene):
         self.playerSprites = pygame.sprite.Group()
         Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
         Player1(self.allSprites, self.playerSprites)
+        Player2(self.allSprites, self.playerSprites)
 
         self.myfont = pygame.font.SysFont("monospace", 26)
 
