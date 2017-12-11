@@ -34,7 +34,3 @@ class Ball(pygame.sprite.Sprite):
         if self.position.y >= 875:
             self.velocityVector = self.velocityVector.reflect(Vector2(0, 1))
 
-
-    def collide(self, paddleSurface):
-        if pygame.sprite.spritecollide(self, ):
-            Ball.velocityVector = Ball.velocityVector.reflect(Vector2(-1, 0))
