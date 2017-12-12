@@ -19,7 +19,6 @@ class Ball (pygame.sprite.Sprite):
         self.rect.center = self.position
 
 
-
     def update(self, deltaTime):
 
         self.position += self.velocityVector * deltaTime
