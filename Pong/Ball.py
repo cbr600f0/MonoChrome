@@ -16,14 +16,14 @@ class Ball (pygame.sprite.Sprite):
 
         self.image = self.ball
         self.rect = self.ball.get_rect()
-        self.rect.move_ip(self.position)
+        self.rect.center = self.position
+
 
 
     def update(self, deltaTime):
-        pressed = pygame.key.get_pressed()
-        if pressed[pygame.K_SPACE]:
-            self.position += self.velocityVector * deltaTime
-            self.rect.center = self.position
+
+        self.position += self.velocityVector * deltaTime
+        self.rect.center = self.position
 
         if self.position.x <= 25:
             self.velocityVector = Vector2(-self.velocityVector.x, self.velocityVector.y)
@@ -36,4 +36,5 @@ class Ball (pygame.sprite.Sprite):
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
 
     def handle_events(self, events):
-        pass
+        for event in events:
+            pass
