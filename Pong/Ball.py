@@ -16,10 +16,12 @@ class Ball (pygame.sprite.Sprite):
 
         self.image = self.ball
         self.rect = self.ball.get_rect()
-        self.rect.move_ip(self.position)
+        self.rect.center = self.position
+
 
 
     def update(self, deltaTime):
+
         self.position += self.velocityVector * deltaTime
         self.rect.center = self.position
 
@@ -32,3 +34,7 @@ class Ball (pygame.sprite.Sprite):
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
         if self.position.y >= 875:
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
+
+    def handle_events(self, events):
+        for event in events:
+            pass
