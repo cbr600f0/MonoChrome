@@ -37,9 +37,9 @@ class AkimboRevolverTurret(Turret):
             if self.bulletTimer > 0.5:
 
                 if self.ShootLeftGun:
-                    offset = Vector2(46, -14).rotate(self.direction)
+                    offset = Vector2(48, -14).rotate(self.direction)
                 else:
-                    offset = Vector2(46, 14).rotate(self.direction)
+                    offset = Vector2(48, 14).rotate(self.direction)
 
                 posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
                 self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)

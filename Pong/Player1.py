@@ -26,5 +26,6 @@ class Player1 (pygame.sprite.Sprite):
             self.y = 50
         if self.y > 720:
             self.y = 720
+
         self.rect = self.player1Surface.get_rect()
         self.rect.center = Vector2(self.x, self.y)

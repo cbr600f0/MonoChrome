@@ -41,4 +41,5 @@ class PongMultiplayerScene (SceneManager.Scene):
             SceneManager.SceneManager.goToScene("Pong.PongMainMenuScene.PongMainMenuScene")
 
     def handle_events(self, events):
+
         pass
