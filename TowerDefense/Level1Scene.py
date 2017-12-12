@@ -9,7 +9,6 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
 
     def __init__(self, *optionalInformation):
         super(Level1Scene, self).__init__()
-        self.spawnTimer = 0
         self.linePositions = ([1000, 980], [1000, 500], [1200, 500], [1200, 180], [120, 180], [120, 800], [320, 800], [320, 500], [800, 500], [800, 980])
 
         self.gold = 1000
@@ -25,7 +24,11 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
 
         #Spawner Stuff (Maybe make a seperate Spawner class)
         self.spawnerIsActive = True
-        self.numberOfEnemiesToSpawn = 10
+        self.spawnTimer = 0
+        self.spawnPauseTimer = 0
+        self.pauseDuration = 7
+
+        self.numberOfEnemiesToSpawn = 7
         self.numberOfEnemiesSpawnedThisRound = 0
         self.currentRound = 1
 
@@ -37,7 +40,7 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
         self.mainBG = pygame.Surface((1600, 900))
         self.mainBG.fill([100, 80, 63])
 
-        self.backToMainMenuBtn = Button("Main menu", None, None, [120, 120, 120], [117, 100, 85], 100, 80, None, 70)
+        self.backToMainMenuBtn = Button("Main menu", None, None, [120, 120, 120], [117, 100, 85], 100, 75, None, 60)
         self.nextRoundBtn = Button("Next Round", None, None, [40, 40, 40], [0, 0, 0], 1324, 820, None, 60)
 
         self.westernFont = pygame.font.Font("TowerDefense\WesternFont.otf", 28)
@@ -61,15 +64,20 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
     def update(self, deltaTime):
 
         if self.spawnerIsActive:
-            self.spawnTimer += deltaTime
 
             if self.numberOfEnemiesSpawnedThisRound < self.numberOfEnemiesToSpawn:
-                if self.spawnTimer > 1.2:
+                self.spawnTimer += deltaTime
+
+                if self.spawnTimer > 1.5:
                     Robber(self.linePositions, self, self.allSprites, self.enemySprites)
                     self.numberOfEnemiesSpawnedThisRound += 1
                     self.spawnTimer = 0
-
             else:
+                self.spawnerIsActive = False
+
+        else:
+            self.spawnPauseTimer += deltaTime
+            if self.spawnPauseTimer >= self.pauseDuration:
                 self.beginNextRound()
 
         self.allSprites.update(deltaTime, self.allSprites, self.turretSprites, self.enemySprites, self.bulletSprites)
@@ -78,7 +86,15 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
             SceneManager.SceneManager.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene")
 
         if self.nextRoundBtn.click():
-            pass  # next round logic here
+            pass
+
+    def beginNextRound(self):
+        self.numberOfEnemiesToSpawn += 1
+        self.currentRound += 1
+        self.numberOfEnemiesSpawnedThisRound = 0
+        self.spawnTimer = 0
+        self.spawnPauseTimer = 0
+        self.spawnerIsActive = True
 
     def getEnemiesInArea(self, centerPos, radius, enemySprites):
 
@@ -120,11 +136,17 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
         pygame.draw.line(screen, [50, 30, 14], (0, 70), (1600, 70), 4) # Top Border
         pygame.draw.rect(screen, [80, 60, 44], pygame.Rect(0, 0, 1600, 70))
 
-        screen.blit(self.difficultyLbl, (130, 6))
+        screen.blit(self.difficultyLbl, (130, 7))
+
         pygame.draw.line(screen, [50, 30, 14], (500, 0), (500, 70), 4)
-        screen.blit(self.scoreLbl, (850, 6))
-        screen.blit(self.roundLbl, (850, 100))
-        screen.blit(self.goldLbl, (1400, 6))
+
+        screen.blit(self.scoreLbl, (670, 7))
+
+        pygame.draw.line(screen, [50, 30, 14], (930, 0), (930, 70), 4)
+
+        screen.blit(self.roundLbl, (1070, 7))
+
+        screen.blit(self.goldLbl, (1400, 7))
 
         # Right
         pygame.draw.rect(screen, [80, 60, 44], pygame.Rect(1300, 73, 300, 827))
@@ -132,9 +154,3 @@ class Level1Scene(SceneManager.Scene): # create a ONScenePlay method and make it
 
         # Right Bottom
         pygame.draw.line(screen, [50, 30, 14], (1300, 800), (1600, 800), 4)
-
-    def beginNextRound(self):
-        self.numberOfEnemiesToSpawn += 1
-        self.currentRound += 1
-        self.numberOfEnemiesSpawnedThisRound = 0
-        self.spawnTimer = 0

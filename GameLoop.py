@@ -32,9 +32,7 @@ deltaTime = 0
 FPSLblFont = pygame.font.SysFont("monospace", 18)
 FPSLblFont.set_bold(True)
 
-pygame.mouse.set_visible(False) #makes mouse invisible
-currentCursorImage = pygame.image.load("SteamPunkCursor.png")
-currentCursorImage = pygame.transform.scale(currentCursorImage, (50, 50))
+pygame.mouse.set_visible(True) #makes mouse visible
 
 switchScreenButton = Button("Fullscreen", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 120, 2, None, 24)
 
@@ -75,7 +73,6 @@ while gameIsRunning:
     FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
     screen.blit(FPSLbl, (4, 4))
     mousePos = pygame.mouse.get_pos()
-    screen.blit(currentCursorImage, mousePos)
     pygame.display.update()  # This makes pygame update its canvas thus rendering everything on the screen
 
     deltaTime = clock.tick(400) / 1000.0  # Calculates time since last frame wich is the deltaTime
