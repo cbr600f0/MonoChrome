@@ -10,9 +10,9 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
         self.mainBG = pygame.image.load("SpaceInvaders/images/Start menu.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
 
-        self.startBtn   = Button("Start",               None, None, [47, 253, 39], [255, 255, 255], 50, 195, None, 150)
-        self.optionsBtn = Button("Options",             None, None, [120, 120, 120], [117, 100, 85], 680, 360, None, 70)
-        self.quitBtn    = Button("Quit to main menu",   None, None, [120, 120, 120], [117, 100, 85], 560, 525, None, 70)
+        self.startBtn   = Button("Start",               None, None, [47, 253, 39], [255, 255, 255], 50, 250, None, 120)
+        self.optionsBtn = Button("Options",             None, None, [47, 253, 39], [255, 255, 255], 50, 400, None, 120)
+        self.quitBtn    = Button("Quit to main menu",   None, None, [47, 253, 39], [255, 255, 255], 50, 550, None, 120)
 
     def handle_events(self, events):
         for event in events:
@@ -26,7 +26,7 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
             pass
 
         if self.quitBtn.click():
-            SceneManager.SceneManager.goToScene("MainMenu.MainMenuScene")
+            SceneManager.SceneManager.goToScene("MainMenuScene.MainMenuScene")
 
     def render(self, screen):
         screen.blit(self.mainBG, (0, 0))

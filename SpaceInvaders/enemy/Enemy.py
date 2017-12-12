@@ -1,91 +1,96 @@
-import pygame
+import pygame, random
+from random import randint
 from Vector2 import Vector2
+from SpaceInvaders.enemy.EnemyBullet import EnemyBullet
 
 class Enemy(pygame.sprite.Sprite):
 
-    def __init__(self, pos, *sprite_groups):
+    def __init__(self, pos, image, *sprite_groups):
         super().__init__(*sprite_groups)
 
         self.enemyImage1 = pygame.image.load("SpaceInvaders/images/Enemy1.png").convert_alpha()
-        self.enemyImage1 = pygame.transform.scale(self.enemyImage1, (100, 100))
+        self.enemyImage1 = pygame.transform.scale(self.enemyImage1, (50, 50))
         self.enemyMask = pygame.mask.from_surface(self.enemyImage1)
+
+        self.enemyImage2 = pygame.image.load("SpaceInvaders/images/Enemy2.png").convert_alpha()
+        self.enemyImage2 = pygame.transform.scale(self.enemyImage2, (50, 50))
+        self.enemyImage3 = pygame.image.load("SpaceInvaders/images/Enemy3.png").convert_alpha()
+        self.enemyImage3 = pygame.transform.scale(self.enemyImage3, (50, 50))
+        self.enemyImage4 = pygame.image.load("SpaceInvaders/images/Enemy4.png").convert_alpha()
+        self.enemyImage4 = pygame.transform.scale(self.enemyImage4, (50, 50))
+        self.enemyImage5 = pygame.image.load("SpaceInvaders/images/Enemy5.png").convert_alpha()
+        self.enemyImage5 = pygame.transform.scale(self.enemyImage5, (50, 50))
 
         self.position = pos
         self.direction = 0  # What is the angle of this enemy(used for rotating)
-        self.health = 100
 
-        self.movementSideways = 6
-        self.movementSpeed = 100
+        self.movementSideways = 21
         self.movementDirectionToRight = True
-        self.movementMoveEnemy = False
+        self.movementDownwardsMax = 9
 
-        self.movementTimer = 100
-        self.movementTimerOriginalTime = self.movementTimer
+        self.movementTimer = 0
 
         self.hasDied = False
 
-        self.image = self.enemyImage1
-        self.rect = self.enemyImage1.get_rect()
+        if image == 0:
+            self.image = self.enemyImage1
+            self.rect = self.enemyImage1.get_rect()
+        elif image == 1:
+            self.image = self.enemyImage2
+            self.rect = self.enemyImage2.get_rect()
+        elif image == 2:
+            self.image = self.enemyImage3
+            self.rect = self.enemyImage3.get_rect()
+        elif image == 3:
+            self.image = self.enemyImage4
+            self.rect = self.enemyImage4.get_rect()
+        elif image == 4:
+            self.image = self.enemyImage5
+            self.rect = self.enemyImage5.get_rect()
 
         self.rect.center = self.position
 
-    def takeDamage(self, damageTaken):
-        pass
-        # raise NotImplemented
-        self.health -= damageTaken
-
-        if self.health > 0:
-            self.die()
-
     def die(self):
-        pass
-        #raise NotImplemented
-
         if self.hasDied is False:
             self.kill()
             self.hasDied = True
 
-    def update(self, deltaTime):
+    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites):
 
         if self.hasDied is False:
 
-            # Must move
-            if self.movementTimer == 0:
-                self.movementMoveEnemy = True
+            # add Timer
+            self.movementTimer += deltaTime
 
             # Timer
-            if self.movementTimer > 0:
-                self.movementTimer -= 1
-            else:
-                self.movementTimer = self.movementTimerOriginalTime
+            if self.movementTimer >= 1:
 
-            # Move enemy
-            if self.movementMoveEnemy:
+                if randint(1, 50) == 1:
+                    posToShootFrom = Vector2(self.position.x, self.position.y)  # Center of the sprite.
+                    self.shoot(posToShootFrom, allSprites, bulletSprites)
+
                 if self.movementSideways > 0:
+
                     if self.movementDirectionToRight:
-                        # Left
-                        print("Pos:" + str(self.position))
-                        self.position = self.position + Vector2(self.movementSpeed, 0)
-                        print("Pos:" + str(self.position))
-                        # self.position += moveToMousePosVector * self.movementSpeed * deltaTime
+                        self.position += Vector2(50, 0)
                     else:
-                        # Right
-                        self.position = self.position - Vector2(self.movementSpeed, 0)
+                        self.position -= Vector2(50, 0)
+
                     self.movementSideways -= 1
                 else:
-                    # Go downwards
-                    self.position = self.position + Vector2(0, self.movementSpeed)
+                    if self.movementDownwardsMax > 0:
+                        self.position += Vector2(0, 50)
 
-                    if self.movementDirectionToRight:
-                        self.movementDirectionToRight = False
+                        self.movementDirectionToRight = not self.movementDirectionToRight
+                        self.movementSideways = 21
+                        self.movementDownwardsMax -= 1
                     else:
-                        self.movementDirectionToRight = True
+                        # Game Over
+                        pass
 
-                    self.movementSideways = 6
+                self.rect = self.image.get_rect()   # Move image
+                self.rect.center = self.position    # Move image
+                self.movementTimer = 0
 
-                self.movementMoveEnemy = False
-            # Move 6x sideways
-            # Move 1x down
-            # Reverse direction
-            # Ect
-
+    def shoot(self, spawnPosition, allSprites, bulletSprites):
+        bulletToShoot = EnemyBullet(spawnPosition, allSprites, bulletSprites)
