@@ -11,6 +11,9 @@ class DXBallMainMenuScene (SceneManager.Scene):
     def __init__(self):
         super(DXBallMainMenuScene, self).__init__()
 
+        #pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overddrive.mp3')
+        #pygame.mixer.music.play(loops=-1)
+
         # shows the mouse
         pygame.mouse.set_visible(False)
         # loads the background and changes it to fit the screen
@@ -19,14 +22,11 @@ class DXBallMainMenuScene (SceneManager.Scene):
 
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
-        self.paddleSprites = pygame.sprite.Group()
-
+        self.ballcollideSprites = pygame.sprite.Group()
 
         Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
-        Paddle(self.allSprites, self.paddleSprites)
+        Paddle(self.allSprites, self.ballcollideSprites)
 
-       # self.x = 800    #player
-       # self.y = 750   #player
         self.isPaused = False
         self.pausedSurface = pygame.Surface((1600, 900))
         self.pausedSurface.set_alpha(90)
@@ -73,14 +73,9 @@ class DXBallMainMenuScene (SceneManager.Scene):
 
 
     def update(self, deltaTime):
-        self.allSprites.update(deltaTime)
+        self.allSprites.update(deltaTime, self.allSprites, self.ballSprites, self.ballcollideSprites)
         pressed = pygame.key.get_pressed()
-        #if pressed[pygame.K_RIGHT]: self.x += 500 * deltaTime
-        #if pressed[pygame.K_LEFT]: self.x -= 500 * deltaTime
-        #if self.x <= 0:
-            #self.x = 0
-        #if self.x >= 1360:
-            #self.x = 1360
+
         if pressed[pygame.K_p]:
             self.isPaused = True
         if pressed[pygame.K_o]:
