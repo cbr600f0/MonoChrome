@@ -155,7 +155,7 @@ class Player(pygame.sprite.Sprite):
 pygame.init()
 
 # Create an 800x600 sized screen
-screen = pygame.display.set_mode([1600, 900])
+screen = pygame.display.set_mode([800, 600])
 
 # Set the title of the window
 pygame.display.set_caption('Breakout')

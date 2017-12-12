@@ -20,7 +20,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.move_ip(self.position)
 
 
-    def update(self, deltaTime):
+    def update(self, deltaTime, allsprites, ball):
         self.position += self.velocityVector * deltaTime
         self.rect.center = self.position
 
@@ -34,3 +34,4 @@ class Ball(pygame.sprite.Sprite):
         if self.position.y >= 875:
             self.velocityVector = self.velocityVector.reflect(Vector2(0, 1))
 
+        pygame.spritecollide(self, group)
