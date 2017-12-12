@@ -17,7 +17,7 @@ class BubbleShooterScene(SceneManager.Scene):
         self.DiscoBallImage = 'BubbleShooter\Images\Player.png'
         self.DiscoBallImageWidth = 100
         self.DiscoBallImageHeight = 100
-        # Creates the player and their functions
+        # Creates the player and their
         self.Player = {}
         self.Player['xStartPos'] = ((self.backgroundImageRect.width / 2) + self.DiscoBallImageWidth / 2)
         self.Player['yStartPos'] = ((self.backgroundImageRect.height / 2.5) + self.DiscoBallImageHeight / 2)
