@@ -20,8 +20,10 @@ class Ball (pygame.sprite.Sprite):
 
 
     def update(self, deltaTime):
-        self.position += self.velocityVector * deltaTime
-        self.rect.center = self.position
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_SPACE]:
+            self.position += self.velocityVector * deltaTime
+            self.rect.center = self.position
 
         if self.position.x <= 25:
             self.velocityVector = Vector2(-self.velocityVector.x, self.velocityVector.y)
@@ -32,3 +34,6 @@ class Ball (pygame.sprite.Sprite):
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
         if self.position.y >= 875:
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
+
+    def handle_events(self, events):
+        pass

@@ -16,11 +16,18 @@ class PongMultiplayerScene (SceneManager.Scene):
         Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
         Player1(self.allSprites, self.playerSprites)
         Player2(self.allSprites, self.playerSprites)
+        self.is_white = True
+        if self.is_white:
+            self.color = (255, 255, 255)
+        else:
+            self.color = (0, 0, 0)
 
         self.myfont = pygame.font.SysFont("monospace", 26)
 
     def render(self, screen):
         screen.fill((0, 0, 0))
+        Start = self.myfont.render("Press SPACE to start.", 1, (self.color))
+        screen.blit(Start, (600, 250))
         self.allSprites.draw(screen)
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(0, 45, 1600, 5)) #barrier, scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(395, 0, 5, 45))  #scoreboard border
@@ -40,6 +47,14 @@ class PongMultiplayerScene (SceneManager.Scene):
 
         if pressed[pygame.K_BACKSPACE]:
             SceneManager.SceneManager.goToScene("Pong.PongMainMenuScene.PongMainMenuScene")
+        if self.is_white:
+            self.color = (255, 255, 255)
+        else:
+            self.color = (0, 0, 0)
+
+
 
     def handle_events(self, events):
-        pass
+        for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.is_white = not self.is_white
