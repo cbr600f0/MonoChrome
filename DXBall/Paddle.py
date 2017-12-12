@@ -5,36 +5,29 @@ from Vector2 import Vector2
 
 class Paddle (pygame.sprite.Sprite):
 
-    def __init__(self, pos, *sprite_groups):
+    def __init__(self, *sprite_groups):
         super().__init__(*sprite_groups)
-        #hoi
-        self.position = Vector2(800, 450)
 
-        self.Paddle = pygame.Surface((50,50 )).convert_alpha()
-        pygame.draw.rect(self.Paddle, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30))  # paddle
+        self.x = 800  # player
+        self.y = 400  # player
 
-        self.velocityVector = Vector2(-1000, 100)
+        self.paddleSurface = pygame.Surface((240, 30)).convert_alpha()
+        self.paddleSurface.fill((255, 255, 255))
+        #pygame.draw.rect(self.paddleSurface, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30))  # paddle
 
-        self.image = self.Paddle
-        self.rect = self.Paddle.get_rect()
-        self.rect.move_ip(self.position)
-
-
-    def update(self, deltaTime):
-        self.position += self.velocityVector * deltaTime
-        self.rect.center = self.position
-
-        if self.position.x <= 25:
-            self.velocityVector = Vector2(-self.velocityVector.x, self.velocityVector.y)
-        if self.position.x >= 1575:
-            self.velocityVector = Vector2(-self.velocityVector.x, self.velocityVector.y)
-
-        if self.position.y <= 25:
-            self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
-        if self.position.y >= 875:
-            self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
+        self.image = self.paddleSurface
+        self.rect = self.paddleSurface.get_rect()
+        self.rect.center = Vector2(self.x, self.y)
 
 
-
-
-
+    def update(self, deltaTime, allSprites, ballSprites, ballcollideSprites):
+        pressed = pygame.key.get_pressed()
+        if pressed[pygame.K_RIGHT]:
+            self.x += 950 * deltaTime
+        if pressed[pygame.K_LEFT]:
+            self.x -= 950 * deltaTime
+        if self.x <= 120:
+            self.x = 120
+        if self.x >= 1480:
+            self.x = 1480
+        self.rect.center = Vector2(self.x, self.y)

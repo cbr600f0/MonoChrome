@@ -9,7 +9,7 @@ class Enemy(pygame.sprite.Sprite):
         self.name = "Base Enemy"
         self.direction = 0  # What is the angle of this enemy(used for rotating)
         self.health = 100
-        self.movementSpeed = 120
+        self.movementSpeed = 80
         self.hasDied = False
         self.positionsToFollow = positionsToFollow
         self.destinationPosIndex = 0

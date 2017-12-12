@@ -5,19 +5,25 @@ class Player1 (pygame.sprite.Sprite):
     def __init__(self, *sprite_groups):
         super().__init__(*sprite_groups)
 
-        self.player1x = 30
-        self.player1y = 330
+        self.x = 60
+        self.y = 420
 
-        self.player1 = pygame.draw.rect(self.player1, [255, 255, 255], pygame.Rect(self.player1x, self.player1y, 30, 180))
+        self.player1Surface = pygame.Surface((30, 180)).convert_alpha()
+        self.player1Surface.fill((255, 255, 255))
+
+        self.image = self.player1Surface
+        self.rect = self.player1Surface.get_rect()
+        self.rect.center = Vector2(self.x, self.y)
 
 
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_w]:
-            self.player1y -= 500 * deltaTime
+            self.y -= 500 * deltaTime
         if pressed[pygame.K_s]:
-            self.player1y += 500 * deltaTime
-        if self.player1y < 50:
-            self.player1y = 50
-        if self.player1y > 720:
-            self.player1y = 720
+            self.y += 500 * deltaTime
+        if self.y < 140:
+            self.y = 140
+        if self.y > 810:
+            self.y = 810
+        self.rect.center = Vector2(self.x, self.y)

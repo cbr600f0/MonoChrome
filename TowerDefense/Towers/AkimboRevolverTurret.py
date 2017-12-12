@@ -6,14 +6,14 @@ from pygame.math import Vector2 as Vector2
 
 class AkimboRevolverTurret(Turret):
 
-    def __init__(self, pos, *sprite_groups):
+    def __init__(self, pos, levelReference, *sprite_groups):
         Turret.__init__(self, pos, *sprite_groups)
 
         self.bulletTimer = 0
-
+        self.levelReference = levelReference
         self.posToFollow = Vector2(0, 0)
-        self.turretWidth = 58
-        self.turretHeight = 114
+        self.turretWidth = 52
+        self.turretHeight = 103
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
         # self.turretImage = pygame.transform.rotozoom(self.turretImage, self.direction, 2) This has more quality (the 2 makes the image bigger by X2)
@@ -21,33 +21,34 @@ class AkimboRevolverTurret(Turret):
 
         self.image = self.turretImage
         self.rect = self.turretImage.get_rect()
-        self.rect.move_ip(self.position)
+        self.rect.center = self.position
 
         self.ShootLeftGun = True
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
-        enemyToShoot = self.getEnemiesInArea(self.position, self.range, enemySprites)
+        enemyToShoot = self.levelReference.getEnemiesInArea(self.position, self.range, enemySprites)
 
         if enemyToShoot is not None:
 
             self.posToFollow = enemyToShoot.position
             self.rotate()
             self.bulletTimer += deltaTime
-            if self.bulletTimer > 0.6:
+
+            if self.bulletTimer > 0.5:
 
                 if self.ShootLeftGun:
-                    offset = Vector2(50, -16).rotate(self.direction)
+                    offset = Vector2(48, -14).rotate(self.direction)
                 else:
-                    offset = Vector2(50, 16).rotate(self.direction)
-                    pass
+                    offset = Vector2(48, 14).rotate(self.direction)
 
                 posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
                 self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
-                self.bulletTimer = 0
+
                 self.ShootLeftGun = not self.ShootLeftGun
+                self.bulletTimer = 0
 
     def shoot(self, spawnPosition, allSprites, projectileSprites, enemyToFollow):
-        bulletToShoot = Bullet(spawnPosition, enemyToFollow, allSprites, projectileSprites)
+        Bullet(spawnPosition, enemyToFollow, allSprites, projectileSprites)
 
     def rotate(self):
 
@@ -58,20 +59,6 @@ class AkimboRevolverTurret(Turret):
         self.rect = self.image.get_rect()
         self.rect.center = self.position
         self.direction = angle
-
-    def getEnemiesInArea(self, position, radius, enemySprites):
-        closestEnemyPosition = None
-        closestEnemy = None
-        for enemy in enemySprites:
-            distanceToEnemy = self.position.get_distance(enemy.position)
-            if closestEnemyPosition is None:
-                closestEnemyPosition = distanceToEnemy
-                closestEnemy = enemy
-            elif  distanceToEnemy < closestEnemyPosition:
-                closestEnemyPosition = distanceToEnemy
-                closestEnemy = enemy
-
-        return closestEnemy
 
 
 

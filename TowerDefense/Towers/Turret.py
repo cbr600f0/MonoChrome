@@ -10,4 +10,4 @@ class Turret(pygame.sprite.Sprite):
         self.name = "Base Turret"
         self.position = pos
         self.direction = 0 # What is the angle of this turret(Used for rotating the turret)
-        self.range = 140
+        self.range = 200

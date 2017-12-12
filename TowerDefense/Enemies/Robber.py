@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from TowerDefense.Enemies.Enemy import Enemy
 from Vector2 import Vector2
 
@@ -11,6 +11,7 @@ class Robber(Enemy):
         self.health = 100
         self.enemyWidth = 90
         self.enemyHeight = 56
+        self.movementSpeed = 120
 
         self.levelReference = levelReference
 
@@ -50,7 +51,7 @@ class Robber(Enemy):
                                                       self.positionsToFollow[self.destinationPosIndex][1])
                     self.rotate()
                 else:
-                    self.levelReference.gold -= self.goldToSteal
+                    self.levelReference.gold -= self.goldToSteal# Reached the end
                     self.hasDied = True
                     self.kill()
 
@@ -60,14 +61,12 @@ class Robber(Enemy):
             self.rect = self.image.get_rect()
             self.rect.center = self.position
 
-        pass
-
-
     def rotate(self):
 
         #  Move towards PosToFollow
         PosToFollowLookatVector = self.nextPositionToGoTo - self.position
-        self.direction = -PosToFollowLookatVector.angle - 90
+        self.direction = -PosToFollowLookatVector.angle - 90 # this is NOT the correct way to do this check how AkimboRevolverTurret does rotating!
+
         self.image = pygame.transform.rotate(self.enemyImage, self.direction)  # the image is rotated the wrong way so the plus 90 fixed this
         self.rect = self.image.get_rect()
         self.rect.center = self.position

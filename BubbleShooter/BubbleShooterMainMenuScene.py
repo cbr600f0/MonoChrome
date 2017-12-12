@@ -42,7 +42,8 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         pygame.display.update()
 
         if(self.NewGameButton.click()):
-            SceneManager.SceneManager.currentScene = BubbleShooterScene.BubbleShooterScene()
+            # SceneManager.goToScene(BubbleShooterScene.BubbleShooterScene())
+            SceneManager.SceneManager.goToScene('BubbleShooter.BubbleShooterScene.BubbleShooterScene')
         if (self.PasswordButton.click()):
             pass
         if (self.OptionsButton.click()):

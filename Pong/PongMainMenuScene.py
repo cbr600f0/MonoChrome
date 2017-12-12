@@ -1,7 +1,6 @@
 import pygame
 import SceneManager
 from ButtonClass import Button
-from Pong import PongMultiplayerScene
 
 class PongMainMenuScene (SceneManager.Scene):
 
