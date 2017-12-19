@@ -60,7 +60,6 @@ class PongMultiplayerScene (SceneManager.Scene):
             self.color = (0, 0, 0)
 
 
-
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:

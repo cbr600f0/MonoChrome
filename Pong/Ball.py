@@ -34,6 +34,7 @@ class Ball (pygame.sprite.Sprite):
         if self.position.y >= 875:
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
 
+
     def handle_events(self, events):
         for event in events:
             pass

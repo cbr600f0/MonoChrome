@@ -3,8 +3,9 @@ import SceneManager
 import pygame.gfxdraw
 from DXBall.Ball import Ball
 from DXBall.Paddle import Paddle
+from DXBall.Block import Block
 from ButtonClass import Button
-from Vector2 import Vector2
+from pygame.math import Vector2
 
 class DXBallLevel1 (SceneManager.Scene):
 
@@ -22,6 +23,7 @@ class DXBallLevel1 (SceneManager.Scene):
 
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
+        self.blockSprites = pygame.sprite.Group()
         self.ballcollideSprites = pygame.sprite.Group()
 
         Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
@@ -32,36 +34,17 @@ class DXBallLevel1 (SceneManager.Scene):
         self.pausedSurface.set_alpha(90)
         self.pausedSurface.fill((150, 46, 91))
 
+        for i in range (8):
+            spawnPos = Vector2(100 * (i + 1) + 10 * i, 300)
+            if i == 0:
+                spawnPos = Vector2(100 * (i + 1), 300)
 
+            Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
 
         self.allSprites.draw(screen)
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(100, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(200, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(300, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(400, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(500, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(600, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(700, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(800, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(900, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1000, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1100, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1200, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1300, 200, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1400, 200, 99, 49))  # block
-
-
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(400, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(500, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(600, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(700, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(800, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(900, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1000, 300, 99, 49))  # block
-        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1100, 300, 99, 49))  # block
 
 
         if self.isPaused:
