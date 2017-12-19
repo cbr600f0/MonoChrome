@@ -26,7 +26,7 @@ class EnemyBullet(pygame.sprite.Sprite):
         self.rect = self.playerBulletImage.get_rect()
         self.rect.center = self.position
 
-    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites):
+    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites, bossSprites):
 
         self.position.y += (self.speed * deltaTime)
 

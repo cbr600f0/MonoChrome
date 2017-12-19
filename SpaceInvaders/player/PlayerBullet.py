@@ -26,7 +26,7 @@ class PlayerBullet(pygame.sprite.Sprite):
         self.rect = self.playerBulletImage.get_rect()
         self.rect.center = self.position
 
-    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites):
+    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites, bossSprites):
 
         self.position.y -= (self.speed * deltaTime)
 
@@ -41,4 +41,8 @@ class PlayerBullet(pygame.sprite.Sprite):
         # Collision
         for enemyHit in pygame.sprite.spritecollide(self, enemySprites, False):
             enemyHit.die()
+            self.kill()
+
+        for bossHit in pygame.sprite.spritecollide(self, bossSprites, False):
+            bossHit.takeDamage()
             self.kill()
