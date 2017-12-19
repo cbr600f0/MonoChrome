@@ -179,13 +179,11 @@ class Level1Scene(SceneManager.Scene):
                     if self.turretToPlaceName == "Akimbo":
                         if turret.collisionRect.colliderect(self.akimboShopSquare.collisionRect):
                             isMouseClickInsideUnplaceableBounds = True
-                            print("Placed inside another turret AKIMBO")
                             break
 
                     if self.turretToPlaceName == "tntTurret":
                         if turret.collisionRect.colliderect(self.tntShopSqaure.collisionRect):
                             isMouseClickInsideUnplaceableBounds = True
-                            print("Placed inside another turret TNT")
                             break
 
                 if isMouseClickInsideUnplaceableBounds == False:
