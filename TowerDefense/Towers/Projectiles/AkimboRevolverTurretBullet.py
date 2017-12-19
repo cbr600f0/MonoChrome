@@ -11,7 +11,7 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
         self.position = Vector2(pos)
 
-        self.velocity = 600
+        self.velocity = 620
         self.damage = 40
         self.direction = 0
 
@@ -43,6 +43,9 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
             if pygame.sprite.collide_mask(self, self.enemyToFollow):
                 self.enemyToFollow.takeDamage(self.damage)
                 self.kill()
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
     def rotate(self):
 
