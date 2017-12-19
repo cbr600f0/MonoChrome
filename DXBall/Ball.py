@@ -8,15 +8,15 @@ class Ball(pygame.sprite.Sprite):
 
     def __init__(self, pos, *sprite_groups):
         super().__init__(*sprite_groups)
+
         self.position = Vector2(750, 400)
 
         self.ball = pygame.Surface((50, 50))
-        self.ball.fill((0, 0, 0))
-        pygame.Surface.convert_alpha(self.ball)
+        self.ball = self.ball.convert_alpha()
         pygame.draw.ellipse(self.ball, [153, 255, 153], pygame.Rect(0, 0, 50, 50))  # ball
 
         # set velocity to x to -1000 and y to 100
-        self.velocityVector = Vector2(-1000, 300)
+        self.velocityVector = Vector2(-800, 300)
 
         self.image = self.ball
         self.rect = self.ball.get_rect()
@@ -32,31 +32,19 @@ class Ball(pygame.sprite.Sprite):
 
         if self.position.y <= 90:
             self.velocityVector = self.velocityVector.reflect(Vector2(0, -1))
-        if self.position.y >= 750:
-            self.velocityVector = self.velocityVector.reflect(Vector2(0, 1))
+        if self.position.y >= 850:
+            #self.velocityVector = Vector2(0, 600)
+            self.position.x = 800
+            self.position.y = 450
 
 
-
-        for collidedSprite in pygame.sprite.spritecollide(self, ballcollideSprites, False):
-            if self.rect.top <= collidedSprite.rect.bottom and self.rect.top >= collidedSprite.rect.bottom - 5:  # Moving up; Hit the bottom side of the wall
-                print("collided with the bottom of paddle")
-
+        collidedSprite = pygame.sprite.spritecollideany(self, ballcollideSprites)
+        if collidedSprite is not None:
+            if isinstance(collidedSprite, Paddle):
                 self.velocityVector = self.velocityVector.reflect(Vector2(0, -1))
-
-            elif self.rect.bottom >= collidedSprite.rect.top and self.rect.bottom <= collidedSprite.rect.top + 5:  # Moving up; Hit the bottom side of the wall
-                print("collided with the top of paddle")
-
-                self.velocityVector = self.velocityVector.reflect(Vector2(0, 1))
-
-            elif self.rect.left <= collidedSprite.rect.right and self.rect.left <= collidedSprite.rect.right + 10:
-                print("collided with the right of paddle")
-
-                self.velocityVector = self.velocityVector.reflect(Vector2(-1, 0))
-
-            elif self.rect.right >= collidedSprite.rect.left and self.rect.right >= collidedSprite.rect.left - 10:
-                print("collided with the left of paddle")
-
-                self.velocityVector = self.velocityVector.reflect(Vector2(1, 0))
+                pass
+            else:
+                collidedSprite.kill()
 
         self.position += self.velocityVector * deltaTime
         self.rect.center = self.position
