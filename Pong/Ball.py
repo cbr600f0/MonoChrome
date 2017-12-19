@@ -29,7 +29,7 @@ class Ball (pygame.sprite.Sprite):
         if self.position.x >= 1575:
             self.velocityVector = Vector2(-self.velocityVector.x, self.velocityVector.y)
 
-        if self.position.y <= 25:
+        if self.position.y <= 65:
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
         if self.position.y >= 875:
             self.velocityVector = Vector2(-self.velocityVector.y, self.velocityVector.x)
