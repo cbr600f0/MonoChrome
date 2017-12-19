@@ -9,9 +9,10 @@ class Paddle (pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
 
         self.x = 800  # player
-        self.y = 400  # player
+        self.y = 750  # player
 
-        self.paddleSurface = pygame.Surface((240, 30)).convert_alpha()
+        #pygamesurface((240, 30))
+        self.paddleSurface = pygame.Surface((240, 5)).convert_alpha()
         self.paddleSurface.fill((255, 255, 255))
         #pygame.draw.rect(self.paddleSurface, [255, 255, 255], pygame.Rect(self.x, self.y, 240, 30))  # paddle
 

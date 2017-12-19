@@ -10,11 +10,13 @@ class Ball(pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
         self.position = Vector2(750, 400)
 
-        self.ball = pygame.Surface((50, 50)).convert_alpha()
+        self.ball = pygame.Surface((50, 50))
+        self.ball.fill((0, 0, 0))
+        pygame.Surface.convert_alpha(self.ball)
         pygame.draw.ellipse(self.ball, [153, 255, 153], pygame.Rect(0, 0, 50, 50))  # ball
 
         # set velocity to x to -1000 and y to 100
-        self.velocityVector = Vector2(-1000, 0)
+        self.velocityVector = Vector2(-1000, 300)
 
         self.image = self.ball
         self.rect = self.ball.get_rect()
@@ -28,9 +30,9 @@ class Ball(pygame.sprite.Sprite):
         if self.position.x >= 1575:
             self.velocityVector = self.velocityVector.reflect(Vector2(1, 0))
 
-        if self.position.y <= 25:
+        if self.position.y <= 90:
             self.velocityVector = self.velocityVector.reflect(Vector2(0, -1))
-        if self.position.y >= 875:
+        if self.position.y >= 750:
             self.velocityVector = self.velocityVector.reflect(Vector2(0, 1))
 
 
