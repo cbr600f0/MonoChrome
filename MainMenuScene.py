@@ -26,7 +26,6 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.BubbleShooterBtn.draw(screen)
         self.DXBallBtn.draw(screen)
 
-
     # The function of this method is explained in the class Scene
     def update(self, deltaTime):
         # SceneManager.SceneMananger.goToScene( Folder . File . Class name )

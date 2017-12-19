@@ -22,7 +22,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.ball.get_rect()
         self.rect.center = self.position
 
-
     def update(self, deltaTime, allSprites, ballSprites, ballcollideSprites):
 
         if self.position.x <= 25:
