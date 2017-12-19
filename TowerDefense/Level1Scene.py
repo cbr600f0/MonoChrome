@@ -5,6 +5,7 @@ from TowerDefense.Towers.AkimboRevolverTurret import AkimboRevolverTurret
 from TowerDefense.Towers.TntTurret import TntTurret
 from TowerDefense.Enemies.Robber import Robber
 from TowerDefense.ShopTurretSquare import ShopTurretSquare
+from TowerDefense.Towers.Turret import Turret
 
 
 class Level1Scene(SceneManager.Scene):
@@ -52,10 +53,8 @@ class Level1Scene(SceneManager.Scene):
         self.goldLbl = self.westernFont.render("Gold: " + str(self.gold), True, [0, 0, 0])
         self.roundLbl = self.westernFont.render("Round: " + str(self.currentRound), True, [0, 0, 0])
 
-        self.akimboShopSquare = ShopTurretSquare(1390, 100, "Akimbo", 200)
-        self.akimboShopSquare.turretRange = 280
-        self.tntShopSqaure = ShopTurretSquare(1390, 240, "Tnt", 350 )
-        self.tntShopSqaure.turretRange = 210
+        self.akimboShopSquare = ShopTurretSquare(1390, 100, "Akimbo", 280, 200)
+        self.tntShopSqaure = ShopTurretSquare(1390, 240, "Tnt", 210, 350)
 
         self.akimboShopRect = None
         self.isHoveringOverAkimboShopRect = False
@@ -165,29 +164,42 @@ class Level1Scene(SceneManager.Scene):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mousePos = pygame.mouse.get_pos()
 
-                spriteHasBeenFocused = False
-                for sprite in self.allSprites.sprites():
+                if self.akimboShopSquare.isDragginTurret == False and self.tntShopSqaure.isDragginTurret == False:
+                    spriteHasBeenFocused = False
+                    for sprite in self.allSprites.sprites():
 
-                    if sprite.rect.collidepoint(mousePos) and spriteHasBeenFocused == False:
-                        sprite.isFocusedByUser = True
-                        spriteHasBeenFocused = True
-                    else:
-                        sprite.isFocusedByUser = False
+                        if sprite.rect.collidepoint(mousePos) and spriteHasBeenFocused == False:
+                            sprite.isFocusedByUser = True
+                            spriteHasBeenFocused = True
+                        else:
+                            sprite.isFocusedByUser = False
 
                 isMouseClickInsideUnplaceableBounds = False
-                for unplaceableBounds in self.unableToPlaceRects:
-
+                for turret in self.turretSprites.sprites():
                     if self.turretToPlaceName == "Akimbo":
-                        turretToPlaceRect = pygame.Rect(self.akimboShopSquare.dragImageRect.x, self.akimboShopSquare.dragImageRect.y, 100, 100)
-                        if unplaceableBounds.colliderect(turretToPlaceRect):
+                        if turret.collisionRect.colliderect(self.akimboShopSquare.collisionRect):
                             isMouseClickInsideUnplaceableBounds = True
+                            print("Placed inside another turret AKIMBO")
                             break
 
                     if self.turretToPlaceName == "tntTurret":
-                        turretToPlaceRect = pygame.Rect(self.tntShopSqaure.dragImageRect.x, self.tntShopSqaure.dragImageRect.y, 100, 100)
-                        if unplaceableBounds.colliderect(turretToPlaceRect):
+                        if turret.collisionRect.colliderect(self.tntShopSqaure.collisionRect):
                             isMouseClickInsideUnplaceableBounds = True
+                            print("Placed inside another turret TNT")
                             break
+
+                if isMouseClickInsideUnplaceableBounds == False:
+                    for unplaceableBounds in self.unableToPlaceRects:
+
+                        if self.turretToPlaceName == "Akimbo":
+                            if unplaceableBounds.colliderect(self.akimboShopSquare.collisionRect):
+                                isMouseClickInsideUnplaceableBounds = True
+                                break
+
+                        if self.turretToPlaceName == "tntTurret":
+                            if unplaceableBounds.colliderect(self.tntShopSqaure.collisionRect):
+                                isMouseClickInsideUnplaceableBounds = True
+                                break
 
                 if isMouseClickInsideUnplaceableBounds == False:
 
@@ -225,7 +237,7 @@ class Level1Scene(SceneManager.Scene):
         if self.getPathRects:
             for index, lineLocation in enumerate(self.linePositions):
                 if (index + 1 >= len(self.linePositions)) == False:
-                    self.unableToPlaceRects.append(pygame.draw.line(screen, COLOR, lineLocation, self.linePositions[index + 1], 70))
+                    self.unableToPlaceRects.append(pygame.draw.line(screen, COLOR, lineLocation, self.linePositions[index + 1], 80))
 
             self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(1090, 500, 70, 70))) # This is a rect to fix an open corner of level1
             self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(370, 800, 70, 70))) # This is a rect to fix an open corner of level1
@@ -233,8 +245,8 @@ class Level1Scene(SceneManager.Scene):
             self.getPathRects = False
 
             for index, linePos in enumerate(self.linePositions):
-                self.linePositions[index][0] += 34
-                self.linePositions[index][1] += 34
+                self.linePositions[index][0] += 40
+                self.linePositions[index][1] += 40
         else:
             for lineRect in self.unableToPlaceRects:
                 pygame.draw.rect(screen, COLOR, lineRect)

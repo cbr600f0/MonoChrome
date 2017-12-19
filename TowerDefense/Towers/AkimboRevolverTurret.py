@@ -25,6 +25,8 @@ class AkimboRevolverTurret(Turret):
         self.rect = self.turretImage.get_rect()
         self.rect.center = self.position
 
+        self.collisionRect = pygame.Rect(math.floor(self.position.x - 30), math.floor(self.position.y - 47), 60, 94)
+
         self.ShootLeftGun = True
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
