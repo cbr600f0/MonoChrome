@@ -10,7 +10,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
         super(DXBallMainMenuScene, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\MiamiNights1984-Accelerated.ogg')
-        pygame.mixer.music.play(loops=-1)
+        #pygame.mixer.music.play(loops=-1)
 
         self.mainBG = pygame.image.load("DXBall\Images\menuschermv3.titel.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
