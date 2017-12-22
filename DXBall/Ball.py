@@ -22,8 +22,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.ballSurface.get_rect()
         self.rect.topleft = (self.position.x, self.position.y)
 
-        self.lastCollidedSprite = None
-
     def update(self, deltaTime, allSprites, ballSprites, ballcollideSprites):
 
         self.rect = pygame.Rect(self.rect)

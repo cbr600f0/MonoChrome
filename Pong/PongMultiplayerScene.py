@@ -10,12 +10,15 @@ class PongMultiplayerScene (SceneManager.Scene):
 
     def __init__(self):
         super(PongMultiplayerScene, self).__init__()
+
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
         self.playerSprites = pygame.sprite.Group()
-        Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
+
+        Ball(self.allSprites, self.ballSprites)
         Player1(self.allSprites, self.playerSprites)
         Player2(self.allSprites, self.playerSprites)
+
         self.hasStarted = False
         self.is_white = True
         if self.is_white:
@@ -47,8 +50,7 @@ class PongMultiplayerScene (SceneManager.Scene):
     def update(self, deltaTime):
 
         if self.hasStarted:
-
-            self.allSprites.update(deltaTime)
+            self.allSprites.update(deltaTime, self.playerSprites)
 
         pressed = pygame.key.get_pressed()
 
