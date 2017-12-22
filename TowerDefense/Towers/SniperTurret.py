@@ -1,9 +1,10 @@
 import pygame, math
 from TowerDefense.Towers.Turret import Turret
-from TowerDefense.Towers.Projectiles.AkimboRevolverTurretBullet import AkimboRevolverTurretBullet as Bullet
+from TowerDefense.Towers.Projectiles.SniperBullet import SniperBullet as Bullet
 from pygame.math import Vector2 as Vector2
 
-class AkimboRevolverTurret(Turret):
+
+class SniperTurret(Turret):
 
     def __init__(self, pos, levelReference, *sprite_groups):
         Turret.__init__(self, pos, *sprite_groups)
@@ -11,11 +12,11 @@ class AkimboRevolverTurret(Turret):
         self.bulletTimer = 0
         self.levelReference = levelReference
         self.posToFollow = Vector2(0, 0)
-        self.turretWidth = 48
+        self.turretWidth = 50
         self.turretHeight = 98
-        self.range = 180
+        self.range = 440
 
-        self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
+        self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\SniperTurret.png").convert_alpha()
         self.turretImage = pygame.transform.scale(self.turretImage, (self.turretWidth, self.turretHeight))
 
         self.outlineTurretImage = self.getOutline(self.turretImage, [0, 0, 0])
@@ -25,9 +26,7 @@ class AkimboRevolverTurret(Turret):
         self.rect = self.turretImage.get_rect()
         self.rect.center = self.position
 
-        self.collisionRect = pygame.Rect(math.floor(self.position.x - 30), math.floor(self.position.y - 47), 56, 90)
-
-        self.ShootLeftGun = True
+        self.collisionRect = pygame.Rect(math.floor(self.position.x - 30), math.floor(self.position.y - 47), 56, 102)
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
         enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, enemySprites)
@@ -40,15 +39,9 @@ class AkimboRevolverTurret(Turret):
 
             if self.bulletTimer > 0.5:
 
-                if self.ShootLeftGun:
-                    offset = Vector2(48, -14).rotate(self.direction)
-                else:
-                    offset = Vector2(48, 14).rotate(self.direction)
-
-                posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
+                posToShootFrom = Vector2(self.position.x, self.position.y) + Vector2(50, 14).rotate(self.direction)
                 self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
 
-                self.ShootLeftGun = not self.ShootLeftGun
                 self.bulletTimer = 0
 
     def draw(self, screen):

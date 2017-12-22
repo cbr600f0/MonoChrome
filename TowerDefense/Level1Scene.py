@@ -3,6 +3,7 @@ from ButtonClass import Button
 from Vector2 import Vector2
 from TowerDefense.Towers.AkimboRevolverTurret import AkimboRevolverTurret
 from TowerDefense.Towers.TntTurret import TntTurret
+from TowerDefense.Towers.SniperTurret import SniperTurret
 from TowerDefense.Enemies.Robber import Robber
 from TowerDefense.ShopTurretSquare import ShopTurretSquare
 from TowerDefense.Towers.Turret import Turret
@@ -53,13 +54,16 @@ class Level1Scene(SceneManager.Scene):
         self.goldLbl = self.westernFont.render("Gold: " + str(self.gold), True, [0, 0, 0])
         self.roundLbl = self.westernFont.render("Round: " + str(self.currentRound), True, [0, 0, 0])
 
-        self.akimboShopSquare = ShopTurretSquare(1390, 100, "Akimbo", 280, 200)
+        self.akimboShopSquare = ShopTurretSquare(1390, 100, "Akimbo", 180, 200)
         self.tntShopSqaure = ShopTurretSquare(1390, 240, "Tnt", 210, 350)
+        self.sniperShopSquare = ShopTurretSquare(1390, 380, "Sniper", 440, 600)
 
         self.akimboShopRect = None
         self.isHoveringOverAkimboShopRect = False
         self.tntShopRect = None
         self.isHoveringOverTntShopRect = False
+        self.sniperShopRect = None
+        self.isHoveringOverSniperShopRect = False
 
         self.turretToPlaceName = ""
 
@@ -164,7 +168,7 @@ class Level1Scene(SceneManager.Scene):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mousePos = pygame.mouse.get_pos()
 
-                if self.akimboShopSquare.isDragginTurret == False and self.tntShopSqaure.isDragginTurret == False:
+                if self.sniperShopSquare.isDragginTurret == False and self.akimboShopSquare.isDragginTurret == False and self.tntShopSqaure.isDragginTurret == False:
                     spriteHasBeenFocused = False
                     for sprite in self.allSprites.sprites():
 
@@ -181,8 +185,13 @@ class Level1Scene(SceneManager.Scene):
                             isMouseClickInsideUnplaceableBounds = True
                             break
 
-                    if self.turretToPlaceName == "tntTurret":
+                    if self.turretToPlaceName == "Tnt":
                         if turret.collisionRect.colliderect(self.tntShopSqaure.collisionRect):
+                            isMouseClickInsideUnplaceableBounds = True
+                            break
+
+                    if self.turretToPlaceName == "Sniper":
+                        if turret.collisionRect.colliderect(self.sniperShopSquare.collisionRect):
                             isMouseClickInsideUnplaceableBounds = True
                             break
 
@@ -194,8 +203,13 @@ class Level1Scene(SceneManager.Scene):
                                 isMouseClickInsideUnplaceableBounds = True
                                 break
 
-                        if self.turretToPlaceName == "tntTurret":
+                        if self.turretToPlaceName == "Tnt":
                             if unplaceableBounds.colliderect(self.tntShopSqaure.collisionRect):
+                                isMouseClickInsideUnplaceableBounds = True
+                                break
+
+                        if self.turretToPlaceName == "Sniper":
+                            if unplaceableBounds.colliderect(self.sniperShopSquare.collisionRect):
                                 isMouseClickInsideUnplaceableBounds = True
                                 break
 
@@ -206,14 +220,20 @@ class Level1Scene(SceneManager.Scene):
                         self.turretToPlaceName = ""
                         self.akimboShopSquare.isDragginTurret = False
 
-                    elif self.turretToPlaceName == "tntTurret":
+                    elif self.turretToPlaceName == "Tnt":
                         TntTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
                         self.turretToPlaceName = ""
                         self.tntShopSqaure.isDragginTurret = False
+
+                    elif self.turretToPlaceName == "Sniper":
+                        SniperTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
+                        self.turretToPlaceName = ""
+                        self.sniperShopSquare.isDragginTurret = False
                 else:
                     self.turretToPlaceName = ""
                     self.tntShopSqaure.isDragginTurret = False
                     self.akimboShopSquare.isDragginTurret = False
+                    self.sniperShopSquare.isDragginTurret = False
 
                 if self.gold >= self.akimboShopSquare.price and self.akimboShopSquare.isDragginTurret == False and self.akimboShopRect.collidepoint(mousePos):
                     self.akimboShopSquare.clicked()
@@ -221,13 +241,21 @@ class Level1Scene(SceneManager.Scene):
 
                 if self.gold >= self.tntShopSqaure.price and self.tntShopSqaure.isDragginTurret == False and self.tntShopRect.collidepoint(mousePos):
                     self.tntShopSqaure.clicked()
-                    self.turretToPlaceName = "tntTurret"
+                    self.turretToPlaceName = "Tnt"
+
+                if self.gold >= self.sniperShopSquare.price and self.sniperShopSquare.isDragginTurret == False and self.sniperShopRect.collidepoint(mousePos):
+                    self.sniperShopSquare.clicked()
+                    self.turretToPlaceName = "Sniper"
 
             if event.type == pygame.MOUSEMOTION:
                 mousePos = pygame.mouse.get_pos()
 
                 self.isHoveringOverAkimboShopRect = self.akimboShopRect.collidepoint(mousePos) # Mouse is hovering over this shop sqaure
                 self.isHoveringOverTntShopRect = self.tntShopRect.collidepoint(mousePos) # Mouse is hovering over this shop sqaure
+                self.isHoveringOverSniperShopRect = self.sniperShopRect.collidepoint(mousePos) # Mouse is hovering over this shop sqaure
+
+                if self.turretToPlaceName is not "":
+                    self.CheckHoverTurretCollision()
 
     def renderPath(self, screen):
         COLOR = [80, 60, 44]
@@ -237,8 +265,8 @@ class Level1Scene(SceneManager.Scene):
                 if (index + 1 >= len(self.linePositions)) == False:
                     self.unableToPlaceRects.append(pygame.draw.line(screen, COLOR, lineLocation, self.linePositions[index + 1], 80))
 
-            self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(1090, 500, 70, 70))) # This is a rect to fix an open corner of level1
-            self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(370, 800, 70, 70))) # This is a rect to fix an open corner of level1
+            self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(1090, 500, 80, 80))) # This is a rect to fix an open corner of level1
+            self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(370, 800, 80, 80))) # This is a rect to fix an open corner of level1
 
             self.getPathRects = False
 
@@ -282,3 +310,59 @@ class Level1Scene(SceneManager.Scene):
 
         self.akimboShopRect = self.akimboShopSquare.draw(screen, self.gold, self.isHoveringOverAkimboShopRect)
         self.tntShopRect = self.tntShopSqaure.draw(screen, self.gold, self.isHoveringOverTntShopRect)
+        self.sniperShopRect = self.sniperShopSquare.draw(screen, self.gold, self.isHoveringOverSniperShopRect)
+
+    def CheckHoverTurretCollision(self):
+        turretIsInsideSomething = False
+        for turret in self.turretSprites.sprites():
+            if self.turretToPlaceName == "Akimbo":
+                if turret.collisionRect.colliderect(self.akimboShopSquare.collisionRect):
+                    turretIsInsideSomething = True
+                    break
+
+            if self.turretToPlaceName == "Tnt":
+                if turret.collisionRect.colliderect(self.tntShopSqaure.collisionRect):
+                    turretIsInsideSomething = True
+                    break
+
+            if self.turretToPlaceName == "Sniper":
+                if turret.collisionRect.colliderect(self.sniperShopSquare.collisionRect):
+                    turretIsInsideSomething = True
+                    break
+
+        if turretIsInsideSomething == False:
+            for unplaceableBounds in self.unableToPlaceRects:
+
+                if self.turretToPlaceName == "Akimbo":
+                    if unplaceableBounds.colliderect(self.akimboShopSquare.collisionRect):
+                        turretIsInsideSomething = True
+                        break
+
+                if self.turretToPlaceName == "Tnt":
+                    if unplaceableBounds.colliderect(self.tntShopSqaure.collisionRect):
+                        turretIsInsideSomething = True
+                        break
+
+                if self.turretToPlaceName == "Sniper":
+                    if unplaceableBounds.colliderect(self.sniperShopSquare.collisionRect):
+                        turretIsInsideSomething = True
+                        break
+
+        if turretIsInsideSomething:
+            if self.turretToPlaceName == "Akimbo":
+                self.akimboShopSquare.changeOutlineColor((255, 0, 0))
+
+            if self.turretToPlaceName == "Tnt":
+                self.tntShopSqaure.changeOutlineColor((255, 0, 0))
+
+            if self.turretToPlaceName == "Sniper":
+                self.sniperShopSquare.changeOutlineColor((255, 0, 0))
+        else:
+            if self.turretToPlaceName == "Akimbo":
+                self.akimboShopSquare.changeOutlineColor((0, 0, 0))
+
+            if self.turretToPlaceName == "Tnt":
+                self.tntShopSqaure.changeOutlineColor((0, 0, 0))
+
+            if self.turretToPlaceName == "Sniper":
+                self.sniperShopSquare.changeOutlineColor((0, 0, 0))

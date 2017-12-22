@@ -2,7 +2,7 @@ import pygame
 from Vector2 import Vector2
 
 
-class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
+class SniperBullet(pygame.sprite.Sprite):
 
     def __init__(self, pos, enemyToFollow, *sprite_groups):
         super().__init__(*sprite_groups)
@@ -11,11 +11,11 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
         self.position = Vector2(pos)
 
-        self.velocity = 600
-        self.damage = 40
+        self.velocity = 1300
+        self.damage = 300
         self.direction = 0
 
-        self.bulletImage = pygame.Surface((4, 6)).convert_alpha()
+        self.bulletImage = pygame.Surface((5, 8)).convert_alpha()
         self.bulletImage.fill((0, 0, 0))
 
         self.bulletMask = pygame.mask.from_surface(self.bulletImage)
