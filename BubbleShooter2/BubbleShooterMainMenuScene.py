@@ -30,7 +30,7 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
 
     def update(self, deltaTime):
         if(self.NewGameButton.click()):
-            SceneManager.SceneManager.goToScene('BubbleShooter2.0.BubbleShooterScene.BubbleShooterScene')
+            SceneManager.SceneManager.goToScene('BubbleShooter2.BubbleShooterScene.BubbleShooterScene')
         if (self.PasswordButton.click()):
             pass
         if (self.OptionsButton.click()):
