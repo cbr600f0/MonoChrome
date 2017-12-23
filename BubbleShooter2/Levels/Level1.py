@@ -2,14 +2,6 @@ import sys, pygame, math
 from pygame.locals import *
 
 class level1():
-    def __init__(self):
-        pass
 
-    def render(self, screen):
-        pass
-
-    def handle_events(self, events):
-        pass
-
-    def update(self, deltaTime):
-        pass
+     def __init__(self):
+         self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 700])
