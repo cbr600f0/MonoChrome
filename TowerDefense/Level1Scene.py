@@ -45,10 +45,11 @@ class Level1Scene(SceneManager.Scene):
         self.mainBG = pygame.Surface((1600, 900))
         self.mainBG.fill([100, 80, 63])
 
-        self.backToMainMenuBtn = Button("Main menu", None, None, [120, 120, 120], [117, 100, 85], 100, 75, None, 60)
-        self.nextRoundBtn = Button("Next Round", None, None, [40, 40, 40], [0, 0, 0], 1324, 820, None, 60)
-
         self.westernFont = pygame.font.Font("TowerDefense\WesternFont.otf", 28)
+        self.backToMainMenuBtn = Button(False, self.westernFont, "Main menu", None, None, [120, 120, 120], [117, 100, 85], 100, 75, None, 60)
+        self.nextRoundFont = pygame.font.Font("TowerDefense\WesternFont.otf", 36)
+        self.nextRoundBtn = Button(False, self.nextRoundFont, "Next Round", None, None, [40, 40, 40], [0, 0, 0], 1360, 820, None, 60)
+
         self.difficultyLbl = self.westernFont.render("Difficulty: " + str(self.difficulty), True, [0, 0, 0])
         self.scoreLbl = self.westernFont.render("Score: " + str(self.score), True, [0, 0, 0])
         self.goldLbl = self.westernFont.render("Gold: " + str(self.gold), True, [0, 0, 0])

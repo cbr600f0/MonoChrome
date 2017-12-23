@@ -2,7 +2,7 @@ import pygame
 
 class Button:
 
-    def __init__(self, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), fontColor = (0, 0, 0),  xPos = 10, yPos = 30, width = None, height = 20):
+    def __init__(self, isSystemFont = False, font = None, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), fontColor = (0, 0, 0),  xPos = 10, yPos = 30, width = None, height = 20):
         self.text = text
         self.xPos = xPos
         self.yPos = yPos
@@ -18,7 +18,10 @@ class Button:
         self.clicked = False
         self.pyg = pygame
         self.fontColor = fontColor
-        self.font = self.pyg.font.SysFont(self.fontName, self.fontSize)
+        if isSystemFont:
+            self.font = self.pyg.font.SysFont(self.fontName, self.fontSize)
+        else:
+            self.font = font
         self.text_width, self.text_height = self.pyg.font.Font.size(self.font, self.text)
         self.onlyShowText = False
 

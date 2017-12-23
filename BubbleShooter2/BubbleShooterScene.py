@@ -28,16 +28,19 @@ class BubbleShooterScene(SceneManager.Scene):
 
         self.player = Player(self.allSprites, self.lightBallSprites, self.lightBallImages, self.allSprites, self.playerSprites)
 
-        self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 800])
+        self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 700])
         self.spawnTimer = 0
         self.ballsToSpawn = 10
 
 
+        mark = 0
         #     def __init__(self, spawnPos, playerInstance, lightBallImage, lightBallColor, *sprite_groups):
         for i in range(0, self.ballsToSpawn):
-            lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-            LightBall((self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, lightBallImage, lightBallColor, True, self.routePositions,self.allSprites, self.lightBallSprites)
-
+            mark += 1
+            if mark == 2:
+                mark = 0
+                lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
+                LightBall((self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
 
     def render(self, screen):
         self.allSprites.clear(screen, self.backgroundImage)
@@ -48,15 +51,31 @@ class BubbleShooterScene(SceneManager.Scene):
     def handle_events(self, events):
         self.player.eventHandler = events
         for event in events:
-            pass
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mousePos = pygame.mouse.get_pos()
+                for sprite in self.lightBallSprites.sprites():
+
+                    if sprite.rect.collidepoint(mousePos):
+                        sprite.kill()
 
     def update(self, deltaTime):
-        for lightBall in self.lightBallSprites:
-            if lightBall.isOnRoute:
-                lightBall.isLastInLine = True
-                break
-        self.allSprites.update(deltaTime, self.allSprites, self.lightBallSprites)
 
+        firstIsGettingPushed = False
+        for i in range(len(self.lightBallSprites.sprites())):
+            currentLightball = self.lightBallSprites.sprites()[i]
+            if currentLightball.isOnRoute:
+                if firstIsGettingPushed == False:
+                    currentLightball.canMove = True
+                    firstIsGettingPushed = True
+                if i < len(self.lightBallSprites.sprites()) - 1:
+                    nextLightballInList = self.lightBallSprites.sprites()[i + 1]
+
+                    if currentLightball.position.get_distance(nextLightballInList.position) < 40:
+                        nextLightballInList.canMove = True
+                    else:
+                        nextLightballInList.canMove = False
+
+        self.allSprites.update(deltaTime, self.allSprites, self.lightBallSprites)
 
     def spawnBalls(self):
         pass

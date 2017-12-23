@@ -7,12 +7,12 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         super(BubbleShooterMainMenuScene, self).__init__()
 
         # Adds buttons
-        self.NewGameButton = Button.Button("", None, None, (220, 220, 220), (220, 220, 220), 180, 75, 1280, 120)
-        self.PasswordButton = Button.Button("", None, None, (220, 220, 220), (220, 220, 220), 180, 280, 1280, 120)
-        self.OptionsButton = Button.Button("", None, None, (220, 220, 220), (220, 220, 220), 180, 487, 1280, 120)
-        self.QuitGameButton = Button.Button("", None, None,  (220, 220, 220), (220, 220, 220), 180, 690, 1280, 120)
+        self.NewGameButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 75, 1280, 120)
+        self.PasswordButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 280, 1280, 120)
+        self.OptionsButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 487, 1280, 120)
+        self.QuitGameButton = Button.Button(True, None, "", None, None,  (220, 220, 220), (220, 220, 220), 180, 690, 1280, 120)
 
-        self.backgroundImage = pygame.image.load('BubbleShooter\Images\MainMenu.png').convert_alpha()
+        self.backgroundImage = pygame.image.load('BubbleShooter2\Images\MainMenu.png').convert_alpha()
         self.backgroundImage = pygame.transform.scale(self.backgroundImage, (1600, 900))
         self.backgroundImageRect = self.backgroundImage.get_rect()
 
@@ -36,4 +36,4 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         if (self.OptionsButton.click()):
             pass
         if (self.QuitGameButton.click()):
-            SceneManager.SceneManager.goToScene('MainMenuScene.MainMenuScene')
+            SceneManager.SceneManager.goToScene('MainMenu.MainMenuScene.MainMenuScene')
