@@ -26,7 +26,6 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.BubbleShooterBtn.draw(screen)
         self.DXBallBtn.draw(screen)
 
-
     # The function of this method is explained in the class Scene
     def update(self, deltaTime):
         # SceneManager.SceneMananger.goToScene( Folder . File . Class name )
@@ -38,7 +37,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
             SceneManager.SceneManager.goToScene("Pong.PongMainMenuScene.PongMainMenuScene") # Changes the scene to Pong
 
         if self.spaceInvadersBtn.click():
-            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderMainMenuScene.SpaceInvaderMainMenuScene") # Changes the scene to SpaceInvaders
+            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderMainMenuScene.SpaceInvaderMainMenuScene", None) # Changes the scene to SpaceInvaders
 
         if self.BubbleShooterBtn.click():
             SceneManager.SceneManager.goToScene("BubbleShooter.BubbleShooterMainMenuScene.BubbleShooterMainMenuScene") # Changes the scene to BubbleShooter

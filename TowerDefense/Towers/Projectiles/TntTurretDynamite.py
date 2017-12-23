@@ -22,12 +22,12 @@ class TntTurretDynamite(pygame.sprite.Sprite):
 
         self.tntImage = dynamiteImages[0].convert_alpha()
         self.tntImage = pygame.transform.scale(self.tntImage, (16, 58))
+
         self.outlineDynamite = self.getOutline(self.tntImage, [0, 0, 0])
         self.tntImage.blit(self.outlineDynamite, (0, 0))
 
-        self.image = self.tntImage
-        self.rect = self.image.get_rect()
-        self.rect.center = self.position
+        self.AOESurface = pygame.Surface((self.areaOfEffect * 2, self.areaOfEffect * 2), pygame.SRCALPHA, 32)
+        self.AOESurfaceRect = self.AOESurface.get_rect()
 
         self.rotate()
         self.reacherDestination = False
@@ -41,7 +41,7 @@ class TntTurretDynamite(pygame.sprite.Sprite):
         self.changeImageTime = self.detonationTime / 4
 
         self.pauseTimer = 0
-        self.pauseTime = 1
+        self.pauseTime = 0.4
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
 
@@ -68,7 +68,6 @@ class TntTurretDynamite(pygame.sprite.Sprite):
                 self.tntImage = self.dynamiteImages[self.dynamiteImageIndex].convert_alpha()
 
                 if self.dynamiteImageIndex == 4:
-
                     self.tntImage = pygame.transform.scale(self.tntImage, (118, 83))
                 else:
                     self.tntImage = pygame.transform.scale(self.tntImage, (16, 58))
@@ -76,7 +75,7 @@ class TntTurretDynamite(pygame.sprite.Sprite):
                 self.outlineDynamite = self.getOutline(self.tntImage, [0, 0, 0])
                 self.tntImage.blit(self.outlineDynamite, (0, 0))
 
-                self.image = self.tntImage
+                self.image = pygame.transform.rotozoom(self.tntImage, self.direction, 1)
                 self.rect = self.image.get_rect()
                 self.rect.center = self.position
                 self.changeImageTimer = 0
@@ -95,8 +94,13 @@ class TntTurretDynamite(pygame.sprite.Sprite):
                     self.kill()
 
     def draw(self, screen):
+
+        if self.hasDetonated == False:
+            pygame.draw.circle(self.AOESurface, [255, 0, 0, 4], self.AOESurfaceRect.center, self.areaOfEffect)
+            pygame.draw.circle(self.AOESurface, [0, 0, 0, 60], self.AOESurfaceRect.center, self.areaOfEffect, 1)
+            screen.blit(self.AOESurface, (self.position.x - self.areaOfEffect, self.position.y - self.areaOfEffect))
+
         screen.blit(self.image, self.rect)
-        pygame.draw.circle(screen, [200, 0, 0], (math.floor(self.position.x), math.floor(self.position.y)), self.areaOfEffect, 2)
 
     def rotate(self):
 

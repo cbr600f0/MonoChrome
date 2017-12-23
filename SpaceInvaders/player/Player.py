@@ -32,8 +32,8 @@ class Player(pygame.sprite.Sprite):
     def takeDamage(self):
         self.lives -= 1
 
-        if self.lives <= 0:
-            print("Game over")
+    def getLives(self):
+        return self.lives
 
     def die(self):
         pass
@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
             self.kill()
             self.hasDied = True
 
-    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites):
+    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites, bossSprites):
 
         if self.hasDied is False:
 

@@ -18,8 +18,6 @@ class Enemy(pygame.sprite.Sprite):
         self.enemyImage3 = pygame.transform.scale(self.enemyImage3, (50, 50))
         self.enemyImage4 = pygame.image.load("SpaceInvaders/images/Enemy4.png").convert_alpha()
         self.enemyImage4 = pygame.transform.scale(self.enemyImage4, (50, 50))
-        self.enemyImage5 = pygame.image.load("SpaceInvaders/images/Enemy5.png").convert_alpha()
-        self.enemyImage5 = pygame.transform.scale(self.enemyImage5, (50, 50))
 
         self.position = pos
         self.direction = 0  # What is the angle of this enemy(used for rotating)
@@ -30,7 +28,11 @@ class Enemy(pygame.sprite.Sprite):
 
         self.movementTimer = 0
 
+        self.wave = 0
+        self.waveSpeed = 0
+
         self.hasDied = False
+        self.lastRow = False
 
         if image == 0:
             self.image = self.enemyImage1
@@ -44,9 +46,6 @@ class Enemy(pygame.sprite.Sprite):
         elif image == 3:
             self.image = self.enemyImage4
             self.rect = self.enemyImage4.get_rect()
-        elif image == 4:
-            self.image = self.enemyImage5
-            self.rect = self.enemyImage5.get_rect()
 
         self.rect.center = self.position
 
@@ -55,7 +54,17 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
             self.hasDied = True
 
-    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites):
+    def getLastRowInfo(self):
+        return self.lastRow
+
+    def setWave(self, wave):
+        self.wave = wave
+
+        self.waveSpeed = (1 - (self.wave / 100))
+        if self.waveSpeed < 0.25:
+            self.waveSpeed = 0.25
+
+    def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites, bossSprites):
 
         if self.hasDied is False:
 
@@ -63,7 +72,7 @@ class Enemy(pygame.sprite.Sprite):
             self.movementTimer += deltaTime
 
             # Timer
-            if self.movementTimer >= 1:
+            if self.movementTimer >= self.waveSpeed:
 
                 if randint(1, 50) == 1:
                     posToShootFrom = Vector2(self.position.x, self.position.y)  # Center of the sprite.
@@ -85,12 +94,11 @@ class Enemy(pygame.sprite.Sprite):
                         self.movementSideways = 21
                         self.movementDownwardsMax -= 1
                     else:
-                        # Game Over
-                        pass
+                        self.lastRow = True
 
                 self.rect = self.image.get_rect()   # Move image
                 self.rect.center = self.position    # Move image
                 self.movementTimer = 0
 
     def shoot(self, spawnPosition, allSprites, bulletSprites):
-        bulletToShoot = EnemyBullet(spawnPosition, allSprites, bulletSprites)
+        EnemyBullet(spawnPosition, allSprites, bulletSprites)

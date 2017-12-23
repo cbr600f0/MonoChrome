@@ -16,7 +16,7 @@ class Player1 (pygame.sprite.Sprite):
         self.rect.center = Vector2(self.x, self.y)
 
 
-    def update(self, deltaTime):
+    def update(self, deltaTime, ballcollideSprites):
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_w]:
             self.y -= 500 * deltaTime

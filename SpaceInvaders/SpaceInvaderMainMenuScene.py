@@ -4,15 +4,20 @@ from ButtonClass import Button
 
 class SpaceInvaderMainMenuScene (SceneManager.Scene):
 
-    def __init__(self):
+    def __init__(self, *optionalSceneParam):
         super(SpaceInvaderMainMenuScene, self).__init__()
 
         self.mainBG = pygame.image.load("SpaceInvaders/images/Start menu.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
 
-        self.startBtn   = Button("Start",               None, None, [47, 253, 39], [255, 255, 255], 50, 250, None, 120)
-        self.optionsBtn = Button("Options",             None, None, [47, 253, 39], [255, 255, 255], 50, 400, None, 120)
-        self.quitBtn    = Button("Quit to main menu",   None, None, [47, 253, 39], [255, 255, 255], 50, 550, None, 120)
+        self.startBtn   = Button("Start",               None, None, [47, 253, 39], [255, 255, 255], 125, 250, None, 120)
+        self.optionsBtn = Button("Options",             None, None, [47, 253, 39], [255, 255, 255], 125, 400, None, 120)
+        self.quitBtn    = Button("Quit to main menu",   None, None, [47, 253, 39], [255, 255, 255], 125, 550, None, 120)
+
+        if optionalSceneParam[0][0] != None:
+            self.highestWave = optionalSceneParam[0][0]
+        else:
+            self.highestWave = 0
 
     def handle_events(self, events):
         for event in events:
@@ -20,7 +25,7 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
 
     def update(self, deltaTime):
         if self.startBtn.click():
-            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderLevelScene.SpaceInvaderLevelScene")
+            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderLevelScene.SpaceInvaderLevelScene", self.highestWave)
 
         if self.optionsBtn.click():
             pass
@@ -33,5 +38,3 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
         self.startBtn.draw(screen)
         self.optionsBtn.draw(screen)
         self.quitBtn.draw(screen)
-
-        # Draw highscore wave

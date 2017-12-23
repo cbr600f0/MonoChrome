@@ -16,6 +16,8 @@ class TntTurret(Turret):
         self.dynamiteImages.append(pygame.image.load("TowerDefense\Images\Turrets\Projectiles\Dynamite_4.png").convert_alpha())
         self.dynamiteImages.append(pygame.image.load("TowerDefense\Images\Turrets\Projectiles\dynamiteExplosion.png").convert_alpha())
 
+        self.collisionRect = pygame.Rect(math.floor(self.position.x - 35), math.floor(self.position.y - 38), 72, 64)
+
         self.attackTimer = 0
         self.levelReference = levelReference
         self.posToFollow = Vector2(0, 0)
@@ -48,7 +50,7 @@ class TntTurret(Turret):
             self.rotate()
             self.attackTimer += deltaTime
 
-            if self.attackTimer > 1.8:
+            if self.attackTimer > 1.1:
 
                 if self.ShootLeftGun:
                     offset = Vector2(0, -34).rotate(self.direction)

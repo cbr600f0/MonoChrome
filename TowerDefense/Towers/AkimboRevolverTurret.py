@@ -13,7 +13,7 @@ class AkimboRevolverTurret(Turret):
         self.posToFollow = Vector2(0, 0)
         self.turretWidth = 48
         self.turretHeight = 98
-        self.range = 280
+        self.range = 180
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
         self.turretImage = pygame.transform.scale(self.turretImage, (self.turretWidth, self.turretHeight))
@@ -24,6 +24,8 @@ class AkimboRevolverTurret(Turret):
         self.image = self.turretImage
         self.rect = self.turretImage.get_rect()
         self.rect.center = self.position
+
+        self.collisionRect = pygame.Rect(math.floor(self.position.x - 30), math.floor(self.position.y - 47), 56, 90)
 
         self.ShootLeftGun = True
 
