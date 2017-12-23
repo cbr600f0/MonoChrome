@@ -37,8 +37,12 @@ class PongMainMenuScene (SceneManager.Scene):
 
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
+        if self.SinglePlayerButton.click():
+            SceneManager.SceneManager.goToScene("Pong.PongSinglePlayerScene.PongSinglePlayerScene")
         if self.MultiplayerButton.click():
             SceneManager.SceneManager.goToScene("Pong.PongMultiplayerScene.PongMultiplayerScene")
+        if self.InfiniteButton.click():
+            SceneManager.SceneManager.goToScene("Pong.PongInfiniteScene.PongInfiniteScene")
         if self.ExitButton.click():
             SceneManager.SceneManager.goToScene("MainMenuScene.MainMenuScene")
 

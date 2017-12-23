@@ -9,9 +9,9 @@ class Robber(Enemy):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
         self.health = 100
-        self.enemyWidth = 90
-        self.enemyHeight = 56
-        self.movementSpeed = 120
+        self.enemyWidth = 65
+        self.enemyHeight = 40
+        self.movementSpeed = 400
 
         self.levelReference = levelReference
 
@@ -21,9 +21,11 @@ class Robber(Enemy):
 
         self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
         self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
+        self.outlineEnemyImage = self.getOutline(self.enemyImage, [0, 0, 0])
+        self.enemyImage.blit(self.outlineEnemyImage, (0, 0))
         self.enemyMask = pygame.mask.from_surface(self.enemyImage)
 
-        self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/RobloxDeathSound.ogg")
+        #self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/RobloxDeathSound.ogg")
 
         self.image = self.enemyImage
         self.rect = self.enemyImage.get_rect()
@@ -51,7 +53,7 @@ class Robber(Enemy):
                                                       self.positionsToFollow[self.destinationPosIndex][1])
                     self.rotate()
                 else:
-                    self.levelReference.gold -= self.goldToSteal# Reached the end
+                    self.levelReference.gold -= self.goldToSteal  # Reached the end
                     self.hasDied = True
                     self.kill()
 
@@ -60,6 +62,9 @@ class Robber(Enemy):
             self.image = pygame.transform.rotate(self.enemyImage, self.direction)
             self.rect = self.image.get_rect()
             self.rect.center = self.position
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
     def rotate(self):
 
@@ -85,6 +90,14 @@ class Robber(Enemy):
             self.levelReference.gold += self.goldOnKill
             self.levelReference.score += self.scoreOnKill
 
-            self.deathSound.play()
+            #self.deathSound.play()
             self.kill()
             self.hasDied = True
+
+    def getOutline(self, image, color=(0, 0, 0), threshold=127):
+        mask = pygame.mask.from_surface(image, threshold)
+        outline_image = pygame.Surface(image.get_size()).convert_alpha()
+        outline_image.fill((0, 0, 0, 0))
+        for point in mask.outline():
+            outline_image.set_at(point, color)
+        return outline_image

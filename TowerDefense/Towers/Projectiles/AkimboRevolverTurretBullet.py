@@ -44,6 +44,9 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
                 self.enemyToFollow.takeDamage(self.damage)
                 self.kill()
 
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
     def rotate(self):
 
         #  Move towards PosToFollow
