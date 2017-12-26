@@ -12,6 +12,8 @@ class DXBallMainMenuScene(SceneManager.Scene):
         pygame.mixer.music.load('DXBall\Sounds\MiamiNights1984-Accelerated.ogg')
         #pygame.mixer.music.play(loops=-1)
 
+        self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 52)
+
         self.mainBG = pygame.image.load("DXBall\Images\menuschermv3.titel.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
 
@@ -20,9 +22,9 @@ class DXBallMainMenuScene(SceneManager.Scene):
 
         self.buttonList = []
 
-        self.startBtn = Button(False, None, "[Start]", None, None, [2, 255, 149], [2, 255, 149], 570, 490, None, 60)
-        self.optionsBtn = Button(False, None, "[Options]", None, None, [2, 255, 149], [2, 255, 149], 570, 545, None, 60)
-        self.quitBtn = Button(False, None, "[Quit]", None, None, [2, 255, 149], [2, 255, 149] , 570, 600, None, 60)
+        self.startBtn = Button(False, self.DXBallFont, "[Start]", None, None, [2, 255, 149], [2, 255, 149], 570, 490, None, 60)
+        self.optionsBtn = Button(False, self.DXBallFont , "[Options]", None, None, [2, 255, 149], [2, 255, 149], 570, 545, None, 60)
+        self.quitBtn = Button(False, self.DXBallFont, "[Quit]", None, None, [2, 255, 149], [2, 255, 149] , 570, 600, None, 60)
 
         self.buttonList.append(self.startBtn)
         self.buttonList.append(self.optionsBtn)

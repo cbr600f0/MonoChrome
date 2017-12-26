@@ -23,6 +23,7 @@ class Button:
             self.font = self.pyg.font.SysFont(self.fontName, self.fontSize)
         else:
             self.font = font
+
         self.text_width, self.text_height = self.pyg.font.Font.size(self.font, self.text)
         self.onlyShowText = False
 
