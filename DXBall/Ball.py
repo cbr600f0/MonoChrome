@@ -44,6 +44,7 @@ class Ball(pygame.sprite.Sprite):
                 self.velocityVector = self.velocityVector.reflect(Vector2(0, -1))
                 pass
             else:
+                self.velocityVector = self.velocityVector.reflect(Vector2(0, -1))
                 collidedSprite.kill()
 
         self.position += self.velocityVector * deltaTime
