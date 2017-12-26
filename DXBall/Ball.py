@@ -1,4 +1,5 @@
-import pygame, math
+import pygame, math, random
+import pygame.gfxdraw
 from pygame.math import Vector2
 import SceneManager
 from DXBall.Paddle import Paddle
@@ -10,10 +11,11 @@ class Ball(pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
 
         self.position = Vector2(305, 220)
+        self.ballColor = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 
-        self.ballSurface = pygame.Surface((50, 50), pygame.SRCALPHA, 32)
+        self.ballSurface = pygame.Surface((30, 30), pygame.SRCALPHA, 32)
         self.ballSurface = self.ballSurface.convert_alpha()
-        pygame.draw.ellipse(self.ballSurface, [153, 255, 153], pygame.Rect(0, 0, 50, 50))  # ball
+        pygame.gfxdraw.ellipse(self.ballSurface, self.ballColor, pygame.Rect(0, 0, 30, 30))  # ball
 
         self.xVel = 770
         self.yVel = 310
@@ -21,6 +23,10 @@ class Ball(pygame.sprite.Sprite):
         self.image = self.ballSurface
         self.rect = self.ballSurface.get_rect()
         self.rect.topleft = (self.position.x, self.position.y)
+
+    def draw(self, screen):
+        pygame.draw.ellipse(self.ballSurface, self.ballColor, pygame.Rect(0, 0, 30, 30))
+        screen.blit(self.image, self.rect)
 
     def update(self, deltaTime, allSprites, ballSprites, ballcollideSprites):
 
@@ -95,6 +101,8 @@ class Ball(pygame.sprite.Sprite):
                     elif ovx < ovy:  # came from right
                         self.position.x = ballCollideSprite.rect.right
                         self.xVel = abs(self.xVel)
+
+                self.ballColor = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 
                 if isinstance(ballCollideSprite, Paddle): # Ball has hit the paddle
                     pass

@@ -43,7 +43,8 @@ class DXBallLevel1 (SceneManager.Scene):
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
 
-        self.allSprites.draw(screen)
+        for spriteToDraw in self.allSprites:  #Make a forloop wich calls a draw method from each sprite instead of using draw on a sprite group
+            spriteToDraw.draw(screen)
 
         if self.isPaused:
             screen.blit(self.pausedSurface, (0, 0))

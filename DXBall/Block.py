@@ -16,6 +16,9 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.blockSurface.get_rect()
         self.rect.topleft = (self.position.x, self.position.y)
 
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
     def update(self, deltaTime, allSprites, ballSprites, ballcollideSprites):
         pass
 

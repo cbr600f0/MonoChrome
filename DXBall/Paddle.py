@@ -7,7 +7,7 @@ class Paddle (pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
 
         self.x = 800  # player
-        self.y = 750  # player
+        self.y = 890  # player
 
         self.paddleSurface = pygame.Surface((240, 10)).convert_alpha()
         self.paddleSurface.fill((255, 255, 255))
@@ -16,6 +16,8 @@ class Paddle (pygame.sprite.Sprite):
         self.rect = self.paddleSurface.get_rect()
         self.rect.center = Vector2(self.x, self.y)
 
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
     def update(self, deltaTime, allSprites, ballSprites, ballcollideSprites):
         pressed = pygame.key.get_pressed()
