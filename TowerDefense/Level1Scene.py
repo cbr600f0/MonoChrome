@@ -13,6 +13,7 @@ class Level1Scene(SceneManager.Scene):
 
     def __init__(self, *optionalInformation):
         super(Level1Scene, self).__init__()
+        self.mark = 294334
 
         self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 980])
         self.level1BankPosition = (210, 636)
