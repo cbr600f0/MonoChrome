@@ -91,7 +91,7 @@ class Level1Scene(SceneManager.Scene):
         self.allSprites.draw(screen)
         self.renderHud(screen)
 
-        self.backToMainMenuBtn.draw(screen)
+        # self.backToMainMenuBtn.draw(screen)
         self.nextRoundBtn.draw(screen)
 
     def update(self, deltaTime):

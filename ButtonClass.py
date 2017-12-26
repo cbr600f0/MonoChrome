@@ -15,6 +15,7 @@ class Button:
         self.mouseOver = False
         self.mouseDown = False
         self.mouseState = "off"
+        self.lockHoverState = False
         self.clicked = False
         self.pyg = pygame
         self.fontColor = fontColor
@@ -105,6 +106,9 @@ class Button:
     def draw(self, surface):
         self.__mouse_check__()
         if self.onlyShowText == False:
+            if self.lockHoverState:
+                surface.blit(self.buttonHoverSurface, (self.xPos, self.yPos))
+                return
             if self.mouseState == "hover":
                 surface.blit(self.buttonHoverSurface, (self.xPos, self.yPos))
             elif self.mouseState == "off":
@@ -112,6 +116,9 @@ class Button:
             elif self.mouseState == "down":
                 surface.blit(self.buttonDownSurface, (self.xPos, self.yPos))
         else:
+            if self.lockHoverState:
+                surface.blit(self.buttonOnlyTextSurfaceHover, (self.xPos, self.yPos))
+                return
             if self.mouseState == "hover":
                 surface.blit(self.buttonOnlyTextSurfaceHover, (self.xPos, self.yPos))
             elif self.mouseState == "off" or self.mouseState == "down":
