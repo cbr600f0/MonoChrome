@@ -14,7 +14,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 52)
 
-        self.mainBG = pygame.image.load("DXBall\Images\menuschermv3.titel.png").convert()
+        self.mainBG = pygame.image.load("DXBall\Images\BckGrnd.png").convert()
         self.mainBG = pygame.transform.scale(self.mainBG, (1600, 900))
 
         self.arrowFont = pygame.font.SysFont("monospace", 50)
