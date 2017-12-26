@@ -14,7 +14,10 @@ class Level1Scene(SceneManager.Scene):
     def __init__(self, *optionalInformation):
         super(Level1Scene, self).__init__()
 
-        self.linePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 980])
+        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 980])
+        self.level1BankPosition = (210, 636)
+        self.bankImage = pygame.image.load("TowerDefense/Images/Bank2.png")
+        #self.bankImage = pygame.transform.rotate(self.bankImage, 90)
 
         self.gold = 1000
         self.score = 0
@@ -36,10 +39,6 @@ class Level1Scene(SceneManager.Scene):
         self.numberOfEnemiesToSpawn = 7
         self.numberOfEnemiesSpawnedThisRound = 0
         self.currentRound = 1
-
-        # Immediately spawn a number of enemies
-        for i in range(0):
-            Robber(self.linePositions, self, self.allSprites, self.enemySprites)
 
         # Interface Stuff
         self.mainBG = pygame.Surface((1600, 900))
@@ -85,10 +84,11 @@ class Level1Scene(SceneManager.Scene):
 
         self.renderPath(screen)
 
-        for spriteToDraw in self.allSprites:  #Make a forloop wich calls a draw method from each sprite instead of using draw on a sprite group
+        for spriteToDraw in self.allSprites:
             spriteToDraw.draw(screen)
 
-        self.allSprites.draw(screen)
+        screen.blit(self.bankImage, self.level1BankPosition)
+        #self.allSprites.draw(screen)
         self.renderHud(screen)
 
         # self.backToMainMenuBtn.draw(screen)
@@ -102,7 +102,7 @@ class Level1Scene(SceneManager.Scene):
                 self.spawnTimer += deltaTime
 
                 if self.spawnTimer > 1:
-                    Robber(self.linePositions, self, self.allSprites, self.enemySprites)
+                    Robber(self.level1LinePositions, self, self.allSprites, self.enemySprites)
                     self.numberOfEnemiesSpawnedThisRound += 1
                     self.spawnTimer = 0
             else:
@@ -262,18 +262,18 @@ class Level1Scene(SceneManager.Scene):
         COLOR = [80, 60, 44]
 
         if self.getPathRects:
-            for index, lineLocation in enumerate(self.linePositions):
-                if (index + 1 >= len(self.linePositions)) == False:
-                    self.unableToPlaceRects.append(pygame.draw.line(screen, COLOR, lineLocation, self.linePositions[index + 1], 80))
+            for index, lineLocation in enumerate(self.level1LinePositions):
+                if (index + 1 >= len(self.level1LinePositions)) == False:
+                    self.unableToPlaceRects.append(pygame.draw.line(screen, COLOR, lineLocation, self.level1LinePositions[index + 1], 80))
 
             self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(1090, 500, 80, 80))) # This is a rect to fix an open corner of level1
             self.unableToPlaceRects.append(pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(370, 800, 80, 80))) # This is a rect to fix an open corner of level1
 
             self.getPathRects = False
 
-            for index, linePos in enumerate(self.linePositions):
-                self.linePositions[index][0] += 40
-                self.linePositions[index][1] += 40
+            for index, linePos in enumerate(self.level1LinePositions):
+                self.level1LinePositions[index][0] += 40
+                self.level1LinePositions[index][1] += 40
         else:
             for lineRect in self.unableToPlaceRects:
                 pygame.draw.rect(screen, COLOR, lineRect)
