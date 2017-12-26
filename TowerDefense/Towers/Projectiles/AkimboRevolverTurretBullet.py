@@ -11,7 +11,7 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
         self.position = Vector2(pos)
 
-        self.velocity = 620
+        self.velocity = 600
         self.damage = 40
         self.direction = 0
 

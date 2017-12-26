@@ -16,7 +16,7 @@ class TntTurret(Turret):
         self.dynamiteImages.append(pygame.image.load("TowerDefense\Images\Turrets\Projectiles\Dynamite_4.png").convert_alpha())
         self.dynamiteImages.append(pygame.image.load("TowerDefense\Images\Turrets\Projectiles\dynamiteExplosion.png").convert_alpha())
 
-        self.collisionRect = pygame.Rect(math.floor(self.position.x - 35), math.floor(self.position.y - 38), 70, 68)
+        self.collisionRect = pygame.Rect(math.floor(self.position.x - 35), math.floor(self.position.y - 38), 72, 64)
 
         self.attackTimer = 0
         self.levelReference = levelReference

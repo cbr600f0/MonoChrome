@@ -2,7 +2,7 @@ import pygame
 
 class Button:
 
-    def __init__(self, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), fontColor = (0, 0, 0),  xPos = 10, yPos = 30, width = None, height = 20):
+    def __init__(self, isSystemFont = False, font = None, text = "", mainColor = (220, 220, 220), borderColor = (0, 0, 0), hoverColor = (172, 220, 247), fontColor = (0, 0, 0),  xPos = 10, yPos = 30, width = None, height = 20):
         self.text = text
         self.xPos = xPos
         self.yPos = yPos
@@ -15,10 +15,14 @@ class Button:
         self.mouseOver = False
         self.mouseDown = False
         self.mouseState = "off"
+        self.lockHoverState = False
         self.clicked = False
         self.pyg = pygame
         self.fontColor = fontColor
-        self.font = self.pyg.font.SysFont(self.fontName, self.fontSize)
+        if isSystemFont:
+            self.font = self.pyg.font.SysFont(self.fontName, self.fontSize)
+        else:
+            self.font = font
         self.text_width, self.text_height = self.pyg.font.Font.size(self.font, self.text)
         self.onlyShowText = False
 
@@ -102,6 +106,9 @@ class Button:
     def draw(self, surface):
         self.__mouse_check__()
         if self.onlyShowText == False:
+            if self.lockHoverState:
+                surface.blit(self.buttonHoverSurface, (self.xPos, self.yPos))
+                return
             if self.mouseState == "hover":
                 surface.blit(self.buttonHoverSurface, (self.xPos, self.yPos))
             elif self.mouseState == "off":
@@ -109,6 +116,9 @@ class Button:
             elif self.mouseState == "down":
                 surface.blit(self.buttonDownSurface, (self.xPos, self.yPos))
         else:
+            if self.lockHoverState:
+                surface.blit(self.buttonOnlyTextSurfaceHover, (self.xPos, self.yPos))
+                return
             if self.mouseState == "hover":
                 surface.blit(self.buttonOnlyTextSurfaceHover, (self.xPos, self.yPos))
             elif self.mouseState == "off" or self.mouseState == "down":
