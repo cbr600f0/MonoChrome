@@ -15,7 +15,7 @@ class Ball(pygame.sprite.Sprite):
 
         self.ballSurface = pygame.Surface((30, 30), pygame.SRCALPHA, 32)
         self.ballSurface = self.ballSurface.convert_alpha()
-        pygame.gfxdraw.ellipse(self.ballSurface, self.ballColor, pygame.Rect(0, 0, 30, 30))  # ball
+        pygame.draw.ellipse(self.ballSurface, self.ballColor, pygame.Rect(0, 0, 30, 30))  # ball
 
         self.xVel = 770
         self.yVel = 310
