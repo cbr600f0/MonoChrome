@@ -4,7 +4,7 @@ from ButtonClass import Button
 from Vector2 import Vector2
 
 class Ball (pygame.sprite.Sprite):
-    def __init__(self, pos, *sprite_groups):
+    def __init__(self, *sprite_groups):
         super().__init__(*sprite_groups)
 
         self.position = Vector2(800, 450)

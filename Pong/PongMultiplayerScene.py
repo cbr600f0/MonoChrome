@@ -13,7 +13,7 @@ class PongMultiplayerScene (SceneManager.Scene):
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
         self.playerSprites = pygame.sprite.Group()
-        Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
+        Ball(self.allSprites, self.ballSprites)
         Player1(self.allSprites, self.playerSprites)
         Player2(self.allSprites, self.playerSprites)
         self.hasStarted = False
