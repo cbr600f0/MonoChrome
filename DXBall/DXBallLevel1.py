@@ -13,10 +13,10 @@ class DXBallLevel1 (SceneManager.Scene):
         super(DXBallLevel1, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
-        pygame.mixer.music.play(loops=-1)
+        #pygame.mixer.music.play(loops=-1)
 
         # shows the mouse
-        pygame.mouse.set_visible(False)
+        #pygame.mouse.set_visible(False)
         # loads the background and changes it to fit the screen
         self.MainBG = pygame.image.load('DXBall\Images\Leveldesignv1.png').convert_alpha()
         self.MainBG = pygame.transform.scale(self.MainBG, (1600, 900))
@@ -34,25 +34,20 @@ class DXBallLevel1 (SceneManager.Scene):
         self.pausedSurface.set_alpha(90)
         self.pausedSurface.fill((150, 46, 91))
 
-        for i in range (8):
-            spawnPos = Vector2(100 * (i + 1) + 10 * i, 300)
-            if i == 0:
-                spawnPos = Vector2(100 * (i + 1), 300)
+        blockStartX = 100
+        for i in range (12):
+            spawnPos = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 400)
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
 
-        self.allSprites.draw(screen)
-
+        for spriteToDraw in self.allSprites:  #Make a forloop wich calls a draw method from each sprite instead of using draw on a sprite group
+            spriteToDraw.draw(screen)
 
         if self.isPaused:
             screen.blit(self.pausedSurface, (0, 0))
-
-
-    def paused(self):
-        pass
 
 
     def update(self, deltaTime):
