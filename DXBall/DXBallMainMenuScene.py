@@ -47,7 +47,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
             button = self.buttonList[index]
 
             if button.mouseState == "hover":
-                self.currentArrowPos = (button.xPos - 30, button.yPos)
+                self.currentArrowPos = (button.xPos - 15, button.yPos)
 
         if self.startBtn.click():
             SceneManager.SceneManager.goToScene("DXBall.DXBallLevel1.DXBallLevel1")
