@@ -4,7 +4,7 @@ from Vector2 import Vector2
 
 class TntTurretDynamite(pygame.sprite.Sprite):
 
-    def __init__(self, damage, velocity, AOE, pos, posToGoTO, dynamiteImages, levelReference, *sprite_groups):
+    def __init__(self, damage, fuseTime, velocity, AOE, pos, posToGoTO, dynamiteImages, levelReference, *sprite_groups):
         super().__init__(*sprite_groups)
 
         self.posToGoTO = Vector2(posToGoTO)
@@ -33,7 +33,7 @@ class TntTurretDynamite(pygame.sprite.Sprite):
         self.reacherDestination = False
 
         self.detonationTimer = 0
-        self.detonationTime = 2
+        self.detonationTime = fuseTime
 
         self.hasDetonated = False
 
@@ -45,19 +45,17 @@ class TntTurretDynamite(pygame.sprite.Sprite):
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
 
-        #  Move towards enemy
-        moveToPositionVector = self.posToGoTO - self.position
-
-        if self.position.get_distance(self.posToGoTO) > 0:
-            moveToPositionVector.length = 1
-
-        if moveToPositionVector.length > self.posToGoTO.get_distance(self.position):
-            moveToPositionVector.length = self.posToGoTO.get_distance(self.position)
-            self.reacherDestination = True
-
         if self.reacherDestination == False:
 
-            self.position += moveToPositionVector * self.velocity * deltaTime
+            #  Move towards enemy
+            moveToPositionVector = self.posToGoTO - self.position
+            moveToPositionVector.length = self.velocity * deltaTime
+
+            if moveToPositionVector.length > self.posToGoTO.get_distance(self.position):
+                moveToPositionVector.length = self.posToGoTO.get_distance(self.position)
+                self.reacherDestination = True
+
+            self.position += moveToPositionVector
             self.rect = self.image.get_rect()
             self.rect.center = self.position
 
@@ -75,7 +73,11 @@ class TntTurretDynamite(pygame.sprite.Sprite):
                 self.outlineDynamite = self.getOutline(self.tntImage, [0, 0, 0])
                 self.tntImage.blit(self.outlineDynamite, (0, 0))
 
-                self.image = pygame.transform.rotozoom(self.tntImage, self.direction, 1)
+                if self.dynamiteImageIndex < 4:
+                    self.image = pygame.transform.rotozoom(self.tntImage, self.direction, 1)
+                else:
+                    self.image = pygame.transform.rotozoom(self.tntImage, 0, 1)
+
                 self.rect = self.image.get_rect()
                 self.rect.center = self.position
                 self.changeImageTimer = 0
