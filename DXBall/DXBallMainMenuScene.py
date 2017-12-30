@@ -22,9 +22,9 @@ class DXBallMainMenuScene(SceneManager.Scene):
 
         self.buttonList = []
 
-        self.startBtn = Button(False, self.DXBallFont, "[Start]", None, None, [2, 255, 149], [2, 255, 149], 570, 490, None, 60)
-        self.optionsBtn = Button(False, self.DXBallFont , "[Options]", None, None, [2, 255, 149], [2, 255, 149], 570, 545, None, 60)
-        self.quitBtn = Button(False, self.DXBallFont, "[Quit]", None, None, [2, 255, 149], [2, 255, 149] , 570, 600, None, 60)
+        self.startBtn = Button(False, self.DXBallFont, "[Start]", None, None, [2, 255, 149], [2, 255, 149], 44, 540, None, 60)
+        self.optionsBtn = Button(False, self.DXBallFont , "[Options]", None, None, [2, 255, 149], [2, 255, 149], 44, 590, None, 60)
+        self.quitBtn = Button(False, self.DXBallFont, "[Quit]", None, None, [2, 255, 149], [2, 255, 149], 44, 640, None, 60)
 
         self.buttonList.append(self.startBtn)
         self.buttonList.append(self.optionsBtn)
@@ -47,7 +47,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
             button = self.buttonList[index]
 
             if button.mouseState == "hover":
-                self.currentArrowPos = (button.xPos - 30, button.yPos)
+                self.currentArrowPos = (button.xPos - 15, button.yPos)
 
         if self.startBtn.click():
             SceneManager.SceneManager.goToScene("DXBall.DXBallLevel1.DXBallLevel1")
