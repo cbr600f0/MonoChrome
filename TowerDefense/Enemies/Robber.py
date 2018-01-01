@@ -17,13 +17,22 @@ class Robber(Enemy):
 
         self.goldToSteal = 100
         self.goldOnKill = 100
-        self.scoreOnKill = 20
+        self.scoreOnKill = 50
 
         self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
         self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
+
         self.outlineEnemyImage = self.getOutline(self.enemyImage, [0, 0, 0])
         self.enemyImage.blit(self.outlineEnemyImage, (0, 0))
         self.enemyMask = pygame.mask.from_surface(self.enemyImage)
+
+        self.hasGoldImage = pygame.image.load("TowerDefense\Images\Enemies\MoneyBagRobber.png").convert_alpha()
+        self.hasGoldImage = pygame.transform.scale(self.hasGoldImage, (80, 40))
+
+        self.outlinehasGoldImage = self.getOutline(self.hasGoldImage, [0, 0, 0])
+        self.hasGoldImage.blit(self.outlinehasGoldImage, (0, 0))
+
+        self.currentImage = self.enemyImage
 
         #self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/RobloxDeathSound.ogg")
 
@@ -40,9 +49,7 @@ class Robber(Enemy):
         if self.hasDied is False:
 
             moveToPositionVector = self.nextPositionToGoTo - self.position
-
-            if self.position.get_distance(self.nextPositionToGoTo) > 0:
-                moveToPositionVector.length = 1
+            moveToPositionVector.length = self.movementSpeed * deltaTime
 
             if moveToPositionVector.length > self.nextPositionToGoTo.get_distance(self.position):
                 moveToPositionVector.length = self.nextPositionToGoTo.get_distance(self.position)
@@ -53,13 +60,13 @@ class Robber(Enemy):
                                                       self.positionsToFollow[self.destinationPosIndex][1])
                     self.rotate()
                 else:
-                    self.levelReference.gold -= self.goldToSteal  # Reached the end
-                    self.hasDied = True
                     self.kill()
 
-            self.position += moveToPositionVector * self.movementSpeed * deltaTime
+            self.position += moveToPositionVector
 
-            self.image = pygame.transform.rotate(self.enemyImage, self.direction)
+            if self.hasStolenGold:
+                self.currentImage = self.hasGoldImage
+
             self.rect = self.image.get_rect()
             self.rect.center = self.position
 
@@ -72,7 +79,7 @@ class Robber(Enemy):
         PosToFollowLookatVector = self.nextPositionToGoTo - self.position
         self.direction = -PosToFollowLookatVector.angle - 90 # this is NOT the correct way to do this check how AkimboRevolverTurret does rotating!
 
-        self.image = pygame.transform.rotate(self.enemyImage, self.direction)  # the image is rotated the wrong way so the plus 90 fixed this
+        self.image = pygame.transform.rotate(self.currentImage, self.direction)  # the image is rotated the wrong way so the plus 90 fixed this
         self.rect = self.image.get_rect()
         self.rect.center = self.position
 
@@ -86,8 +93,11 @@ class Robber(Enemy):
 
     def die(self):
         if self.hasDied is False:
-
+            self.levelReference.totalEnemiesKilled += 1
             self.levelReference.gold += self.goldOnKill
+            if self.hasStolenGold:
+                self.levelReference.gold += self.goldToSteal
+
             self.levelReference.score += self.scoreOnKill
 
             #self.deathSound.play()

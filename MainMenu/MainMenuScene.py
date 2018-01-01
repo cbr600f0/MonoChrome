@@ -37,9 +37,9 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
          #Buttons
         self.towerDefenseBtn = Button(False, self.towerDefenseFont, "Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 160, 600, 60)
         self.pongBtn = Button(False, self.pongFont, "Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 100, 600, 60)
-        self.DXBallBtn = Button(False, self.DXBallFont, "Retroball", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 220, 600, 60)
-        self.spaceInvadersBtn = Button(False, self.spaceInvadersFont, "Space Invaders", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 280, 600, 60)
-        self.bubbleShooterBtn = Button(True, None, "Bubble Shooter", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 340, 600, 60)
+        self.DXBallBtn = Button(False, self.DXBallFont, "Retroball", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 340, 600, 60)
+        self.spaceInvadersBtn = Button(False, self.spaceInvadersFont, "Space Invaders", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 220, 600, 60)
+        self.bubbleShooterBtn = Button(True, None, "Bubble Shooter", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 280, 600, 60)
 
         self.currentHeaderImage = self.pongHeaderImage
         self.currentMinigameBtn = self.pongBtn

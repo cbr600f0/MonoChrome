@@ -16,6 +16,11 @@ class Enemy(pygame.sprite.Sprite):
         self.nextPositionToGoTo = None
         self.position = Vector2(positionsToFollow[0][0], positionsToFollow[0][1]) # Start on the line ofcourse
 
+        self.scoreOnKill = 20
+        self.goldOnKill = 100
+        self.goldToSteal = 10
+        self.hasStolenGold = False
+
 
     def takeDamage(self, damageTaken):
         raise NotImplemented

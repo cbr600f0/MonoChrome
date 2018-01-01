@@ -4,7 +4,7 @@ from Vector2 import Vector2
 
 class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
-    def __init__(self, pos, enemyToFollow, *sprite_groups):
+    def __init__(self, pos, damage, enemyToFollow, *sprite_groups):
         super().__init__(*sprite_groups)
 
         self.enemyToFollow = enemyToFollow
@@ -12,7 +12,7 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
         self.position = Vector2(pos)
 
         self.velocity = 600
-        self.damage = 40
+        self.damage = damage
         self.direction = 0
 
         self.bulletImage = pygame.Surface((4, 6)).convert_alpha()
@@ -30,14 +30,12 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
             #  Move towards enemy
             moveToPositionVector = self.enemyToFollow.position - self.position
-
-            if self.position.get_distance(self.enemyToFollow.position) > 0:
-                moveToPositionVector.length = 1
+            moveToPositionVector.length = self.velocity * deltaTime
 
             if moveToPositionVector.length > self.enemyToFollow.position.get_distance(self.position):
                 moveToPositionVector.length = self.enemyToFollow.position.get_distance(self.position)
 
-            self.position += moveToPositionVector * self.velocity * deltaTime
+            self.position += moveToPositionVector
             self.rotate()
 
             if pygame.sprite.collide_mask(self, self.enemyToFollow):
