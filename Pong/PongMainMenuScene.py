@@ -46,6 +46,10 @@ class PongMainMenuScene (SceneManager.Scene):
             SceneManager.SceneManager.goToScene("Pong.PongInfiniteScene.PongInfiniteScene")
         if self.ExitButton.click():
             SceneManager.SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
+        if pressed[pygame.K_1]:
+            SceneManager.SceneManager.goToScene("Pong.Player1VictoryScene.Player1VictoryScene")
+        if pressed[pygame.K_2]:
+            SceneManager.SceneManager.goToScene("Pong.Player2VictoryScene.Player2VictoryScene")
 
     def handle_events(self, events):
         pass
