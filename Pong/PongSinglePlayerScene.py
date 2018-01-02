@@ -11,7 +11,7 @@ class PongSinglePlayerScene (SceneManager.Scene):
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
         self.playerSprites = pygame.sprite.Group()
-        Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
+        Ball(self.allSprites, self.ballSprites)
         Player1(self.allSprites, self.playerSprites)
         self.hasStarted = False
         self.is_white = True
@@ -33,19 +33,21 @@ class PongSinglePlayerScene (SceneManager.Scene):
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(395, 0, 5, 45))  #scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(795, 0, 5, 45))  # scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1195, 0, 5, 45))  # scoreboard border
-        Points = self.myfont.render("Points:", 1, (255, 255, 255))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1550, 150, 50, 250))
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1550, 550, 50, 250))
+        Points = self.myfont.render("Points:", 1, (0, 0, 0))
         screen.blit(Points, (15, 8))
         SinglePlayer = self.myfont.render("Mode: Single Player", 1, (255, 255, 255))
         screen.blit(SinglePlayer, (410, 8))
-        Lives = self.myfont.render("Lives:", 1, (255, 255, 255))
+        Lives = self.myfont.render("Lives: 3", 1, (255, 255, 255))
         screen.blit(Lives, (805, 8))
-        Level = self.myfont.render("Level:", 1, (255, 255, 255))
+        Level = self.myfont.render("Level: 01", 1, (255, 255, 255))
         screen.blit(Level, (1210, 8))
 
     def update(self, deltaTime):
         if self.hasStarted:
 
-            self.allSprites.update(deltaTime)
+            self.allSprites.update(deltaTime, self.playerSprites)
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_BACKSPACE]:
