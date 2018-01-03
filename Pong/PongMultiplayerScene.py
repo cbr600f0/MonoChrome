@@ -64,6 +64,11 @@ class PongMultiplayerScene (SceneManager.Scene):
             self.hasStarted = False
             self.is_white = True
 
+        if self.player1Lives == 0:
+            SceneManager.SceneManager.goToScene("Pong.Player2VictoryScene.Player2VictoryScene")
+        if self.player2Lives == 0:
+            SceneManager.SceneManager.goToScene("Pong.Player1VictoryScene.Player1VictoryScene")
+
         if self.hasStarted:
             self.allSprites.update(deltaTime, self.playerSprites)
 
@@ -71,8 +76,7 @@ class PongMultiplayerScene (SceneManager.Scene):
 
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_BACKSPACE]:
-            SceneManager.SceneManager.goToScene("Pong.PongMainMenuScene.PongMainMenuScene")
+
         if self.is_white:
             self.color = (255, 255, 255)
         else:
