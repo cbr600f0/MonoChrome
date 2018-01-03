@@ -65,6 +65,7 @@ class Level1Scene(SceneManager.Scene):
         self.upgradeTurretUpgradeButton = Button(False, self.upgradeTurretStatsFont, "UPGRADE", [70, 50, 34], [50, 30, 14], [70, 50, 34], [0, 0, 0], 1462, 755, 115, 30)
 
         self.nextRoundFont = pygame.font.Font("TowerDefense\WesternFont.otf", 36)
+        self.startGameBtn = Button(False, self.nextRoundFont, "Start Game", None, None, [40, 40, 40], [0, 0, 0], 1360, 820, None, 60)
         self.nextRoundBtn = Button(False, self.nextRoundFont, "Next Round", None, None, [40, 40, 40], [0, 0, 0], 1360, 820, None, 60)
 
         self.difficultyLbl = self.westernFont.render("Difficulty: " + str(self.difficulty), True, [0, 0, 0])
@@ -144,7 +145,10 @@ class Level1Scene(SceneManager.Scene):
             if self.focusedSprite is not None and isinstance(self.focusedSprite, Turret):
                 self.renderTurretUpgradeScreen(screen, self.focusedSprite)
 
-        self.nextRoundBtn.draw(screen)
+        if self.spawnerIsActive:
+            self.nextRoundBtn.draw(screen)
+        else:
+            self.startGameBtn.draw(screen)
 
         if self.gameOver:
             self.renderGameOverScreen(screen)
@@ -170,9 +174,13 @@ class Level1Scene(SceneManager.Scene):
                     self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
 
-            if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
-                self.spawnPauseTimer = self.pauseDuration
-                self.spawnerIsActive = True
+            if not self.spawnerIsActive:
+                if self.startGameBtn.click():
+                    self.spawnPauseTimer = self.pauseDuration
+                    self.spawnerIsActive = True
+            else:
+                if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
+                    self.spawnPauseTimer = self.pauseDuration
 
         self.allSprites.update(deltaTime, self.allSprites, self.turretSprites, self.enemySprites, self.bulletSprites)
 
