@@ -5,10 +5,10 @@ from pygame.locals import *
 from SceneManager import SceneManager  # This class takes care of switching between scenes (Examples of scene could be: the main menu, Tower Defense, Pong, ETC) Every game is its own scene (For badbois who already have experience with Unity the concept of a scene is the same here as in Unity)
 import importlib
 
+pygame.mixer.pre_init(44100, -16, 2, 1024)
 # Starts the game by initializing pygame
 pygame.init()
 gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
-pygame.mixer.pre_init(44100, -16, 2, 4096)
 pygame.mixer.set_num_channels(110)
 
 if gameIsInFullscreen == False:
@@ -44,11 +44,13 @@ if gameIsInFullscreen == True:
 #Pause overlay stuff
 continueBtn = Button(True, None, "Continue", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 300, 900, 100)
 backToTitleScreenBtn = Button(True, None, "Back to title screen", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 450, 900, 100)
+muteSoundsBtn = Button(True, None, "MuteAllSounds", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 600, 900, 100)
 
 pauseOverlayCanvas = pygame.Surface([1600, 900], pygame.SRCALPHA, 32)
 pauseOverlayCanvas = pauseOverlayCanvas.convert_alpha()
 pauseOverlayCanvas.fill((0, 0, 0, 160))
 
+allSoundIsMuted = False
 lastDrawnFrame = None
 gameIsPaused = False
 
@@ -101,6 +103,7 @@ while gameIsRunning:
         screen.blit(pauseOverlayCanvas, (0, 0))
         continueBtn.draw(screen)
         backToTitleScreenBtn.draw(screen)
+        muteSoundsBtn.draw(screen)
 
         if continueBtn.click():
             global gameIsPaused
@@ -110,6 +113,14 @@ while gameIsRunning:
             global gameIsPaused
             gameIsPaused = False
             SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
+
+        if muteSoundsBtn.click(): # only works for music NOT sound
+            global allSoundIsMuted
+            allSoundIsMuted = not allSoundIsMuted
+            if allSoundIsMuted:
+                pygame.mixer.music.pause()
+            else:
+                pygame.mixer.music.unpause()
 
 
 
