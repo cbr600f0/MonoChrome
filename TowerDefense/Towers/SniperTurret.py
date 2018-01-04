@@ -42,6 +42,9 @@ class SniperTurret(Turret):
 
         self.collisionRect = pygame.Rect(self.rect.x, self.rect.y, self.turretWidth, self.turretHeight)
 
+        self.gunShotSound = pygame.mixer.Sound("TowerDefense/Sounds/sniperGunshot.wav")
+        self.gunShotSound.set_volume(0.010)
+
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
         if not self.isUpgrading:
             enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, enemySprites)
@@ -53,7 +56,7 @@ class SniperTurret(Turret):
                 self.bulletTimer += deltaTime
 
                 if self.bulletTimer > 1 / self.fireRate:
-
+                    self.gunShotSound.play()
                     posToShootFrom = Vector2(self.position.x, self.position.y) + Vector2(50, 14).rotate(self.direction)
                     self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
 

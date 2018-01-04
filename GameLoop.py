@@ -8,6 +8,8 @@ import importlib
 # Starts the game by initializing pygame
 pygame.init()
 gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
+pygame.mixer.pre_init(44100, -16, 2, 4096)
+pygame.mixer.set_num_channels(110)
 
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size

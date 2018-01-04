@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, random
 from TowerDefense.Enemies.Enemy import Enemy
 from Vector2 import Vector2
 
@@ -11,7 +11,7 @@ class Robber(Enemy):
         self.health = 100
         self.enemyWidth = 65
         self.enemyHeight = 40
-        self.movementSpeed = 110
+        self.movementSpeed = 410
 
         self.levelReference = levelReference
 
@@ -34,7 +34,17 @@ class Robber(Enemy):
 
         self.currentImage = self.enemyImage
 
-        #self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/RobloxDeathSound.ogg")
+        self.painSound = pygame.mixer.Sound("TowerDefense/Sounds/enemyPain.wav")
+        self.painSound.set_volume(0.008)
+
+        self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/deathSound" + str(random.randint(1, 2)) + ".wav")
+        self.deathSound.set_volume(0.008)
+
+        self.laughSound = pygame.mixer.Sound("TowerDefense/Sounds/laugh" + str(random.randint(1, 2)) + ".wav")
+        self.laughSound.set_volume(0.008)
+
+        self.goldDropSound = pygame.mixer.Sound("TowerDefense/Sounds/goldDrop.wav")
+        self.goldDropSound.set_volume(0.0088)
 
         self.image = self.enemyImage
         self.rect = self.enemyImage.get_rect()
@@ -43,6 +53,8 @@ class Robber(Enemy):
         self.destinationPosIndex += 1
         self.nextPositionToGoTo = Vector2(self.positionsToFollow[self.destinationPosIndex][0],
                                           self.positionsToFollow[self.destinationPosIndex][1])
+
+        self.hasChangedImageToGoldBags = False
 
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
 
@@ -64,8 +76,10 @@ class Robber(Enemy):
 
             self.position += moveToPositionVector
 
-            if self.hasStolenGold:
+            if self.hasStolenGold and not self.hasChangedImageToGoldBags:
+                self.hasChangedImageToGoldBags = True
                 self.currentImage = self.hasGoldImage
+                self.rotate()
 
             self.rect = self.image.get_rect()
             self.rect.center = self.position
@@ -86,21 +100,29 @@ class Robber(Enemy):
     def takeDamage(self, damageTaken):
 
         if self.hasDied is False:
-            self.health -= damageTaken
+            playDeathSound = False
 
+            self.health -= damageTaken
             if self.health <= 0:
+                playDeathSound = True
                 self.die()
+
+            if playDeathSound:
+                self.deathSound.play()
+            else:
+                self.painSound.play()
 
     def die(self):
         if self.hasDied is False:
+            self.laughSound.stop()
             self.levelReference.totalEnemiesKilled += 1
             self.levelReference.gold += self.goldOnKill
+
             if self.hasStolenGold:
                 self.levelReference.gold += self.goldToSteal
+                self.goldDropSound.play()
 
             self.levelReference.score += self.scoreOnKill
-
-            #self.deathSound.play()
             self.kill()
             self.hasDied = True
 
@@ -111,3 +133,6 @@ class Robber(Enemy):
         for point in mask.outline():
             outline_image.set_at(point, color)
         return outline_image
+
+    def playLaughSound(self):
+        self.laughSound.play()

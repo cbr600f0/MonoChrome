@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, random
 from TowerDefense.Towers.Turret import Turret
 from TowerDefense.Towers.Projectiles.AkimboRevolverTurretBullet import AkimboRevolverTurretBullet as Bullet
 from pygame.math import Vector2 as Vector2
@@ -43,6 +43,9 @@ class AkimboRevolverTurret(Turret):
 
         self.collisionRect = pygame.Rect(self.rect.x, self.rect.y, self.turretWidth, self.turretHeight)
 
+        self.gunShotSound = pygame.mixer.Sound("TowerDefense/Sounds/revolverShot.wav")
+        self.gunShotSound.set_volume(0.009)
+
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
         if not self.isUpgrading:
             enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, enemySprites)
@@ -53,6 +56,7 @@ class AkimboRevolverTurret(Turret):
                 self.bulletTimer += deltaTime
 
                 if self.bulletTimer > 1 / self.fireRate:
+                    self.gunShotSound.play()
 
                     if self.ShootLeftGun:
                         offset = Vector2(48, -14).rotate(self.direction)

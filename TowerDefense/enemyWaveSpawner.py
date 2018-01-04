@@ -10,6 +10,7 @@ class EnemyWaveSpawner():
 
         self.spawnTimer = 0
         self.spawnEnemyInterval = 0.7
+        self.mark = 10
 
         self.spawnedEnemies = 0
         self.enemiesToSpawn = 10

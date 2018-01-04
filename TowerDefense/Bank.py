@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, random
 from TowerDefense.Enemies.Enemy import Enemy
 from pygame.math import Vector2 as Vector2
 
@@ -22,6 +22,7 @@ class Bank(pygame.sprite.Sprite):
     def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
         for enemy in self.GetAllEnemiesInRadius(self.lootCenterPos, 50, enemySprites):
             if enemy.hasStolenGold == False:
+                enemy.playLaughSound()
                 enemy.hasStolenGold = True
                 self.levelReference.gold -= enemy.goldToSteal
 

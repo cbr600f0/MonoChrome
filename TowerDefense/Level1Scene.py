@@ -17,7 +17,6 @@ class Level1Scene(SceneManager.Scene):
         super(Level1Scene, self).__init__()
 
         self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 980])
-
         self.gold = 100000
         self.score = 0
         self.difficulty = "Normal"
@@ -80,6 +79,9 @@ class Level1Scene(SceneManager.Scene):
         self.akimboShopSquare = ShopTurretSquare(1326, 100, self.akimbo, 200, "Akimbo")
         self.tntShopSqaure = ShopTurretSquare(1456, 100, self.tnt, 200, "Tnt")
         self.sniperShopSquare = ShopTurretSquare(1390, 230, self.sniper, 200, "Sniper")
+
+        self.turretPlacementSound = pygame.mixer.Sound("TowerDefense/Sounds/turretPlacement.wav")
+        self.turretPlacementSound.set_volume(0.008)
 
         self.currentShopSquare = None
         self.hoverTurretObject = None
@@ -403,6 +405,8 @@ class Level1Scene(SceneManager.Scene):
                 if isMouseClickInsideUnplaceableBounds == False:
 
                     if self.currentShopSquare is not None:
+                        self.turretPlacementSound.play()
+
                         if self.currentShopSquare.turretName == "Akimbo":# hier gebleven met self.currentShopSquare
                             AkimboRevolverTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
 
