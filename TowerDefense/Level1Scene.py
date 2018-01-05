@@ -28,7 +28,8 @@ class Level1Scene(SceneManager.Scene):
         self.enemySprites = pygame.sprite.Group()
         self.turretSprites = pygame.sprite.Group()
         self.bankSprite = pygame.sprite.GroupSingle()
-        self.bulletSprites = pygame.sprite.Group()
+        self.projectileSprites = pygame.sprite.Group()
+        self.moneybagSprites = pygame.sprite.Group()
 
         self.bank = Bank(Vector2(290, 720), 180, self, self.bankSprite, self.allSprites)
 
@@ -184,7 +185,7 @@ class Level1Scene(SceneManager.Scene):
                 if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
                     self.spawnPauseTimer = self.pauseDuration
 
-        self.allSprites.update(deltaTime, self.allSprites, self.turretSprites, self.enemySprites, self.bulletSprites)
+        self.allSprites.update(deltaTime)
 
         if self.currentShopSquare is not None and self.currentShopSquare.isDragginTurret and self.gold < self.currentShopSquare.price:
             self.currentShopSquare.isDragginTurret = False

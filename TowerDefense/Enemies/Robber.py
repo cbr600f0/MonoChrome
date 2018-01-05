@@ -1,6 +1,7 @@
 import pygame, math, random
 from TowerDefense.Enemies.Enemy import Enemy
 from Vector2 import Vector2
+from TowerDefense.Moneybag import Moneybag
 
 
 class Robber(Enemy):
@@ -56,7 +57,7 @@ class Robber(Enemy):
 
         self.hasChangedImageToGoldBags = False
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+    def update(self, deltaTime):
 
         if self.hasDied is False:
 
@@ -119,7 +120,7 @@ class Robber(Enemy):
             self.levelReference.gold += self.goldOnKill
 
             if self.hasStolenGold:
-                self.levelReference.gold += self.goldToSteal
+                Moneybag(self.position, 90, self.levelReference, self.goldToSteal, self.levelReference.allSprites, self.levelReference.moneybagSprites)
                 self.goldDropSound.play()
 
             self.levelReference.score += self.scoreOnKill

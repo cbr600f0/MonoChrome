@@ -46,7 +46,7 @@ class TntTurretDynamite(pygame.sprite.Sprite):
         self.explosionSound = pygame.mixer.Sound("TowerDefense/Sounds/explosion" + str(random.randint(1, 2)) + ".wav")
         self.explosionSound.set_volume(0.032)
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+    def update(self, deltaTime):
 
         if self.reacherDestination == False:
 
@@ -91,7 +91,7 @@ class TntTurretDynamite(pygame.sprite.Sprite):
                 if self.detonationTimer >= self.detonationTime:
                     self.hasDetonated = True
                     self.explosionSound.play()
-                    for enemyHit in self.levelReference.GetAllEnemiesInRadius(self.position, self.areaOfEffect, enemySprites):
+                    for enemyHit in self.levelReference.GetAllEnemiesInRadius(self.position, self.areaOfEffect, self.levelReference.enemySprites):
                         enemyHit.takeDamage(self.damage)
             else:
                 self.pauseTimer += deltaTime

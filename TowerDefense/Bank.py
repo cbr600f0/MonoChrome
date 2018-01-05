@@ -19,8 +19,8 @@ class Bank(pygame.sprite.Sprite):
         self.offset = Vector2(80, 40).rotate(self.direction)
         self.lootCenterPos = self.position + self.offset
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
-        for enemy in self.GetAllEnemiesInRadius(self.lootCenterPos, 50, enemySprites):
+    def update(self, deltaTime):
+        for enemy in self.GetAllEnemiesInRadius(self.lootCenterPos, 50):
             if enemy.hasStolenGold == False:
                 enemy.playLaughSound()
                 enemy.hasStolenGold = True
@@ -44,11 +44,11 @@ class Bank(pygame.sprite.Sprite):
             outline_image.set_at(point, color)
         return outline_image
 
-    def GetAllEnemiesInRadius(self, centerPos, radius, enemySprites):
+    def GetAllEnemiesInRadius(self, centerPos, radius):
 
         enemiesInRadius = []
 
-        for enemy in enemySprites:
+        for enemy in self.levelReference.enemySprites:
             distanceToEnemy = centerPos.get_distance(enemy.position)
 
             if distanceToEnemy <= radius:

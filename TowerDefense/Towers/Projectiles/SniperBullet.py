@@ -24,7 +24,7 @@ class SniperBullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.position
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+    def update(self, deltaTime):
 
         if self.enemyToFollow is not None:
 

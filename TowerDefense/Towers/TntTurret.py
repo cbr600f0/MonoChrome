@@ -57,9 +57,9 @@ class TntTurret(Turret):
 
         self.ShootLeftGun = True
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+    def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToFollow = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, enemySprites)
+            enemyToFollow = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
 
             if enemyToFollow is not None:
 
@@ -75,7 +75,7 @@ class TntTurret(Turret):
                         offset = Vector2(0, 34).rotate(self.direction)
 
                     posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
-                    self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToFollow.position)
+                    self.shoot(posToShootFrom, enemyToFollow.position)
 
                     self.ShootLeftGun = not self.ShootLeftGun
                     self.attackTimer = 0
@@ -99,8 +99,8 @@ class TntTurret(Turret):
             pygame.draw.rect(screen, [70, 50, 34], pygame.Rect(self.rect.centerx - (upgradeBarWidth / 2), self.rect.centery - 10, upgradeBarProgressWidth, 10))
             pygame.draw.rect(screen, [0, 0, 0], pygame.Rect(self.rect.centerx - (upgradeBarWidth / 2), self.rect.centery - 10, upgradeBarWidth, 10), 2)
 
-    def shoot(self, spawnPosition, allSprites, projectileSprites, posToGoTO):
-        TntTurretDynamite(self.damage, self.fuseTime, self.throwVelocity, self.areaOfEffect, spawnPosition, posToGoTO, self.dynamiteImages, self.levelReference, allSprites, projectileSprites)
+    def shoot(self, spawnPosition, posToGoTO):
+        TntTurretDynamite(self.damage, self.fuseTime, self.throwVelocity, self.areaOfEffect, spawnPosition, posToGoTO, self.dynamiteImages, self.levelReference, self.levelReference.allSprites, self.levelReference.projectileSprites)
 
     def rotate(self):
 

@@ -46,9 +46,9 @@ class AkimboRevolverTurret(Turret):
         self.gunShotSound = pygame.mixer.Sound("TowerDefense/Sounds/revolverShot.wav")
         self.gunShotSound.set_volume(0.009)
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+    def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, enemySprites)
+            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
             if enemyToShoot is not None:
 
                 self.posToFollow = enemyToShoot.position
@@ -64,7 +64,7 @@ class AkimboRevolverTurret(Turret):
                         offset = Vector2(48, 14).rotate(self.direction)
 
                     posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
-                    self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
+                    self.shoot(posToShootFrom, enemyToShoot)
 
                     self.ShootLeftGun = not self.ShootLeftGun
                     self.bulletTimer = 0
@@ -88,8 +88,8 @@ class AkimboRevolverTurret(Turret):
             pygame.draw.rect(screen, [70, 50, 34], pygame.Rect(self.rect.centerx - (upgradeBarWidth / 2), self.rect.centery - 10, upgradeBarProgressWidth, 10))
             pygame.draw.rect(screen, [0, 0, 0], pygame.Rect(self.rect.centerx - (upgradeBarWidth / 2), self.rect.centery - 10, upgradeBarWidth, 10), 2)
 
-    def shoot(self, spawnPosition, allSprites, projectileSprites, enemyToFollow):
-        Bullet(spawnPosition, self.damage, enemyToFollow, allSprites, projectileSprites)
+    def shoot(self, spawnPosition, enemyToFollow):
+        Bullet(spawnPosition, self.damage, enemyToFollow, self.levelReference.allSprites, self.levelReference.projectileSprites)
 
     def rotate(self):
 
