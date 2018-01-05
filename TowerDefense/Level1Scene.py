@@ -16,7 +16,7 @@ class Level1Scene(SceneManager.Scene):
     def __init__(self, *optionalInformation):
         super(Level1Scene, self).__init__()
 
-        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 980])
+        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
         self.gold = 100000
         self.score = 0
         self.difficulty = "Normal"
@@ -142,6 +142,9 @@ class Level1Scene(SceneManager.Scene):
 
         self.renderHud(screen)
 
+        if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and not self.focusedSprite.hasDied:
+            self.renderEnemyStatsScreen(screen, self.focusedSprite)
+
         if self.hoverTurretObject is not None and self.focusedSprite is None:
             self.renderTurretUpgradeScreen(screen, self.hoverTurretObject)
         else:
@@ -192,6 +195,9 @@ class Level1Scene(SceneManager.Scene):
 
         if self.currentShopSquare is not None:
             self.CheckHoverTurretCollision()
+
+        if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and self.focusedSprite.hasDied:
+            self.focusedSprite = None
 
         if self.focusedSprite is not None and isinstance(self.focusedSprite, Turret):
             if self.upgradeTurretSellButton.click():
@@ -247,6 +253,42 @@ class Level1Scene(SceneManager.Scene):
             text = text[i:]
 
         return text
+
+    def renderEnemyStatsScreen(self, screen, enemyToShow):
+
+        canvasRect = pygame.draw.rect(screen, [70, 50, 34], self.upgradeTurretRect)
+        pygame.draw.rect(screen, [50, 30, 14], self.upgradeTurretRect, 3)  # Border
+
+        self.scoreOnKill = 20
+        self.goldOnKill = 100
+        self.goldToSteal = 10
+
+        healthText = "Health: " + str(enemyToShow.health)
+        movementSpeed = "Speed: " + str(enemyToShow.movementSpeed)
+        goldOnKillText = "Kill Gold: " + str(enemyToShow.goldOnKill)
+        totalStolenGold = "Stolen Gold: " + str(enemyToShow.totalGoldOnEnemy)
+        goldToStealText = "Gold To Steal: " + str(enemyToShow.goldToSteal)
+
+        descriptionRect = pygame.Rect(0, 416, 260, 70)
+        descriptionRect.centerx = canvasRect.centerx
+
+        self.drawText(screen, enemyToShow.description, [0, 0, 0], descriptionRect, self.upgradeTurretDescriptionFont, True, None)
+
+        self.focusedEnemyName = self.upgradeTurretStatsHeaderFont.render(enemyToShow.name, True, [0, 0, 0])
+
+        self.focusedEnemyHealth = self.upgradeTurretStatsFont.render(healthText, True, [0, 0, 0])
+        self.focusedEnemySpeed = self.upgradeTurretStatsFont.render(movementSpeed, True, [0, 0, 0])
+        self.focusedEnemyGoldOnKill = self.upgradeTurretStatsFont.render(goldOnKillText, True, [0, 0, 0])
+        self.focusedEnemyTotalStolenGold = self.upgradeTurretStatsFont.render(totalStolenGold, True, [0, 0, 0])
+        self.focusedEnemyGoldToSteal = self.upgradeTurretStatsFont.render(goldToStealText, True, [0, 0, 0])
+
+        screen.blit(self.focusedEnemyName, (canvasRect.centerx - int(self.focusedEnemyName.get_rect().width / 2), 380))
+
+        screen.blit(self.focusedEnemyHealth, (1326, 508))
+        screen.blit(self.focusedEnemySpeed, (1326, 538))
+        screen.blit(self.focusedEnemyGoldOnKill, (1326, 568))
+        screen.blit(self.focusedEnemyGoldToSteal, (1326, 598))
+        screen.blit(self.focusedEnemyTotalStolenGold, (1326, 628))
 
     def renderTurretUpgradeScreen(self, screen, turretToShow):
 

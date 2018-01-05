@@ -1,5 +1,5 @@
 import pygame, math, random
-from pygame.math import Vector2 as Vector2
+from Vector2 import Vector2
 
 
 class Moneybag(pygame.sprite.Sprite):
@@ -17,11 +17,19 @@ class Moneybag(pygame.sprite.Sprite):
         self.rotate()
 
     def update(self, deltaTime):
-        mousePos = pygame.mouse.get_pos()
+        mousePos = Vector2(pygame.mouse.get_pos())
+
+        if self.position.get_distance(mousePos) < 200:
+            moveToPositionVector = mousePos - self.position
+            moveToPositionVector.length = 60 * deltaTime
+            self.position += moveToPositionVector
+
         if self.rect.collidepoint(mousePos):
             self.levelReference.gold += self.goldValue # add a sound when a moneybag is picked up
             self.kill()
 
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

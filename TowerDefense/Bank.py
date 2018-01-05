@@ -21,10 +21,12 @@ class Bank(pygame.sprite.Sprite):
 
     def update(self, deltaTime):
         for enemy in self.GetAllEnemiesInRadius(self.lootCenterPos, 50):
-            if enemy.hasStolenGold == False:
+            if enemy.hasStolenGoldFromBank == False:
                 enemy.playLaughSound()
-                enemy.hasStolenGold = True
+                enemy.hasStolenGoldFromBank = True
+
                 self.levelReference.gold -= enemy.goldToSteal
+                enemy.totalGoldOnEnemy += enemy.goldToSteal
 
 
     def draw(self, screen):

@@ -12,13 +12,16 @@ class Robber(Enemy):
         self.health = 100
         self.enemyWidth = 65
         self.enemyHeight = 40
-        self.movementSpeed = 410
+        self.movementSpeed = 180
 
         self.levelReference = levelReference
 
         self.goldToSteal = 100
         self.goldOnKill = 100
         self.scoreOnKill = 50
+        self.totalGoldOnEnemy = 0
+        self.name = "Bank Robber"
+        self.description = "A bank robber, an enemy with medium stats."
 
         self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
         self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
@@ -74,13 +77,19 @@ class Robber(Enemy):
                     self.rotate()
                 else:
                     self.kill()
+                    self.hasDied = True
 
             self.position += moveToPositionVector
 
-            if self.hasStolenGold and not self.hasChangedImageToGoldBags:
+            for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
+                self.totalGoldOnEnemy += collidedMoneybag.goldValue
+                collidedMoneybag.kill()
+
+            if self.totalGoldOnEnemy > 0 and not self.hasChangedImageToGoldBags:
                 self.hasChangedImageToGoldBags = True
                 self.currentImage = self.hasGoldImage
                 self.rotate()
+
 
             self.rect = self.image.get_rect()
             self.rect.center = self.position
@@ -119,8 +128,8 @@ class Robber(Enemy):
             self.levelReference.totalEnemiesKilled += 1
             self.levelReference.gold += self.goldOnKill
 
-            if self.hasStolenGold:
-                Moneybag(self.position, 90, self.levelReference, self.goldToSteal, self.levelReference.allSprites, self.levelReference.moneybagSprites)
+            if self.totalGoldOnEnemy > 0:
+                Moneybag(Vector2(self.position), 90, self.levelReference, self.totalGoldOnEnemy, self.levelReference.allSprites, self.levelReference.moneybagSprites)
                 self.goldDropSound.play()
 
             self.levelReference.score += self.scoreOnKill

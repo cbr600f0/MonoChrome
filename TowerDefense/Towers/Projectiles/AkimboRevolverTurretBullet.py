@@ -11,7 +11,7 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
         self.position = Vector2(pos)
 
-        self.velocity = 600
+        self.velocity = 700
         self.damage = damage
         self.direction = 0
 
@@ -30,6 +30,9 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
             #  Move towards enemy
             moveToPositionVector = self.enemyToFollow.position - self.position
+            if moveToPositionVector == Vector2(0, 0):
+                print("mark"
+                      )
             moveToPositionVector.length = self.velocity * deltaTime
 
             if moveToPositionVector.length > self.enemyToFollow.position.get_distance(self.position):
