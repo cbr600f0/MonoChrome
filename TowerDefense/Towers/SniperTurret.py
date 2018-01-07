@@ -14,13 +14,13 @@ class SniperTurret(Turret):
         self.turretWidth = 50
         self.turretHeight = 98
 
-        self.damage = 1
+        self.damage = 60
         self.nextLevelDamage = 280
 
-        self.fireRate = 60.5 # shots per second
+        self.fireRate = 0.5 # shots per second
         self.nextLevelFireRate = 0.55
 
-        self.range = 2300
+        self.range = 260
         self.nextLevelRange = 340
 
         self.name = "Rifle Cowboy"
@@ -45,6 +45,8 @@ class SniperTurret(Turret):
         self.gunShotSound = pygame.mixer.Sound("TowerDefense/Sounds/sniperGunshot.wav")
         self.gunShotSound.set_volume(0.010)
 
+        self.offset = Vector2(50, 14).rotate(self.direction)
+
     def update(self, deltaTime):
         if not self.isUpgrading:
             enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
@@ -57,7 +59,13 @@ class SniperTurret(Turret):
 
                 if self.bulletTimer > 1 / self.fireRate:
                     self.gunShotSound.play()
-                    posToShootFrom = Vector2(self.position.x, self.position.y) + Vector2(50, 14).rotate(self.direction) # < ERROR this offset can error
+
+                    try:
+                        self.offset = Vector2(50, 14).rotate(self.direction)
+                    except:
+                        self.offset = Vector2(0, 0)
+
+                    posToShootFrom = Vector2(self.position.x, self.position.y) + self.offset
                     self.shoot(posToShootFrom, enemyToShoot)
 
                     self.bulletTimer = 0

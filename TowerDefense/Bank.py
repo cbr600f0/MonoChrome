@@ -1,5 +1,6 @@
 import pygame, math, random
 from TowerDefense.Enemies.Enemy import Enemy
+from TowerDefense.Enemies.HorseRobber import HorseRobber
 from pygame.math import Vector2 as Vector2
 
 
@@ -19,14 +20,32 @@ class Bank(pygame.sprite.Sprite):
         self.offset = Vector2(80, 40).rotate(self.direction)
         self.lootCenterPos = self.position + self.offset
 
+        self.lblFont = pygame.font.SysFont("monospace", 26)
+        self.lblFont.set_bold(True)
+
+        #HIER GEBLEVEN EEN RODE LABEL MOET OMHOOG GAAN ALS EEN ENEMY GOLD HEEFT GEPAKT VAN DE BANK NET ALS MONEYBAG
+        self.goldValueLbl = self.lblFont.render("+" + str(100) + "G", True, [0, 255, 0])
+        self.lblPosition = Vector2(self.position)
+        self.lblTimer = 0
+        self.lblDuration = 2
+
     def update(self, deltaTime):
         for enemy in self.GetAllEnemiesInRadius(self.lootCenterPos, 50):
-            if enemy.hasStolenGoldFromBank == False:
-                enemy.playLaughSound()
-                enemy.hasStolenGoldFromBank = True
+            if isinstance(enemy, HorseRobber):
+                if enemy.hasStolenGoldFromBank == False and enemy.hasRobber == True:
+                    enemy.playLaughSound()
+                    enemy.hasStolenGoldFromBank = True
+                    enemy.currentRobber.hasStolenGoldFromBank = True
 
-                self.levelReference.gold -= enemy.goldToSteal
-                enemy.totalGoldOnEnemy += enemy.goldToSteal
+                    self.levelReference.gold -= enemy.goldToSteal
+                    enemy.totalGoldOnEnemy += enemy.goldToSteal
+            else:
+                if enemy.hasStolenGoldFromBank == False:
+                    enemy.playLaughSound()
+                    enemy.hasStolenGoldFromBank = True
+
+                    self.levelReference.gold -= enemy.goldToSteal
+                    enemy.totalGoldOnEnemy += enemy.goldToSteal
 
 
     def draw(self, screen):

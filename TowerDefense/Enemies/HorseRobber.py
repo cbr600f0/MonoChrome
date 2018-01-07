@@ -1,25 +1,32 @@
 import pygame, math, random
 from TowerDefense.Enemies.Enemy import Enemy
 from Vector2 import Vector2
+from TowerDefense.Enemies.Robber import Robber
 from TowerDefense.Moneybag import Moneybag
 
 
 class HorseRobber(Enemy):
 
-    def __init__(self, positionsToFollow, levelReference, *sprite_groups):
+    def __init__(self, robber, positionsToFollow, levelReference, *sprite_groups):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
-        self.health = 100
+        self.currentRobber = robber
+        self.horseHealth = 70
+        self.robberHealth = robber.health
+
         self.enemyWidth = 68
         self.enemyHeight = 114
-        self.movementSpeed = 200
+        self.movementSpeed = 170
         self.hasRobber = True
 
         self.levelReference = levelReference
 
-        self.goldToSteal = 100
-        self.goldOnKill = 100
-        self.scoreOnKill = 50
+        self.goldOnHorseKill = 60
+        self.scoreOnHorseKill = 60
+
+        self.goldToSteal = robber.goldToSteal
+        self.goldOnKill = robber.goldOnKill
+        self.scoreOnKill = robber.scoreOnKill
         self.totalGoldOnEnemy = 0
         self.name = "Robber on a Horse"
         self.description = "A bank robber on a horse, Fast movement lower gold stealing capacity but, the robber has to get killed before the horse."
@@ -39,8 +46,8 @@ class HorseRobber(Enemy):
         self.horseImage.blit(self.outlineEnemyImage, (0, 0))
         self.horseMask = pygame.mask.from_surface(self.horseImage)
 
-        self.hasGoldImage = pygame.image.load("TowerDefense\Images\Enemies\MoneyBagRobber.png").convert_alpha()
-        self.hasGoldImage = pygame.transform.scale(self.hasGoldImage, (80, 40))
+        self.hasGoldImage = pygame.image.load("TowerDefense\Images\Enemies\RobberOnHorseMoneybag.png").convert_alpha()
+        self.hasGoldImage = pygame.transform.scale(self.hasGoldImage, (86, self.enemyHeight))
 
         self.outlinehasGoldImage = self.getOutline(self.hasGoldImage, [0, 0, 0])
         self.hasGoldImage.blit(self.outlinehasGoldImage, (0, 0))
@@ -93,14 +100,23 @@ class HorseRobber(Enemy):
                 else:
                     self.position += moveToPositionVector
 
-            for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
-                self.totalGoldOnEnemy += collidedMoneybag.goldValue
-                collidedMoneybag.kill()
 
-            if self.totalGoldOnEnemy > 0 and not self.hasChangedImageToGoldBags:
-                self.hasChangedImageToGoldBags = True
-                self.currentImage = self.hasGoldImage
-                self.rotate()
+            if self.hasRobber:
+                for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
+                    if collidedMoneybag.enemyCanPickupBag:
+                        self.totalGoldOnEnemy += collidedMoneybag.goldValue
+                        collidedMoneybag.kill()
+
+                if self.totalGoldOnEnemy > 0 and not self.hasChangedImageToGoldBags:
+                    self.hasChangedImageToGoldBags = True
+                    self.currentImage = self.hasGoldImage
+                    self.rotate()
+            else:
+                for enemy in self.levelReference.enemySprites.sprites():
+                    if isinstance(enemy, Robber):
+                        if pygame.sprite.collide_mask(enemy, self):
+                            self.addRobber(enemy)
+                            break
 
             self.rect = self.image.get_rect()
             self.rect.center = self.position
@@ -123,13 +139,17 @@ class HorseRobber(Enemy):
         if self.hasDied is False:
             playDeathSound = False
 
-            self.health -= damageTaken
-            if self.health <= 0:
-                if self.hasRobber:
-                    self.RemoveRobber()
-                else:
-                    playDeathSound = True
-                    self.die()
+            if self.hasRobber:
+                self.robberHealth -= damageTaken
+            else:
+                self.horseHealth -= damageTaken
+
+            if self.hasRobber and self.robberHealth <= 0: # The robber died
+                self.removeRobber()
+                playDeathSound = True
+            elif not self.hasRobber and self.horseHealth <= 0: #The horse died
+                playDeathSound = True
+                self.die()
 
             if playDeathSound:
                 self.deathSound.play()
@@ -139,26 +159,51 @@ class HorseRobber(Enemy):
     def die(self):
         if self.hasDied is False:
             self.laughSound.stop()
+
             self.levelReference.totalEnemiesKilled += 1
-            self.levelReference.gold += self.goldOnKill
+            self.levelReference.gold += self.goldOnHorseKill
+            self.levelReference.score += self.scoreOnHorseKill
 
-            if self.totalGoldOnEnemy > 0:
-                Moneybag(Vector2(self.position), 90, self.levelReference, self.totalGoldOnEnemy, self.levelReference.allSprites, self.levelReference.moneybagSprites)
-                self.goldDropSound.play()
-
-            self.levelReference.score += self.scoreOnKill
             self.kill()
             self.hasDied = True
 
-    def RemoveRobber(self):
-        self.health = 50
+    def removeRobber(self):
+        self.name = "Loneley Horse"
+
+        self.levelReference.totalEnemiesKilled += 1
+        self.levelReference.gold += self.goldOnKill
+        self.levelReference.score += self.scoreOnKill
+
+        self.goldOnKill = self.goldOnHorseKill
+        self.scoreOnKill = self.scoreOnHorseKill
+
+        if self.totalGoldOnEnemy > 0:
+            Moneybag(Vector2(self.position), 90, self.levelReference, self.totalGoldOnEnemy, self.levelReference.allSprites, self.levelReference.moneybagSprites)
+
+        self.totalGoldOnEnemy = 0
+        self.robberHealth = 0
         self.hasRobber = False
         self.currentImage = self.horseImage
         self.rotate()
-        self.movementSpeed = 300
+        self.movementSpeed = 310
+        self.currentRobber = None
 
-    def AddRobber(self):
-        pass
+    def addRobber(self, robber):
+        self.name = "Robber on a Horse"
+        self.hasStolenGoldFromBank = robber.hasStolenGoldFromBank
+        self.currentRobber = robber
+        self.robberHealth = robber.health
+        self.totalGoldOnEnemy = robber.totalGoldOnEnemy
+        self.goldOnKill = robber.goldOnKill
+        self.scoreOnKill = robber.scoreOnKill
+
+        self.hasRobber = True
+        self.currentImage = self.horseWithRobberImage
+        self.rotate()
+        self.movementSpeed = 170
+
+        robber.hasDied = True
+        robber.kill()
 
     def getOutline(self, image, color=(0, 0, 0), threshold=127):
         mask = pygame.mask.from_surface(image, threshold)

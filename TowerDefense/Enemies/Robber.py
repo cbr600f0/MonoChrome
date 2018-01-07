@@ -12,7 +12,7 @@ class Robber(Enemy):
         self.health = 100
         self.enemyWidth = 65
         self.enemyHeight = 40
-        self.movementSpeed = 120
+        self.movementSpeed = 90
 
         self.levelReference = levelReference
 
@@ -86,8 +86,9 @@ class Robber(Enemy):
                     self.position += moveToPositionVector
 
             for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
-                self.totalGoldOnEnemy += collidedMoneybag.goldValue
-                collidedMoneybag.kill()
+                if collidedMoneybag.enemyCanPickupBag:
+                    self.totalGoldOnEnemy += collidedMoneybag.goldValue
+                    collidedMoneybag.kill()
 
             if self.totalGoldOnEnemy > 0 and not self.hasChangedImageToGoldBags:
                 self.hasChangedImageToGoldBags = True

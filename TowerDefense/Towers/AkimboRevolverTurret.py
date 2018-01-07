@@ -13,13 +13,13 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 1
+        self.damage = 30
         self.nextLevelDamage = 90
 
-        self.fireRate = 30.3 # shots per second
+        self.fireRate = 1.3 # shots per second
         self.nextLevelFireRate = 1.5
 
-        self.range = 1800
+        self.range = 180
         self.nextLevelRange = 200
 
         self.name = "Akimbo Cowboy"
@@ -45,6 +45,7 @@ class AkimboRevolverTurret(Turret):
 
         self.gunShotSound = pygame.mixer.Sound("TowerDefense/Sounds/revolverShot.wav")
         self.gunShotSound.set_volume(0.009)
+        self.offset = Vector2(48, -14).rotate(self.direction)
 
     def update(self, deltaTime):
         if not self.isUpgrading:
@@ -58,12 +59,15 @@ class AkimboRevolverTurret(Turret):
                 if self.bulletTimer > 1 / self.fireRate:
                     self.gunShotSound.play()
 
-                    if self.ShootLeftGun: # ERROR Offset can give you an error check THIS!!
-                        offset = Vector2(48, -14).rotate(self.direction)
-                    else:
-                        offset = Vector2(48, 14).rotate(self.direction)
+                    try:
+                        if self.ShootLeftGun:
+                            self.offset = Vector2(48, -14).rotate(self.direction)
+                        else:
+                            self.offset = Vector2(48, 14).rotate(self.direction)
+                    except:
+                        self.offset = Vector2(0, 0)
 
-                    posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
+                    posToShootFrom = Vector2(self.position.x, self.position.y) + self.offset  # Center of the sprite.
                     self.shoot(posToShootFrom, enemyToShoot)
 
                     self.ShootLeftGun = not self.ShootLeftGun

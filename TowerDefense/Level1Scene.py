@@ -9,6 +9,8 @@ from TowerDefense.Bank import Bank
 from TowerDefense.Towers.Turret import Turret
 from TowerDefense.Enemies.Enemy import Enemy
 from TowerDefense.EnemyWaveSpawner import EnemyWaveSpawner
+from TowerDefense.Enemies.Robber import Robber
+from TowerDefense.Enemies.HorseRobber import HorseRobber
 
 
 class Level1Scene(SceneManager.Scene):
@@ -17,7 +19,7 @@ class Level1Scene(SceneManager.Scene):
         super(Level1Scene, self).__init__()
 
         self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
-        self.gold = 100000
+        self.gold = 5000000
         self.score = 0
         self.difficulty = "Normal"
         self.totalEnemiesKilled = 0
@@ -217,8 +219,7 @@ class Level1Scene(SceneManager.Scene):
                     self.spawnPauseTimer = 0
 
                     self.currentRound += 1
-                    for i in range(3):
-                        self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
+                    self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
 
             if not self.spawnerIsActive:
@@ -304,7 +305,12 @@ class Level1Scene(SceneManager.Scene):
         self.goldOnKill = 100
         self.goldToSteal = 10
 
-        healthText = "Health: " + str(enemyToShow.health)
+        if isinstance(enemyToShow, HorseRobber):
+            horseHealthText = "Horse Health: " + str(enemyToShow.horseHealth)
+            robberHealthText = "Robber Health: " + str(enemyToShow.robberHealth)
+        else:
+            healthText = "Health: " + str(enemyToShow.health)
+
         movementSpeed = "Speed: " + str(enemyToShow.movementSpeed)
         goldOnKillText = "Kill Gold: " + str(enemyToShow.goldOnKill)
         totalStolenGold = "Stolen Gold: " + str(enemyToShow.totalGoldOnEnemy)
@@ -317,7 +323,12 @@ class Level1Scene(SceneManager.Scene):
 
         self.focusedEnemyName = self.upgradeTurretStatsHeaderFont.render(enemyToShow.name, True, [0, 0, 0])
 
-        self.focusedEnemyHealth = self.upgradeTurretStatsFont.render(healthText, True, [0, 0, 0])
+        if isinstance(enemyToShow, HorseRobber):
+            self.focusedHorseHealth = self.upgradeTurretStatsFont.render(horseHealthText, True, [0, 0, 0])
+            self.focusedRobberHealth = self.upgradeTurretStatsFont.render(robberHealthText, True, [0, 0, 0])
+        else:
+            self.focusedEnemyHealth = self.upgradeTurretStatsFont.render(healthText, True, [0, 0, 0])
+
         self.focusedEnemySpeed = self.upgradeTurretStatsFont.render(movementSpeed, True, [0, 0, 0])
         self.focusedEnemyGoldOnKill = self.upgradeTurretStatsFont.render(goldOnKillText, True, [0, 0, 0])
         self.focusedEnemyTotalStolenGold = self.upgradeTurretStatsFont.render(totalStolenGold, True, [0, 0, 0])
@@ -325,11 +336,21 @@ class Level1Scene(SceneManager.Scene):
 
         screen.blit(self.focusedEnemyName, (canvasRect.centerx - int(self.focusedEnemyName.get_rect().width / 2), 380))
 
-        screen.blit(self.focusedEnemyHealth, (1326, 508))
-        screen.blit(self.focusedEnemySpeed, (1326, 538))
-        screen.blit(self.focusedEnemyGoldOnKill, (1326, 568))
-        screen.blit(self.focusedEnemyGoldToSteal, (1326, 598))
-        screen.blit(self.focusedEnemyTotalStolenGold, (1326, 628))
+        if isinstance(enemyToShow, HorseRobber):
+
+            screen.blit(self.focusedHorseHealth, (1326, 508))
+            screen.blit(self.focusedRobberHealth, (1326, 538))
+            screen.blit(self.focusedEnemySpeed, (1326, 568))
+            screen.blit(self.focusedEnemyGoldOnKill, (1326, 598))
+            screen.blit(self.focusedEnemyGoldToSteal, (1326, 628))
+            screen.blit(self.focusedEnemyTotalStolenGold, (1326, 658))
+        else:
+
+            screen.blit(self.focusedEnemyHealth, (1326, 508))
+            screen.blit(self.focusedEnemySpeed, (1326, 538))
+            screen.blit(self.focusedEnemyGoldOnKill, (1326, 568))
+            screen.blit(self.focusedEnemyGoldToSteal, (1326, 598))
+            screen.blit(self.focusedEnemyTotalStolenGold, (1326, 628))
 
     def renderTurretUpgradeScreen(self, screen, turretToShow):
 
@@ -444,8 +465,6 @@ class Level1Scene(SceneManager.Scene):
             self.tutPreviousBtn.draw(screen)
 
         self.tutNextBtn.draw(screen)
-
-
 
     def GetClosestEnemyInRadius(self, centerPos, radius, enemySprites):
 

@@ -56,6 +56,7 @@ class TntTurret(Turret):
         self.collisionRect = pygame.Rect(self.rect.x, self.rect.y, self.turretWidth, self.turretHeight)
 
         self.ShootLeftGun = True
+        self.offset = Vector2(0, -34).rotate(self.direction)
 
     def update(self, deltaTime):
         if not self.isUpgrading:
@@ -69,12 +70,15 @@ class TntTurret(Turret):
 
                 if self.attackTimer > 1 / self.fireRate:
 
-                    if self.ShootLeftGun:   #ERROR this offset can error
-                        offset = Vector2(0, -34).rotate(self.direction)
-                    else:
-                        offset = Vector2(0, 34).rotate(self.direction)
+                    try:
+                        if self.ShootLeftGun:
+                            self.offset = Vector2(0, -34).rotate(self.direction)
+                        else:
+                            self.offset = Vector2(0, 34).rotate(self.direction)
+                    except:
+                        self.offset = Vector2(0, 0)
 
-                    posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
+                    posToShootFrom = Vector2(self.position.x, self.position.y) + self.offset
                     self.shoot(posToShootFrom, enemyToFollow.position)
 
                     self.ShootLeftGun = not self.ShootLeftGun
