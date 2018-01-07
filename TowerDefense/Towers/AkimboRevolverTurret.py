@@ -13,13 +13,13 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 60
+        self.damage = 1
         self.nextLevelDamage = 90
 
-        self.fireRate = 1.3 # shots per second
+        self.fireRate = 30.3 # shots per second
         self.nextLevelFireRate = 1.5
 
-        self.range = 180
+        self.range = 1800
         self.nextLevelRange = 200
 
         self.name = "Akimbo Cowboy"
@@ -58,7 +58,7 @@ class AkimboRevolverTurret(Turret):
                 if self.bulletTimer > 1 / self.fireRate:
                     self.gunShotSound.play()
 
-                    if self.ShootLeftGun:
+                    if self.ShootLeftGun: # ERROR Offset can give you an error check THIS!!
                         offset = Vector2(48, -14).rotate(self.direction)
                     else:
                         offset = Vector2(48, 14).rotate(self.direction)

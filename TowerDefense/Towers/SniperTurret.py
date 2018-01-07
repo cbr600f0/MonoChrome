@@ -14,13 +14,13 @@ class SniperTurret(Turret):
         self.turretWidth = 50
         self.turretHeight = 98
 
-        self.damage = 200
+        self.damage = 1
         self.nextLevelDamage = 280
 
-        self.fireRate = 0.5 # shots per second
+        self.fireRate = 60.5 # shots per second
         self.nextLevelFireRate = 0.55
 
-        self.range = 300
+        self.range = 2300
         self.nextLevelRange = 340
 
         self.name = "Rifle Cowboy"
@@ -57,7 +57,7 @@ class SniperTurret(Turret):
 
                 if self.bulletTimer > 1 / self.fireRate:
                     self.gunShotSound.play()
-                    posToShootFrom = Vector2(self.position.x, self.position.y) + Vector2(50, 14).rotate(self.direction)
+                    posToShootFrom = Vector2(self.position.x, self.position.y) + Vector2(50, 14).rotate(self.direction) # < ERROR this offset can error
                     self.shoot(posToShootFrom, enemyToShoot)
 
                     self.bulletTimer = 0

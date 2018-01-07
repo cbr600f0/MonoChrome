@@ -4,15 +4,16 @@ from Vector2 import Vector2
 from TowerDefense.Moneybag import Moneybag
 
 
-class Robber(Enemy):
+class HorseRobber(Enemy):
 
     def __init__(self, positionsToFollow, levelReference, *sprite_groups):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
         self.health = 100
-        self.enemyWidth = 65
-        self.enemyHeight = 40
-        self.movementSpeed = 120
+        self.enemyWidth = 68
+        self.enemyHeight = 114
+        self.movementSpeed = 200
+        self.hasRobber = True
 
         self.levelReference = levelReference
 
@@ -20,15 +21,23 @@ class Robber(Enemy):
         self.goldOnKill = 100
         self.scoreOnKill = 50
         self.totalGoldOnEnemy = 0
-        self.name = "Bank Robber"
-        self.description = "A bank robber, an enemy with medium stats."
+        self.name = "Robber on a Horse"
+        self.description = "A bank robber on a horse, Fast movement lower gold stealing capacity but, the robber has to get killed before the horse."
 
-        self.enemyImage = pygame.image.load("TowerDefense\Images\Enemies\Robber.png").convert_alpha()
-        self.enemyImage = pygame.transform.scale(self.enemyImage, (self.enemyWidth, self.enemyHeight))
+        #Horse with robber
+        self.horseWithRobberImage = pygame.image.load("TowerDefense\Images\Enemies\HorseRobber.png").convert_alpha()
+        self.horseWithRobberImage = pygame.transform.scale(self.horseWithRobberImage, (self.enemyWidth, self.enemyHeight))
 
-        self.outlineEnemyImage = self.getOutline(self.enemyImage, [0, 0, 0])
-        self.enemyImage.blit(self.outlineEnemyImage, (0, 0))
-        self.robberMask = pygame.mask.from_surface(self.enemyImage)
+        self.outlineEnemyImage = self.getOutline(self.horseWithRobberImage, [0, 0, 0])
+        self.horseWithRobberImage.blit(self.outlineEnemyImage, (0, 0))
+
+        #Horse without robber
+        self.horseImage = pygame.image.load("TowerDefense\Images\Enemies\Horse.png").convert_alpha()
+        self.horseImage = pygame.transform.scale(self.horseImage, (self.enemyWidth, self.enemyHeight))
+
+        self.outlineEnemyImage = self.getOutline(self.horseImage, [0, 0, 0])
+        self.horseImage.blit(self.outlineEnemyImage, (0, 0))
+        self.horseMask = pygame.mask.from_surface(self.horseImage)
 
         self.hasGoldImage = pygame.image.load("TowerDefense\Images\Enemies\MoneyBagRobber.png").convert_alpha()
         self.hasGoldImage = pygame.transform.scale(self.hasGoldImage, (80, 40))
@@ -36,8 +45,8 @@ class Robber(Enemy):
         self.outlinehasGoldImage = self.getOutline(self.hasGoldImage, [0, 0, 0])
         self.hasGoldImage.blit(self.outlinehasGoldImage, (0, 0))
 
-        self.currentImage = self.enemyImage
-        self.mask = self.robberMask
+        self.currentImage = self.horseWithRobberImage
+        self.mask = self.horseMask
 
         self.painSound = pygame.mixer.Sound("TowerDefense/Sounds/enemyPain.wav")
         self.painSound.set_volume(0.008)
@@ -45,14 +54,14 @@ class Robber(Enemy):
         self.deathSound = pygame.mixer.Sound("TowerDefense/Sounds/deathSound" + str(random.randint(1, 2)) + ".wav")
         self.deathSound.set_volume(0.008)
 
-        self.laughSound = pygame.mixer.Sound("TowerDefense/Sounds/laugh" + str(random.randint(1, 2)) + ".wav")#        self.laughSound = pygame.mixer.Sound("TowerDefense/Sounds/laugh" + str(random.randint(1, 2)) + ".wav")
+        self.laughSound = pygame.mixer.Sound("TowerDefense/Sounds/laugh" + str(random.randint(1, 2)) + ".wav")
         self.laughSound.set_volume(0.008)
 
         self.goldDropSound = pygame.mixer.Sound("TowerDefense/Sounds/goldDrop.wav")
         self.goldDropSound.set_volume(0.0088)
 
-        self.image = self.enemyImage
-        self.rect = self.enemyImage.get_rect()
+        self.image = self.currentImage
+        self.rect = self.currentImage.get_rect()
         self.rect.center = self.position
 
         self.destinationPosIndex += 1
@@ -64,7 +73,6 @@ class Robber(Enemy):
     def update(self, deltaTime):
 
         if self.hasDied is False:
-
             moveToPositionVector = self.nextPositionToGoTo - self.position
 
             if not moveToPositionVector.get_length() == 0:
@@ -117,8 +125,11 @@ class Robber(Enemy):
 
             self.health -= damageTaken
             if self.health <= 0:
-                playDeathSound = True
-                self.die()
+                if self.hasRobber:
+                    self.RemoveRobber()
+                else:
+                    playDeathSound = True
+                    self.die()
 
             if playDeathSound:
                 self.deathSound.play()
@@ -138,6 +149,16 @@ class Robber(Enemy):
             self.levelReference.score += self.scoreOnKill
             self.kill()
             self.hasDied = True
+
+    def RemoveRobber(self):
+        self.health = 50
+        self.hasRobber = False
+        self.currentImage = self.horseImage
+        self.rotate()
+        self.movementSpeed = 300
+
+    def AddRobber(self):
+        pass
 
     def getOutline(self, image, color=(0, 0, 0), threshold=127):
         mask = pygame.mask.from_surface(image, threshold)

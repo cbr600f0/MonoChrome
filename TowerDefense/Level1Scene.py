@@ -130,6 +130,33 @@ class Level1Scene(SceneManager.Scene):
 
         self.enemySpawnerObjects = []
 
+        self.showTutorial = True
+        self.currentTutorialPage = 1
+        self.tutorialRect = pygame.Rect(400, 160, 580, 400)
+
+        self.tutorialBodyFont = pygame.font.SysFont("monospace", 19)
+        self.tutorialBodyFont.set_bold(True)
+
+        self.akimboTurretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
+        self.akimboTurretImage = pygame.transform.scale(self.akimboTurretImage, (48, 98))
+        self.outlineTurretImage = self.getOutline(self.akimboTurretImage, [0, 0, 0])
+        self.akimboTurretImage.blit(self.outlineTurretImage, (0, 0))
+
+        self.tntTurretImage = pygame.image.load("TowerDefense\Images\Turrets\TntTurret.png").convert_alpha()
+        self.tntTurretImage = pygame.transform.scale(self.tntTurretImage, (86, 74))
+        self.outlineTurretImage = self.getOutline(self.tntTurretImage, [0, 0, 0])
+        self.tntTurretImage.blit(self.outlineTurretImage, (0, 0))
+
+        self.sniperTurretImage = pygame.image.load("TowerDefense\Images\Turrets\SniperTurret.png").convert_alpha()
+        self.sniperTurretImage = pygame.transform.scale(self.sniperTurretImage, (50, 98))
+        self.outlineTurretImage = self.getOutline(self.sniperTurretImage, [0, 0, 0])
+        self.sniperTurretImage.blit(self.outlineTurretImage, (0, 0))
+
+        self.tutCloseBtn = Button(True, None, "Close", None, None, [40, 40, 40], [0, 0, 0], 480, 480, None, 60)
+        self.tutNextBtn = Button(True, None, "Next", None, None, [40, 40, 40], [0, 0, 0], 780, 480, None, 60)
+        self.tutPreviousBtn = Button(True, None, "Previous", None, None, [40, 40, 40], [0, 0, 0], 480, 480, None, 60)
+
+
     def render(self, screen):
         self.allSprites.clear(screen, self.mainBG)
 
@@ -141,6 +168,9 @@ class Level1Scene(SceneManager.Scene):
             spriteToDraw.draw(screen)
 
         self.renderHud(screen)
+
+        if self.showTutorial:
+            self.renderTutorialScreen(screen)
 
         if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and not self.focusedSprite.hasDied:
             self.renderEnemyStatsScreen(screen, self.focusedSprite)
@@ -164,6 +194,16 @@ class Level1Scene(SceneManager.Scene):
         if self.gold < 0:
             self.gameOver = True
 
+        if self.showTutorial:
+            if self.tutCloseBtn.click():
+                self.showTutorial = False
+
+            if self.tutPreviousBtn.click():
+                self.currentTutorialPage -= 1
+
+            if self.tutNextBtn.click():
+                self.currentTutorialPage += 1
+
         if not self.gameOver:
 
             if self.spawnerIsActive:
@@ -177,7 +217,8 @@ class Level1Scene(SceneManager.Scene):
                     self.spawnPauseTimer = 0
 
                     self.currentRound += 1
-                    self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
+                    for i in range(3):
+                        self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
 
             if not self.spawnerIsActive:
@@ -376,6 +417,35 @@ class Level1Scene(SceneManager.Scene):
                 self.upgradeTurretSellButton.draw(screen)
 
             self.drawText(screen, "Making your turret more awesome!", [0, 0, 0], pygame.Rect(descriptionRect.centerx - 126, 620, 300, 70), self.upgradeTurretUpgradeTextFont, True, None)
+
+    def renderTutorialScreen(self, screen):
+        canvasRect = pygame.draw.rect(screen, [70, 50, 34], self.tutorialRect)
+        pygame.draw.rect(screen, [50, 30, 14], self.tutorialRect, 3)  # Border
+
+        if self.currentTutorialPage == 1:
+
+            headerRect = pygame.Rect(0, 180, 360, 70)
+            headerRect.centerx = canvasRect.centerx
+
+            self.drawText(screen, "You can build these 3 towers", [0, 0, 0], headerRect, self.upgradeTurretStatsHeaderFont, True, None)
+
+            screen.blit(self.akimboTurretImage, (500, 240))
+            screen.blit(self.tntTurretImage, (645, 240))
+            screen.blit(self.sniperTurretImage, (820, 240))
+
+            bodyRect = pygame.Rect(0, 380, canvasRect.width - 80, 270)
+            bodyRect.centerx = canvasRect.centerx
+
+            self.drawText(screen, "You can find the towers in the top right corner of your screen.", [0, 0, 0], bodyRect, self.tutorialBodyFont, True, None)
+
+        if self.currentTutorialPage == 1:
+            self.tutCloseBtn.draw(screen)
+        else:
+            self.tutPreviousBtn.draw(screen)
+
+        self.tutNextBtn.draw(screen)
+
+
 
     def GetClosestEnemyInRadius(self, centerPos, radius, enemySprites):
 
@@ -586,3 +656,14 @@ class Level1Scene(SceneManager.Scene):
 
         else:
             self.currentShopSquare.changeOutlineColor((0, 0, 0))
+
+    def getOutline(self, image, color=(0, 0, 0), threshold=127):
+        mask = pygame.mask.from_surface(image, threshold)
+        outline_image = pygame.Surface(image.get_size()).convert_alpha()
+        outline_image.fill((0, 0, 0, 0))
+
+        #outline_image = pygame.transform.rotozoom(outline_image, 0, 1)
+
+        for point in mask.outline():
+            outline_image.set_at(point, color)
+        return outline_image

@@ -16,7 +16,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
 
         self.backgroundImage = pygame.image.load("MainMenu/Images/MainMenuBackgroundPlusMachine.png").convert()
         self.headerSurfaceSize = (638, 134)
-        self.bodySurfaceSize = (542, 452)
+        self.bodySurfaceSize = (560, 460)
 
         #Header Images
         self.pongHeaderImage = pygame.image.load("MainMenu/Images/Minigames/PongHeader.png").convert()
@@ -37,7 +37,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.pongBodyImage = pygame.image.load("MainMenu/Images/Minigames/PongArcadeBodyImage.png").convert()
         self.pongBodyImage = pygame.transform.scale(self.pongBodyImage, self.bodySurfaceSize)
 
-        self.towerDefenseBodyImage = pygame.image.load("MainMenu/Images/Minigames/TowerDefenseHeader.png").convert()
+        self.towerDefenseBodyImage = pygame.image.load("MainMenu/Images/Minigames/TowerDefenseArcadeBodyImage.png").convert()
         self.towerDefenseBodyImage = pygame.transform.scale(self.towerDefenseBodyImage, self.bodySurfaceSize)
 
         self.dxBallBodyImage = pygame.image.load("MainMenu/Images/Minigames/DXBallHeader.png").convert()
@@ -51,6 +51,8 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         #Surfaces
         self.headerSurface = pygame.Surface(self.headerSurfaceSize)
         self.bodySurface = pygame.Surface(self.bodySurfaceSize)
+        self.backgroundBodySurface = pygame.Surface((570, 470))
+        self.backgroundBodySurface.fill((40, 40, 40))
 
          #Buttons
         self.towerDefenseBtn = Button(False, self.towerDefenseFont, "Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 160, 600, 60)
@@ -94,7 +96,8 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.bodySurface.blit(self.currentBodyImage, (0, 0))
 
         screen.blit(self.headerSurface, (84, 40))
-        screen.blit(self.bodySurface, (130, 252))
+        screen.blit(self.backgroundBodySurface, (117, 238))
+        screen.blit(self.bodySurface, (122, 243))
 
         self.drawButtons(screen)
 
@@ -137,3 +140,14 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
 
     def handle_events(self, events):
         pass
+
+    def getOutline(self, image, color=(0, 0, 0), threshold=127):
+        mask = pygame.mask.from_surface(image, threshold)
+        outline_image = pygame.Surface(image.get_size()).convert_alpha()
+        outline_image.fill((0, 0, 0, 0))
+
+        #outline_image = pygame.transform.rotozoom(outline_image, 0, 1)
+
+        for point in mask.outline():
+            outline_image.set_at(point, color)
+        return outline_image

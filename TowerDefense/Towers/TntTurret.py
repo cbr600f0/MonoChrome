@@ -69,7 +69,7 @@ class TntTurret(Turret):
 
                 if self.attackTimer > 1 / self.fireRate:
 
-                    if self.ShootLeftGun:
+                    if self.ShootLeftGun:   #ERROR this offset can error
                         offset = Vector2(0, -34).rotate(self.direction)
                     else:
                         offset = Vector2(0, 34).rotate(self.direction)
