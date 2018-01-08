@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, random
 from Vector2 import Vector2
 
 
@@ -43,7 +43,10 @@ class TntTurretDynamite(pygame.sprite.Sprite):
         self.pauseTimer = 0
         self.pauseTime = 0.4
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+        self.explosionSound = pygame.mixer.Sound("TowerDefense/Sounds/explosion" + str(random.randint(1, 2)) + ".wav")
+        self.explosionSound.set_volume(0.032)
+
+    def update(self, deltaTime):
 
         if self.reacherDestination == False:
 
@@ -87,8 +90,8 @@ class TntTurretDynamite(pygame.sprite.Sprite):
                 self.detonationTimer += deltaTime
                 if self.detonationTimer >= self.detonationTime:
                     self.hasDetonated = True
-
-                    for enemyHit in self.levelReference.GetAllEnemiesInRadius(self.position, self.areaOfEffect, enemySprites):
+                    self.explosionSound.play()
+                    for enemyHit in self.levelReference.GetAllEnemiesInRadius(self.position, self.areaOfEffect, self.levelReference.enemySprites):
                         enemyHit.takeDamage(self.damage)
             else:
                 self.pauseTimer += deltaTime

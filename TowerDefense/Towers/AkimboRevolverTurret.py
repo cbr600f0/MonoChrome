@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, random
 from TowerDefense.Towers.Turret import Turret
 from TowerDefense.Towers.Projectiles.AkimboRevolverTurretBullet import AkimboRevolverTurretBullet as Bullet
 from pygame.math import Vector2 as Vector2
@@ -13,7 +13,7 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 60
+        self.damage = 30
         self.nextLevelDamage = 90
 
         self.fireRate = 1.3 # shots per second
@@ -43,9 +43,13 @@ class AkimboRevolverTurret(Turret):
 
         self.collisionRect = pygame.Rect(self.rect.x, self.rect.y, self.turretWidth, self.turretHeight)
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+        self.gunShotSound = pygame.mixer.Sound("TowerDefense/Sounds/revolverShot.wav")
+        self.gunShotSound.set_volume(0.009)
+        self.offset = Vector2(48, -14).rotate(self.direction)
+
+    def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, enemySprites)
+            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
             if enemyToShoot is not None:
 
                 self.posToFollow = enemyToShoot.position
@@ -53,14 +57,18 @@ class AkimboRevolverTurret(Turret):
                 self.bulletTimer += deltaTime
 
                 if self.bulletTimer > 1 / self.fireRate:
+                    self.gunShotSound.play()
 
-                    if self.ShootLeftGun:
-                        offset = Vector2(48, -14).rotate(self.direction)
-                    else:
-                        offset = Vector2(48, 14).rotate(self.direction)
+                    try:
+                        if self.ShootLeftGun:
+                            self.offset = Vector2(48, -14).rotate(self.direction)
+                        else:
+                            self.offset = Vector2(48, 14).rotate(self.direction)
+                    except:
+                        self.offset = Vector2(0, 0)
 
-                    posToShootFrom = Vector2(self.position.x, self.position.y) + offset  # Center of the sprite.
-                    self.shoot(posToShootFrom, allSprites, projectileSprites, enemyToShoot)
+                    posToShootFrom = Vector2(self.position.x, self.position.y) + self.offset  # Center of the sprite.
+                    self.shoot(posToShootFrom, enemyToShoot)
 
                     self.ShootLeftGun = not self.ShootLeftGun
                     self.bulletTimer = 0
@@ -84,8 +92,8 @@ class AkimboRevolverTurret(Turret):
             pygame.draw.rect(screen, [70, 50, 34], pygame.Rect(self.rect.centerx - (upgradeBarWidth / 2), self.rect.centery - 10, upgradeBarProgressWidth, 10))
             pygame.draw.rect(screen, [0, 0, 0], pygame.Rect(self.rect.centerx - (upgradeBarWidth / 2), self.rect.centery - 10, upgradeBarWidth, 10), 2)
 
-    def shoot(self, spawnPosition, allSprites, projectileSprites, enemyToFollow):
-        Bullet(spawnPosition, self.damage, enemyToFollow, allSprites, projectileSprites)
+    def shoot(self, spawnPosition, enemyToFollow):
+        Bullet(spawnPosition, self.damage, enemyToFollow, self.levelReference.allSprites, self.levelReference.projectileSprites)
 
     def rotate(self):
 

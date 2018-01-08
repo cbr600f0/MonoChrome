@@ -106,17 +106,13 @@ class Ball(pygame.sprite.Sprite):
                 break
 
         # Screen collision
-        if self.rect.right > 1600: # BALL IS AGAINST THE RIGHT SIDE OF THE SCREEN PLAYER 1 GETS A POINT HERE ALSO RESET THE BALL HERE
-            self.position.x = 1600 - self.width
-            self.xVel = -self.xVel
+
         if self.position.y > 900 - self.height:
             pass
              #BALL IS BELOW SCREEN RESET THE BALL HERE
             self.position.y = 900 - self.height # sets the balls y position to 900
             self.yVel = -self.yVel
-        if self.position.x < 0: # BALL IS AGAINST THE LEFT SIDE OF THE SCREEN PLAYER 2 GETS A POINT HERE ALSO RESET THE BALL HERE
-            self.position.x = 0
-            self.xVel = -self.xVel
+
         if self.position.y < 60:
             self.position.y = 60
             self.yVel = -self.yVel

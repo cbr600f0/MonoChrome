@@ -16,6 +16,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
 
         self.backgroundImage = pygame.image.load("MainMenu/Images/MainMenuBackgroundPlusMachine.png").convert()
         self.headerSurfaceSize = (638, 134)
+        self.bodySurfaceSize = (560, 460)
 
         #Header Images
         self.pongHeaderImage = pygame.image.load("MainMenu/Images/Minigames/PongHeader.png").convert()
@@ -32,7 +33,26 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.bubbleShooterHeaderImage = pygame.image.load("MainMenu/Images/Minigames/LightballShooterHeader.png").convert()
         self.bubbleShooterHeaderImage = pygame.transform.scale(self.bubbleShooterHeaderImage, self.headerSurfaceSize)
 
+        #Body Images
+        self.pongBodyImage = pygame.image.load("MainMenu/Images/Minigames/PongArcadeBodyImage.png").convert()
+        self.pongBodyImage = pygame.transform.scale(self.pongBodyImage, self.bodySurfaceSize)
+
+        self.towerDefenseBodyImage = pygame.image.load("MainMenu/Images/Minigames/TowerDefenseArcadeBodyImage.png").convert()
+        self.towerDefenseBodyImage = pygame.transform.scale(self.towerDefenseBodyImage, self.bodySurfaceSize)
+
+        self.dxBallBodyImage = pygame.image.load("MainMenu/Images/Minigames/DXBallHeader.png").convert()
+        self.dxBallBodyImage = pygame.transform.scale(self.dxBallBodyImage, self.bodySurfaceSize)
+
+        #self.spaceInvadersBodyImage = pygame.image.load("MainMenu/Images/Minigames/PongHeader.png").convert() # i wont use this title its title quality is too bad
+
+        self.bubbleShooterBodyImage = pygame.image.load("MainMenu/Images/Minigames/LightballShooterHeader.png").convert()
+        self.bubbleShooterBodyImage = pygame.transform.scale(self.bubbleShooterBodyImage, self.bodySurfaceSize)
+
+        #Surfaces
         self.headerSurface = pygame.Surface(self.headerSurfaceSize)
+        self.bodySurface = pygame.Surface(self.bodySurfaceSize)
+        self.backgroundBodySurface = pygame.Surface((570, 470))
+        self.backgroundBodySurface.fill((40, 40, 40))
 
          #Buttons
         self.towerDefenseBtn = Button(False, self.towerDefenseFont, "Tower Defense", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 160, 600, 60)
@@ -42,6 +62,8 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.bubbleShooterBtn = Button(True, None, "Bubble Shooter", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 280, 600, 60)
 
         self.currentHeaderImage = self.pongHeaderImage
+        self.currentBodyImage = self.pongBodyImage
+
         self.currentMinigameBtn = self.pongBtn
 
         self.minigameBtnList = []
@@ -58,13 +80,24 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.headerImageList.append(self.dxBallHeaderImage) # this should be space invaders but i dont have an image for that yet
         self.headerImageList.append(self.bubbleShooterHeaderImage)
 
+        self.bodyImageList = []
+        self.bodyImageList.append(self.pongBodyImage)
+        self.bodyImageList.append(self.towerDefenseBodyImage)
+        self.bodyImageList.append(self.dxBallBodyImage)
+        self.bodyImageList.append(self.dxBallBodyImage) # this should be space invaders but i dont have an image for that yet
+        self.bodyImageList.append(self.bubbleShooterBodyImage)
+
     # The function of this method is explained in the class Scene
     def render(self, screen):
 
         screen.blit(self.backgroundImage, (0, 0))
 
         self.headerSurface.blit(self.currentHeaderImage, (0, 0))
+        self.bodySurface.blit(self.currentBodyImage, (0, 0))
+
         screen.blit(self.headerSurface, (84, 40))
+        screen.blit(self.backgroundBodySurface, (117, 238))
+        screen.blit(self.bodySurface, (122, 243))
 
         self.drawButtons(screen)
 
@@ -75,6 +108,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
 
             if minigameBtn.mouseState == "hover":
                 self.currentHeaderImage = self.headerImageList[index]
+                self.currentBodyImage = self.bodyImageList[index]
                 self.currentMinigameBtn = minigameBtn
 
             if minigameBtn is not self.currentMinigameBtn:
@@ -106,3 +140,14 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
 
     def handle_events(self, events):
         pass
+
+    def getOutline(self, image, color=(0, 0, 0), threshold=127):
+        mask = pygame.mask.from_surface(image, threshold)
+        outline_image = pygame.Surface(image.get_size()).convert_alpha()
+        outline_image.fill((0, 0, 0, 0))
+
+        #outline_image = pygame.transform.rotozoom(outline_image, 0, 1)
+
+        for point in mask.outline():
+            outline_image.set_at(point, color)
+        return outline_image

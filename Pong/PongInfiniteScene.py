@@ -11,7 +11,7 @@ class PongInfiniteScene (SceneManager.Scene):
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
         self.playerSprites = pygame.sprite.Group()
-        Ball(Vector2(720, 390), self.allSprites, self.ballSprites)
+        Ball(self.allSprites, self.ballSprites)
         Player1(self.allSprites, self.playerSprites)
         self.hasStarted = False
         self.is_white = True
@@ -33,11 +33,12 @@ class PongInfiniteScene (SceneManager.Scene):
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(395, 0, 5, 45))  #scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(795, 0, 5, 45))  # scoreboard border
         pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1195, 0, 5, 45))  # scoreboard border
+        pygame.draw.rect(screen, [255, 255, 255], pygame.Rect(1550, 45, 50, 855))
         Points = self.myfont.render("Points:", 1, (255, 255, 255))
         screen.blit(Points, (15, 8))
         Infinite = self.myfont.render("Mode: Infinite", 1, (255, 255, 255))
         screen.blit(Infinite, (410, 8))
-        Lives = self.myfont.render("Lives:", 1, (255, 255, 255))
+        Lives = self.myfont.render("Lives:", 1, (0, 0, 0))
         screen.blit(Lives, (805, 8))
         HighScore = self.myfont.render("High Score:", 1, (255, 255, 255))
         screen.blit(HighScore, (1210, 8))
@@ -45,7 +46,7 @@ class PongInfiniteScene (SceneManager.Scene):
     def update(self, deltaTime):
         if self.hasStarted:
 
-            self.allSprites.update(deltaTime)
+            self.allSprites.update(deltaTime, self.playerSprites)
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_BACKSPACE]:

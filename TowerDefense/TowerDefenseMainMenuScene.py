@@ -9,8 +9,8 @@ class TowerDefenseMainMenuScene(SceneManager.Scene):
     def __init__(self):
         super(TowerDefenseMainMenuScene, self).__init__()
 
-        pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.mixer.music.load("TowerDefense/Sounds/WesternBackgroundMusic.ogg")
+        pygame.mixer.music.set_volume(0.0158)
         pygame.mixer.music.play(-1)
 
         self.mainBG = pygame.image.load("TowerDefense\Images\MainMenu.png").convert()

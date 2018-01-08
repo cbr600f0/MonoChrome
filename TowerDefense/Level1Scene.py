@@ -9,6 +9,8 @@ from TowerDefense.Bank import Bank
 from TowerDefense.Towers.Turret import Turret
 from TowerDefense.Enemies.Enemy import Enemy
 from TowerDefense.EnemyWaveSpawner import EnemyWaveSpawner
+from TowerDefense.Enemies.Robber import Robber
+from TowerDefense.Enemies.HorseRobber import HorseRobber
 
 
 class Level1Scene(SceneManager.Scene):
@@ -16,9 +18,8 @@ class Level1Scene(SceneManager.Scene):
     def __init__(self, *optionalInformation):
         super(Level1Scene, self).__init__()
 
-        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 980])
-
-        self.gold = 100000
+        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
+        self.gold = 5000000
         self.score = 0
         self.difficulty = "Normal"
         self.totalEnemiesKilled = 0
@@ -29,7 +30,8 @@ class Level1Scene(SceneManager.Scene):
         self.enemySprites = pygame.sprite.Group()
         self.turretSprites = pygame.sprite.Group()
         self.bankSprite = pygame.sprite.GroupSingle()
-        self.bulletSprites = pygame.sprite.Group()
+        self.projectileSprites = pygame.sprite.Group()
+        self.moneybagSprites = pygame.sprite.Group()
 
         self.bank = Bank(Vector2(290, 720), 180, self, self.bankSprite, self.allSprites)
 
@@ -65,6 +67,7 @@ class Level1Scene(SceneManager.Scene):
         self.upgradeTurretUpgradeButton = Button(False, self.upgradeTurretStatsFont, "UPGRADE", [70, 50, 34], [50, 30, 14], [70, 50, 34], [0, 0, 0], 1462, 755, 115, 30)
 
         self.nextRoundFont = pygame.font.Font("TowerDefense\WesternFont.otf", 36)
+        self.startGameBtn = Button(False, self.nextRoundFont, "Start Game", None, None, [40, 40, 40], [0, 0, 0], 1360, 820, None, 60)
         self.nextRoundBtn = Button(False, self.nextRoundFont, "Next Round", None, None, [40, 40, 40], [0, 0, 0], 1360, 820, None, 60)
 
         self.difficultyLbl = self.westernFont.render("Difficulty: " + str(self.difficulty), True, [0, 0, 0])
@@ -79,6 +82,9 @@ class Level1Scene(SceneManager.Scene):
         self.akimboShopSquare = ShopTurretSquare(1326, 100, self.akimbo, 200, "Akimbo")
         self.tntShopSqaure = ShopTurretSquare(1456, 100, self.tnt, 200, "Tnt")
         self.sniperShopSquare = ShopTurretSquare(1390, 230, self.sniper, 200, "Sniper")
+
+        self.turretPlacementSound = pygame.mixer.Sound("TowerDefense/Sounds/turretPlacement.wav")
+        self.turretPlacementSound.set_volume(0.008)
 
         self.currentShopSquare = None
         self.hoverTurretObject = None
@@ -126,6 +132,33 @@ class Level1Scene(SceneManager.Scene):
 
         self.enemySpawnerObjects = []
 
+        self.showTutorial = True
+        self.currentTutorialPage = 1
+        self.tutorialRect = pygame.Rect(400, 160, 580, 400)
+
+        self.tutorialBodyFont = pygame.font.SysFont("monospace", 19)
+        self.tutorialBodyFont.set_bold(True)
+
+        self.akimboTurretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
+        self.akimboTurretImage = pygame.transform.scale(self.akimboTurretImage, (48, 98))
+        self.outlineTurretImage = self.getOutline(self.akimboTurretImage, [0, 0, 0])
+        self.akimboTurretImage.blit(self.outlineTurretImage, (0, 0))
+
+        self.tntTurretImage = pygame.image.load("TowerDefense\Images\Turrets\TntTurret.png").convert_alpha()
+        self.tntTurretImage = pygame.transform.scale(self.tntTurretImage, (86, 74))
+        self.outlineTurretImage = self.getOutline(self.tntTurretImage, [0, 0, 0])
+        self.tntTurretImage.blit(self.outlineTurretImage, (0, 0))
+
+        self.sniperTurretImage = pygame.image.load("TowerDefense\Images\Turrets\SniperTurret.png").convert_alpha()
+        self.sniperTurretImage = pygame.transform.scale(self.sniperTurretImage, (50, 98))
+        self.outlineTurretImage = self.getOutline(self.sniperTurretImage, [0, 0, 0])
+        self.sniperTurretImage.blit(self.outlineTurretImage, (0, 0))
+
+        self.tutCloseBtn = Button(True, None, "Close", None, None, [40, 40, 40], [0, 0, 0], 480, 480, None, 60)
+        self.tutNextBtn = Button(True, None, "Next", None, None, [40, 40, 40], [0, 0, 0], 780, 480, None, 60)
+        self.tutPreviousBtn = Button(True, None, "Previous", None, None, [40, 40, 40], [0, 0, 0], 480, 480, None, 60)
+
+
     def render(self, screen):
         self.allSprites.clear(screen, self.mainBG)
 
@@ -138,13 +171,22 @@ class Level1Scene(SceneManager.Scene):
 
         self.renderHud(screen)
 
+        if self.showTutorial:
+            self.renderTutorialScreen(screen)
+
+        if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and not self.focusedSprite.hasDied:
+            self.renderEnemyStatsScreen(screen, self.focusedSprite)
+
         if self.hoverTurretObject is not None and self.focusedSprite is None:
             self.renderTurretUpgradeScreen(screen, self.hoverTurretObject)
         else:
             if self.focusedSprite is not None and isinstance(self.focusedSprite, Turret):
                 self.renderTurretUpgradeScreen(screen, self.focusedSprite)
 
-        self.nextRoundBtn.draw(screen)
+        if self.spawnerIsActive:
+            self.nextRoundBtn.draw(screen)
+        else:
+            self.startGameBtn.draw(screen)
 
         if self.gameOver:
             self.renderGameOverScreen(screen)
@@ -153,6 +195,16 @@ class Level1Scene(SceneManager.Scene):
 
         if self.gold < 0:
             self.gameOver = True
+
+        if self.showTutorial:
+            if self.tutCloseBtn.click():
+                self.showTutorial = False
+
+            if self.tutPreviousBtn.click():
+                self.currentTutorialPage -= 1
+
+            if self.tutNextBtn.click():
+                self.currentTutorialPage += 1
 
         if not self.gameOver:
 
@@ -170,17 +222,24 @@ class Level1Scene(SceneManager.Scene):
                     self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
 
-            if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
-                self.spawnPauseTimer = self.pauseDuration
-                self.spawnerIsActive = True
+            if not self.spawnerIsActive:
+                if self.startGameBtn.click():
+                    self.spawnPauseTimer = self.pauseDuration
+                    self.spawnerIsActive = True
+            else:
+                if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
+                    self.spawnPauseTimer = self.pauseDuration
 
-        self.allSprites.update(deltaTime, self.allSprites, self.turretSprites, self.enemySprites, self.bulletSprites)
+        self.allSprites.update(deltaTime)
 
         if self.currentShopSquare is not None and self.currentShopSquare.isDragginTurret and self.gold < self.currentShopSquare.price:
             self.currentShopSquare.isDragginTurret = False
 
         if self.currentShopSquare is not None:
             self.CheckHoverTurretCollision()
+
+        if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and self.focusedSprite.hasDied:
+            self.focusedSprite = None
 
         if self.focusedSprite is not None and isinstance(self.focusedSprite, Turret):
             if self.upgradeTurretSellButton.click():
@@ -236,6 +295,62 @@ class Level1Scene(SceneManager.Scene):
             text = text[i:]
 
         return text
+
+    def renderEnemyStatsScreen(self, screen, enemyToShow):
+
+        canvasRect = pygame.draw.rect(screen, [70, 50, 34], self.upgradeTurretRect)
+        pygame.draw.rect(screen, [50, 30, 14], self.upgradeTurretRect, 3)  # Border
+
+        self.scoreOnKill = 20
+        self.goldOnKill = 100
+        self.goldToSteal = 10
+
+        if isinstance(enemyToShow, HorseRobber):
+            horseHealthText = "Horse Health: " + str(enemyToShow.horseHealth)
+            robberHealthText = "Robber Health: " + str(enemyToShow.robberHealth)
+        else:
+            healthText = "Health: " + str(enemyToShow.health)
+
+        movementSpeed = "Speed: " + str(enemyToShow.movementSpeed)
+        goldOnKillText = "Kill Gold: " + str(enemyToShow.goldOnKill)
+        totalStolenGold = "Stolen Gold: " + str(enemyToShow.totalGoldOnEnemy)
+        goldToStealText = "Gold To Steal: " + str(enemyToShow.goldToSteal)
+
+        descriptionRect = pygame.Rect(0, 416, 260, 70)
+        descriptionRect.centerx = canvasRect.centerx
+
+        self.drawText(screen, enemyToShow.description, [0, 0, 0], descriptionRect, self.upgradeTurretDescriptionFont, True, None)
+
+        self.focusedEnemyName = self.upgradeTurretStatsHeaderFont.render(enemyToShow.name, True, [0, 0, 0])
+
+        if isinstance(enemyToShow, HorseRobber):
+            self.focusedHorseHealth = self.upgradeTurretStatsFont.render(horseHealthText, True, [0, 0, 0])
+            self.focusedRobberHealth = self.upgradeTurretStatsFont.render(robberHealthText, True, [0, 0, 0])
+        else:
+            self.focusedEnemyHealth = self.upgradeTurretStatsFont.render(healthText, True, [0, 0, 0])
+
+        self.focusedEnemySpeed = self.upgradeTurretStatsFont.render(movementSpeed, True, [0, 0, 0])
+        self.focusedEnemyGoldOnKill = self.upgradeTurretStatsFont.render(goldOnKillText, True, [0, 0, 0])
+        self.focusedEnemyTotalStolenGold = self.upgradeTurretStatsFont.render(totalStolenGold, True, [0, 0, 0])
+        self.focusedEnemyGoldToSteal = self.upgradeTurretStatsFont.render(goldToStealText, True, [0, 0, 0])
+
+        screen.blit(self.focusedEnemyName, (canvasRect.centerx - int(self.focusedEnemyName.get_rect().width / 2), 380))
+
+        if isinstance(enemyToShow, HorseRobber):
+
+            screen.blit(self.focusedHorseHealth, (1326, 508))
+            screen.blit(self.focusedRobberHealth, (1326, 538))
+            screen.blit(self.focusedEnemySpeed, (1326, 568))
+            screen.blit(self.focusedEnemyGoldOnKill, (1326, 598))
+            screen.blit(self.focusedEnemyGoldToSteal, (1326, 628))
+            screen.blit(self.focusedEnemyTotalStolenGold, (1326, 658))
+        else:
+
+            screen.blit(self.focusedEnemyHealth, (1326, 508))
+            screen.blit(self.focusedEnemySpeed, (1326, 538))
+            screen.blit(self.focusedEnemyGoldOnKill, (1326, 568))
+            screen.blit(self.focusedEnemyGoldToSteal, (1326, 598))
+            screen.blit(self.focusedEnemyTotalStolenGold, (1326, 628))
 
     def renderTurretUpgradeScreen(self, screen, turretToShow):
 
@@ -324,6 +439,33 @@ class Level1Scene(SceneManager.Scene):
 
             self.drawText(screen, "Making your turret more awesome!", [0, 0, 0], pygame.Rect(descriptionRect.centerx - 126, 620, 300, 70), self.upgradeTurretUpgradeTextFont, True, None)
 
+    def renderTutorialScreen(self, screen):
+        canvasRect = pygame.draw.rect(screen, [70, 50, 34], self.tutorialRect)
+        pygame.draw.rect(screen, [50, 30, 14], self.tutorialRect, 3)  # Border
+
+        if self.currentTutorialPage == 1:
+
+            headerRect = pygame.Rect(0, 180, 360, 70)
+            headerRect.centerx = canvasRect.centerx
+
+            self.drawText(screen, "You can build these 3 towers", [0, 0, 0], headerRect, self.upgradeTurretStatsHeaderFont, True, None)
+
+            screen.blit(self.akimboTurretImage, (500, 240))
+            screen.blit(self.tntTurretImage, (645, 240))
+            screen.blit(self.sniperTurretImage, (820, 240))
+
+            bodyRect = pygame.Rect(0, 380, canvasRect.width - 80, 270)
+            bodyRect.centerx = canvasRect.centerx
+
+            self.drawText(screen, "You can find the towers in the top right corner of your screen.", [0, 0, 0], bodyRect, self.tutorialBodyFont, True, None)
+
+        if self.currentTutorialPage == 1:
+            self.tutCloseBtn.draw(screen)
+        else:
+            self.tutPreviousBtn.draw(screen)
+
+        self.tutNextBtn.draw(screen)
+
     def GetClosestEnemyInRadius(self, centerPos, radius, enemySprites):
 
         closestEnemyPosition = None
@@ -395,6 +537,8 @@ class Level1Scene(SceneManager.Scene):
                 if isMouseClickInsideUnplaceableBounds == False:
 
                     if self.currentShopSquare is not None:
+                        self.turretPlacementSound.play()
+
                         if self.currentShopSquare.turretName == "Akimbo":# hier gebleven met self.currentShopSquare
                             AkimboRevolverTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
 
@@ -531,3 +675,14 @@ class Level1Scene(SceneManager.Scene):
 
         else:
             self.currentShopSquare.changeOutlineColor((0, 0, 0))
+
+    def getOutline(self, image, color=(0, 0, 0), threshold=127):
+        mask = pygame.mask.from_surface(image, threshold)
+        outline_image = pygame.Surface(image.get_size()).convert_alpha()
+        outline_image.fill((0, 0, 0, 0))
+
+        #outline_image = pygame.transform.rotozoom(outline_image, 0, 1)
+
+        for point in mask.outline():
+            outline_image.set_at(point, color)
+        return outline_image

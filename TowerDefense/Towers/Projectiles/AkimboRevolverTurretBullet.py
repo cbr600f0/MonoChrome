@@ -11,7 +11,7 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
 
         self.position = Vector2(pos)
 
-        self.velocity = 600
+        self.velocity = 700
         self.damage = damage
         self.direction = 0
 
@@ -24,23 +24,35 @@ class AkimboRevolverTurretBullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.position
 
-    def update(self, deltaTime, allSprites, turretSprites, enemySprites, projectileSprites):
+        self.hasHitEnemy = False
+
+    def update(self, deltaTime):
 
         if self.enemyToFollow is not None:
 
             #  Move towards enemy
             moveToPositionVector = self.enemyToFollow.position - self.position
-            moveToPositionVector.length = self.velocity * deltaTime
 
-            if moveToPositionVector.length > self.enemyToFollow.position.get_distance(self.position):
-                moveToPositionVector.length = self.enemyToFollow.position.get_distance(self.position)
+            if not moveToPositionVector.get_length() == 0 and not self.hasHitEnemy:
+                moveToPositionVector.length = self.velocity * deltaTime
 
-            self.position += moveToPositionVector
-            self.rotate()
+                if moveToPositionVector.length >= self.enemyToFollow.position.get_distance(self.position) - moveToPositionVector.length:
+                    self.position = Vector2(self.enemyToFollow.position)
 
-            if pygame.sprite.collide_mask(self, self.enemyToFollow):
-                self.enemyToFollow.takeDamage(self.damage)
-                self.kill()
+                    self.enemyToFollow.takeDamage(self.damage)
+                    self.kill()
+                    self.hasHitEnemy = True
+                else:
+                    if self.hasHitEnemy == False:
+                        self.position += moveToPositionVector
+                        self.rotate()
+
+                if pygame.sprite.collide_mask(self, self.enemyToFollow) and self.hasHitEnemy == False:
+                    self.enemyToFollow.takeDamage(self.damage)
+                    self.kill()
+                    self.hasHitEnemy = True
+
+                self.rotate()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
