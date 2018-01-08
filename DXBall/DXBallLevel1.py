@@ -18,8 +18,10 @@ class DXBallLevel1 (SceneManager.Scene):
         # shows the mouse
         #pygame.mouse.set_visible(False)
         # loads the background and changes it to fit the screen
-        self.MainBG = pygame.image.load('DXBall\Images\Leveldesignv1.png').convert_alpha()
+        self.MainBG = pygame.image.load('DXBall\Images\Level1.png').convert_alpha()
         self.MainBG = pygame.transform.scale(self.MainBG, (1600, 900))
+
+        self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
 
         self.allSprites = pygame.sprite.Group()
         self.ballSprites = pygame.sprite.Group()
@@ -42,6 +44,17 @@ class DXBallLevel1 (SceneManager.Scene):
 
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
+
+        CurrentLives = self.DXBallFont.render("Lives: 3", False, (2, 255, 149))
+        screen.blit(CurrentLives, (100, 20))
+
+        PowerUps = self.DXBallFont.render("Power Ups: Big Dick", False, (2, 255, 149))
+        screen.blit(PowerUps, (550, 20))
+
+        CurrentLevel = self.DXBallFont.render("Level: 1", False, (2, 255, 149))
+        screen.blit(CurrentLevel, (1300, 20))
+
+        pygame.draw.rect(screen, [2, 255, 149], pygame.Rect(0, 65, 1600, 5))  # scoreboard border
 
         for spriteToDraw in self.allSprites:  #Make a forloop wich calls a draw method from each sprite instead of using draw on a sprite group
             spriteToDraw.draw(screen)
