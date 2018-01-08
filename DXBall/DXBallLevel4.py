@@ -72,7 +72,7 @@ class DXBallLevel4 (SceneManager.Scene):
             screen.blit(self.pausedSurface, (0, 0))
 
         if self.nextBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel5 .DXBallLevel5")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel5.DXBallLevel5")
 
     def update(self, deltaTime):
         self.allSprites.update(deltaTime, self.allSprites, self.ballSprites, self.ballcollideSprites)
