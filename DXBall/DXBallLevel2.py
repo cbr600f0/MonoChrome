@@ -7,10 +7,10 @@ from DXBall.Block import Block
 from ButtonClass import Button
 from pygame.math import Vector2
 
-class DXBallLevel1 (SceneManager.Scene):
+class DXBallLevel2 (SceneManager.Scene):
 
     def __init__(self):
-        super(DXBallLevel1, self).__init__()
+        super(DXBallLevel2, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
         #pygame.mixer.music.play(loops=-1)
@@ -18,7 +18,7 @@ class DXBallLevel1 (SceneManager.Scene):
         # shows the mouse
         #pygame.mouse.set_visible(False)
         # loads the background and changes it to fit the screen
-        self.MainBG = pygame.image.load('DXBall\Images\Level1.png').convert_alpha()
+        self.MainBG = pygame.image.load('DXBall\Images\Level2.png').convert_alpha()
         self.MainBG = pygame.transform.scale(self.MainBG, (1600, 900))
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
@@ -58,7 +58,7 @@ class DXBallLevel1 (SceneManager.Scene):
         PowerUps = self.DXBallFont.render("Power Ups: Big Dick", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
-        CurrentLevel = self.DXBallFont.render("Level: 1", False, (2, 255, 149))
+        CurrentLevel = self.DXBallFont.render("Level: 2", False, (2, 255, 149))
         screen.blit(CurrentLevel, (1300, 20))
 
         self.nextBtn.draw(screen)
@@ -82,7 +82,7 @@ class DXBallLevel1 (SceneManager.Scene):
             self.isPaused = False
 
         if self.nextBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel2.DXBallLevel2")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel3.DXBallLevel3")
 
     def handle_events(self, events):
         pass
