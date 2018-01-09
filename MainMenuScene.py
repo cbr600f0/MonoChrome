@@ -49,3 +49,5 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
     # The function of this method is explained in the class Scene
     def handle_events(self, events):
         pass  # In python you must implement stuff like this if statement, i dont want to implement it yet so i simple write pass wich does nothing you could say that this if statements implementation is empty
+
+    # Dit kan later weer weg gehaald worden.

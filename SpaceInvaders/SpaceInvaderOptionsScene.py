@@ -22,11 +22,11 @@ class SpaceInvaderOptionsScene (SceneManager.Scene):
             self.audio = True
 
         if self.audio == True:
-            self.onBtn = Button("On", None, None, [47, 253, 39], [42, 178, 35], 1000, 250, None, 120)
-            self.offBtn = Button("Off", None, None, [47, 253, 39], [255, 255, 255], 1150, 250, None, 120)
+            self.onBtn = Button(False, self.spaceFontBig, "On", None, None, [47, 253, 39], [42, 178, 35], 1000, 250, None, 120)
+            self.offBtn = Button(False, self.spaceFontBig, "Off", None, None, [47, 253, 39], [255, 255, 255], 1150, 250, None, 120)
         else:
-            self.onBtn = Button("On", None, None, [47, 253, 39], [255, 255, 255], 1000, 250, None, 120)
-            self.offBtn = Button("Off", None, None, [47, 253, 39], [42, 178, 35], 1150, 250, None, 120)
+            self.onBtn = Button(False, self.spaceFontBig, "On", None, None, [47, 253, 39], [255, 255, 255], 1000, 250, None, 120)
+            self.offBtn = Button(False, self.spaceFontBig, "Off", None, None, [47, 253, 39], [42, 178, 35], 1150, 250, None, 120)
 
         if optionalSceneParam[0][1] != None:
             self.highestWave = optionalSceneParam[0][1]
@@ -44,13 +44,13 @@ class SpaceInvaderOptionsScene (SceneManager.Scene):
 
         if self.onBtn.click():
             self.audio = True
-            self.onBtn = Button("On", None, None, [47, 253, 39], [42, 178, 35], 1000, 250, None, 120)
-            self.offBtn = Button("Off", None, None, [47, 253, 39], [255, 255, 255], 1150, 250, None, 120)
+            self.onBtn = Button(False, self.spaceFontBig, "On", None, None, [47, 253, 39], [42, 178, 35], 1000, 250, None, 120)
+            self.offBtn = Button(False, self.spaceFontBig, "Off", None, None, [47, 253, 39], [255, 255, 255], 1150, 250, None, 120)
 
         if self.offBtn.click():
             self.audio = False
-            self.onBtn = Button("On", None, None, [47, 253, 39], [255, 255, 255], 1000, 250, None, 120)
-            self.offBtn = Button("Off", None, None, [47, 253, 39], [42, 178, 35], 1150, 250, None, 120)
+            self.onBtn = Button(False, self.spaceFontBig, "On", None, None, [47, 253, 39], [255, 255, 255], 1000, 250, None, 120)
+            self.offBtn = Button(False, self.spaceFontBig, "Off", None, None, [47, 253, 39], [42, 178, 35], 1150, 250, None, 120)
 
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_SPACE]:
@@ -66,7 +66,7 @@ class SpaceInvaderOptionsScene (SceneManager.Scene):
         screen.blit(self.messageLbl, (250, 400))
         self.messageLbl = self.spaceFontMed.render("          Left/Right = Move", True, [255, 255, 255])
         screen.blit(self.messageLbl, (250, 450))
-        self.messageLbl = self.spaceFontMed.render("          ESC        = Quit game", True, [255, 255, 255])
+        self.messageLbl = self.spaceFontMed.render("          Backspace  = Quit game", True, [255, 255, 255])
         screen.blit(self.messageLbl, (250, 500))
 
         self.messageLbl = self.spaceFont.render("Press [space] to return to menu", True, [255, 255, 255])
