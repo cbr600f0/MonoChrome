@@ -14,12 +14,17 @@ class SpaceInvaderGameOverScene (SceneManager.Scene):
         # Font
         self.spaceFont = pygame.font.Font("SpaceInvaders/font/OCRAEXT.TTF", 32)
 
+        if optionalSceneParam[0][0] != None:
+            self.audio = optionalSceneParam[0][0]
+        else:
+            self.audio = True
+
         # Receive last score
-        self.lastWave = str(optionalSceneParam[0][0])
+        self.lastWave = str(optionalSceneParam[0][1])
 
         # Receive previous high score
         if optionalSceneParam[0][1] != None:
-            self.highScoreWave = optionalSceneParam[0][1]
+            self.highScoreWave = optionalSceneParam[0][2]
         else:
             self.highScoreWave = 0
 
@@ -35,7 +40,7 @@ class SpaceInvaderGameOverScene (SceneManager.Scene):
     def update(self, deltaTime):
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_SPACE]:
-            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderMainMenuScene.SpaceInvaderMainMenuScene", self.newHighScoreWave)
+            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderMainMenuScene.SpaceInvaderMainMenuScene", self.audio, self.newHighScoreWave)
 
     def handle_events(self, events):
         pass
@@ -48,3 +53,6 @@ class SpaceInvaderGameOverScene (SceneManager.Scene):
 
         self.messageLbl = self.spaceFont.render("Your highest wave was: " + str(self.highScoreWave), True, [255, 255, 255])
         screen.blit(self.messageLbl, (650, 450))
+
+        self.messageLbl = self.spaceFont.render("Press [space] to return to main menu", True, [255, 255, 255])
+        screen.blit(self.messageLbl, (850, 750))

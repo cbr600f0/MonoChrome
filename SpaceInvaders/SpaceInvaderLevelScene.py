@@ -28,10 +28,6 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
         # Font
         self.spaceFont = pygame.font.Font("SpaceInvaders/font/OCRAEXT.TTF", 32)
 
-        # BG settings
-        self.BGSound = pygame.mixer.Sound("SpaceInvaders/audio/Shooting_Stars_8_bit.ogg")
-        self.BGSound.play(-1)
-
         # Sprite groups
         self.allSprites = pygame.sprite.Group()
         self.enemySprites = pygame.sprite.Group()
@@ -40,20 +36,34 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
         self.bossSprites = pygame.sprite.Group()
 
         # Setting
-        self.wave = 0
+        self.wave = 9
         self.wavesLbl = ""
         self.timerLbl = ""
         self.showNextWave = False
         self.countDownTimer = 3
         self.enemyReachedLastRow = ""
+        self.bossLives = 0
+        self.bossOriginalLives = 0
 
         # Create player
         Player(Vector2(750, 750), self.allSprites, self.playerSprites)
         self.lives = ""
 
-        # Get previous high score
+        # Get audio settings
         if optionalSceneParam[0][0] != None:
-            self.highestWave = optionalSceneParam[0][0]
+            self.audio = optionalSceneParam[0][0]
+        else:
+            self.audio = True
+
+        # BG settings
+        self.BGSound = pygame.mixer.Sound("SpaceInvaders/audio/Shooting_Stars_8_bit.ogg")
+
+        if self.audio:
+            self.BGSound.play(-1)
+
+        # Get previous high score
+        if optionalSceneParam[0][1] != None:
+            self.highestWave = optionalSceneParam[0][1]
         else:
             self.highestWave = 0
 
@@ -88,11 +98,14 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
 
         # Create wave
         if len(self.enemySprites) == 0 and len(self.bossSprites) == 0:
+            for bulletSettings in pygame.sprite.RenderUpdates(self.bulletSprites):
+                bulletSettings.kill()
+
             self.wave += 1
             self.showNextWave = True
 
             # Type of battle
-            if self.wave % 25 == 0:
+            if self.wave % 10 == 0:
                 self.bossCreate()
             else:
                 self.enemyCreate()
@@ -106,9 +119,14 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
             self.enemyReachedLastRow = enemySettings.getLastRowInfo()
             enemySettings.setWave(self.wave)
 
+        # Get and Set boss setting
+        for bossSettings in pygame.sprite.RenderUpdates(self.bossSprites):
+            self.bossLives = bossSettings.getLives()
+            self.bossOriginalLives = bossSettings.getOriginalLives()
+
         # Lives == 0 or enemies reached bottom
         if self.lives <= str(0) or self.enemyReachedLastRow:
-            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderGameOverScene.SpaceInvaderGameOverScene", str(self.wave), str(self.highestWave))
+            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderGameOverScene.SpaceInvaderGameOverScene", self.audio, str(self.wave), str(self.highestWave))
 
         # Only move when timer is turned off
         if self.showNextWave != True:
@@ -118,6 +136,11 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
         screen.fill((0, 0, 0))
         screen.blit(self.mainBG_1, (0, self.mainBG_Y_Speed))
         screen.blit(self.mainBG_2, (0, self.mainBG_Y_Speed - 900))
+
+        # boss lives
+        if len(self.bossSprites) != 0:
+            pygame.draw.rect(screen, [255, 0, 0], pygame.Rect(225, 10, 725, 49))  # block
+            pygame.draw.rect(screen, [0, 255, 0], pygame.Rect(225, 10, ((725 / self.bossOriginalLives) * self.bossLives), 49)) # block
 
         # Show waves
         self.wavesLbl = self.spaceFont.render("Wave: " + str(self.wave), True, [255, 255, 255])

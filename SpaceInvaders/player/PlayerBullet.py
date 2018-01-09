@@ -9,7 +9,7 @@ class PlayerBullet(pygame.sprite.Sprite):
     # Bullet image set
         self.playerBulletImage = pygame.image.load("SpaceInvaders/images/Bullet_Player.png").convert_alpha()
         self.playerBulletImage = pygame.transform.scale(self.playerBulletImage, (8, 23))
-        self.playerMask = pygame.mask.from_surface(self.playerBulletImage)
+        self.bulletMask = pygame.mask.from_surface(self.playerBulletImage)
 
     # Audio settings
         self.bulletSound = pygame.mixer.Sound("SpaceInvaders/audio/laser.ogg")
@@ -43,6 +43,9 @@ class PlayerBullet(pygame.sprite.Sprite):
             enemyHit.die()
             self.kill()
 
-        for bossHit in pygame.sprite.spritecollide(self, bossSprites, False):
-            bossHit.takeDamage()
-            self.kill()
+        for bossSettings in pygame.sprite.RenderUpdates(bossSprites):
+            self.boss = bossSettings.getBoss()
+
+            if pygame.sprite.collide_mask(self, self.boss):
+                bossSettings.takeDamage()
+                self.kill()
