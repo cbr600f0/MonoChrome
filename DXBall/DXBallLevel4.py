@@ -55,7 +55,7 @@ class DXBallLevel4 (SceneManager.Scene):
         CurrentLives = self.DXBallFont.render("Lives: 3", False, (2, 255, 149))
         screen.blit(CurrentLives, (100, 20))
 
-        PowerUps = self.DXBallFont.render("Power Ups: Big Dick", False, (2, 255, 149))
+        PowerUps = self.DXBallFont.render("Power Ups: Big upgrade", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
         CurrentLevel = self.DXBallFont.render("Level: 4", False, (2, 255, 149))

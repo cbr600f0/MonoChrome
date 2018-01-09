@@ -80,5 +80,8 @@ class PongSinglePlayerScene (SceneManager.Scene):
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                if self.hasStarted == False:
+                    self.ball.currentVelocity = self.ball.baseVelocity
+
                 self.is_white = not self.is_white
                 self.hasStarted = True
