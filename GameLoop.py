@@ -72,7 +72,7 @@ while gameIsRunning:
     else:
         handlePauseOverlay()
 
-    switchScreenButton.draw(screen)
+    #switchScreenButton.draw(screen)
     if switchScreenButton.click():
         changedWindowMode = False
         if gameIsInFullscreen == True:
@@ -91,7 +91,7 @@ while gameIsRunning:
     if gameIsPaused == False:
         # draw FPS text
         FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
-        screen.blit(FPSLbl, (4, 4))
+        #screen.blit(FPSLbl, (4, 4))
 
     pygame.display.update()  # This makes pygame update its canvas thus rendering everything on the screen
 

@@ -178,6 +178,7 @@ class HorseRobber(Enemy):
         self.scoreOnKill = self.scoreOnHorseKill
 
         if self.totalGoldOnEnemy > 0:
+            self.goldDropSound.play()
             Moneybag(Vector2(self.position), 90, self.levelReference, self.totalGoldOnEnemy, self.levelReference.allSprites, self.levelReference.moneybagSprites)
 
         self.totalGoldOnEnemy = 0
