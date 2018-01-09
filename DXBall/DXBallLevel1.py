@@ -24,6 +24,8 @@ class DXBallLevel1 (SceneManager.Scene):
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
         self.DXBallFont2 = pygame.font.Font("DXBall/Fonts/Megatron Condensed.otf", 52)
 
+        self.health = 3
+
         self.buttonList = []
 
         self.nextBtn = Button(False, self.DXBallFont2, "[>]", None, None, [2, 255, 149], [2, 200, 149], 1520, 5, None,60)
@@ -35,7 +37,7 @@ class DXBallLevel1 (SceneManager.Scene):
         self.blockSprites = pygame.sprite.Group()
         self.ballcollideSprites = pygame.sprite.Group()
 
-        Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
+        self.ball = Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
         Paddle(self.allSprites, self.ballcollideSprites)
 
         self.isPaused = False
@@ -52,10 +54,10 @@ class DXBallLevel1 (SceneManager.Scene):
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
 
-        CurrentLives = self.DXBallFont.render("Lives: 3", False, (2, 255, 149))
+        CurrentLives = self.DXBallFont.render("Lives: " + str(self.health), False, (2, 255, 149))
         screen.blit(CurrentLives, (100, 20))
 
-        PowerUps = self.DXBallFont.render("Power Ups: Big Dick", False, (2, 255, 149))
+        PowerUps = self.DXBallFont.render("Power Ups: Big upgrade", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
         CurrentLevel = self.DXBallFont.render("Level: 1", False, (2, 255, 149))
@@ -83,6 +85,9 @@ class DXBallLevel1 (SceneManager.Scene):
 
         if self.nextBtn.click():
             SceneManager.SceneManager.goToScene("DXBall.DXBallLevel2.DXBallLevel2")
+
+        if self.ball.position.y > 900:
+            self.health = self.health - 1
 
     def handle_events(self, events):
         pass
