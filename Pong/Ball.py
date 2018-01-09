@@ -4,7 +4,7 @@ import SceneManager
 from DXBall.Paddle import Paddle
 from Pong.Player1 import Player1
 from Pong.Player2 import Player2
-from DXBall.Block import Block
+from Pong.Block import Block
 
 class Ball(pygame.sprite.Sprite):
 
@@ -111,8 +111,8 @@ class Ball(pygame.sprite.Sprite):
                     self.currentVelocity += 10
                     pass
                 if isinstance(ballCollideSprite, Block): # Ball has hit a block
-                    ballCollideSprite.kill()  # Destroys the block that was hit
-                break
+                    self.currentVelocity += 20  # Destroys the block that was hit
+                pass
 
         # Screen collision
 
