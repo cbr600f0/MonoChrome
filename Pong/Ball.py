@@ -18,7 +18,7 @@ class Ball(pygame.sprite.Sprite):
         self.ballSurface = self.ballSurface.convert_alpha()
         pygame.draw.ellipse(self.ballSurface, [255, 255, 255], pygame.Rect(0, 0, self.width, self.height))  # ball
 
-        self.xVel = 770 # How fast is the ball going on the X-Axis (Left or Right)
+        self.xVel = 850 # How fast is the ball going on the X-Axis (Left or Right)
         self.yVel = 310 # How fast is the ball going on the Y-Axis (Up or Down)
 
         self.image = self.ballSurface

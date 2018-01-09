@@ -10,7 +10,7 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, pos, *sprite_groups):
         super().__init__(*sprite_groups)
 
-        self.position = Vector2(305, 220)
+        self.position = Vector2(800, 840) #305 220
         self.ballColor = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 
         self.ballSurface = pygame.Surface((30, 30), pygame.SRCALPHA, 32)
@@ -105,7 +105,10 @@ class Ball(pygame.sprite.Sprite):
                 self.ballColor = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 
                 if isinstance(ballCollideSprite, Paddle): # Ball has hit the paddle
-                    pass
+                    if ballCollideSprite.rect.right:
+                        self.xVel = 770
+                    elif ballCollideSprite.rect.left:
+                        self.xVel = -770
                 if isinstance(ballCollideSprite, Block): # Ball has hit a block
                     ballCollideSprite.kill()  # Destroys the block that was hit
                 break
@@ -115,10 +118,14 @@ class Ball(pygame.sprite.Sprite):
             self.position.x = 1600 - self.rect.width
             self.xVel = -self.xVel
         if self.position.y > 900:
-            pass
-             #BALL IS BELOW SCREEN RESET THE BALL HERE
-            self.position.y = 900 # sets the balls y position to 900
+            self.position.x = 800
+
+            #BALL IS BELOW SCREEN RESET THE BALL HERE
+            self.position.y = 700 # sets the balls y position to 900
             self.yVel = -self.yVel
+            self.xVel = 0
+            self.yVel = 150
+
         if self.position.x < 0:
             self.position.x = 0
             self.xVel = -self.xVel
