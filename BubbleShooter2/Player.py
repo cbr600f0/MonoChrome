@@ -6,7 +6,7 @@ from BubbleShooter2.LightBall import LightBall
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, allSprites, lightBallSprites, lightBallImages, *sprite_groups):
+    def __init__(self, allSprites, lightBallSprites, lightBallImages, routePositions, *sprite_groups):
         super().__init__(*sprite_groups)
 
         self.allSprites = allSprites
@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
         velocityVector = Vector2(mousePos) - self.position
 
         offset = Vector2(50, 0).rotate(self.angle)
-
+        self.routePositions = routePositions
         self.positionShootingFrom = Vector2(self.position) + offset
         self.currentLightBall = None
         self.loadNewLightBall()
@@ -72,4 +72,4 @@ class Player(pygame.sprite.Sprite):
 
     def loadNewLightBall(self):
         lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-        self.currentLightBall = LightBall(self.positionShootingFrom, self, lightBallImage, lightBallColor, False, None, self.allSprites, self.lightBallSprites)
+        self.currentLightBall = LightBall(self.positionShootingFrom, self, lightBallImage, lightBallColor, False, self.routePositions, self.allSprites, self.lightBallSprites)
