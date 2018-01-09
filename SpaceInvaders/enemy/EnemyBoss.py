@@ -21,7 +21,9 @@ class EnemyBoss(pygame.sprite.Sprite):
 
         self.timer = 0
 
-        self.health = 10 # + Wave x 50
+        # Lives + Wave x 50
+        self.health = 10
+        self.originalHealth = self.health
         self.random = 0
 
         self.hasDied = False
@@ -45,6 +47,12 @@ class EnemyBoss(pygame.sprite.Sprite):
 
     def getLives(self):
         return self.health
+
+    def getOriginalLives(self):
+        return self.originalHealth
+
+    def getBoss(self):
+        return self
 
     def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites, bossSprites):
 
