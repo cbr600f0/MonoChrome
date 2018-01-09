@@ -5,9 +5,11 @@ from pygame.locals import *
 from SceneManager import SceneManager  # This class takes care of switching between scenes (Examples of scene could be: the main menu, Tower Defense, Pong, ETC) Every game is its own scene (For badbois who already have experience with Unity the concept of a scene is the same here as in Unity)
 import importlib
 
+pygame.mixer.pre_init(44100, -16, 2, 1024)
 # Starts the game by initializing pygame
 pygame.init()
 gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
+pygame.mixer.set_num_channels(110)
 
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size
@@ -34,25 +36,41 @@ FPSLblFont.set_bold(True)
 
 pygame.mouse.set_visible(True) #makes mouse visible
 
-switchScreenButton = Button("Fullscreen", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 120, 2, None, 24)
+switchScreenButton = Button(True, None, "Fullscreen", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 120, 2, None, 24)
 
 if gameIsInFullscreen == True:
     switchScreenButton.set_text("Windowed")
 
+#Pause overlay stuff
+continueBtn = Button(True, None, "Continue", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 300, 900, 100)
+backToTitleScreenBtn = Button(True, None, "Back to title screen", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 450, 900, 100)
+muteSoundsBtn = Button(True, None, "MuteAllSounds", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 600, 900, 100)
+
+pauseOverlayCanvas = pygame.Surface([1600, 900], pygame.SRCALPHA, 32)
+pauseOverlayCanvas = pauseOverlayCanvas.convert_alpha()
+pauseOverlayCanvas.fill((0, 0, 0, 160))
+
+allSoundIsMuted = False
+lastDrawnFrame = None
 gameIsPaused = False
+
 while gameIsRunning:
 
     allEvents = pygame.event.get()
     for event in allEvents:
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  # Did the user press the bigass red button in the top right close the game by ending the while loop wich is the gameloop
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:  # Did the user press the bigass red button in the top right close the game by ending the while loop wich is the gameloop
             gameIsRunning = False
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             gameIsPaused = not gameIsPaused
+            lastDrawnFrame = screen.copy()
 
-    SceneManager.currentScene.handle_events(allEvents)  #Handles the events of the currentScene (the currentScene is the scene wich is playing now)
-    SceneManager.currentScene.update(deltaTime)  #Handles the updates of the currentScene (the currentScene is the scene wich is playing now)
-    SceneManager.currentScene.render(screen)  #Handles the rendering of the currentScene (the currentScene is the scene wich is playing now)
+    if gameIsPaused == False:
+        SceneManager.currentScene.handle_events(allEvents)  #Handles the events of the currentScene (the currentScene is the scene wich is playing now)
+        SceneManager.currentScene.update(deltaTime)  #Handles the updates of the currentScene (the currentScene is the scene wich is playing now)
+        SceneManager.currentScene.render(screen)  #Handles the rendering of the currentScene (the currentScene is the scene wich is playing now)
+    else:
+        handlePauseOverlay()
 
     switchScreenButton.draw(screen)
     if switchScreenButton.click():
@@ -69,11 +87,40 @@ while gameIsRunning:
             changedWindowMode = True
             switchScreenButton.set_text("Windowed")
 
-    # draw FPS text
-    FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
-    screen.blit(FPSLbl, (4, 4))
-    mousePos = pygame.mouse.get_pos()
+
+    if gameIsPaused == False:
+        # draw FPS text
+        FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
+        screen.blit(FPSLbl, (4, 4))
+
     pygame.display.update()  # This makes pygame update its canvas thus rendering everything on the screen
 
     deltaTime = clock.tick(400) / 1000.0  # Calculates time since last frame wich is the deltaTime
+
+    def handlePauseOverlay():
+
+        screen.blit(lastDrawnFrame, (0, 0))
+        screen.blit(pauseOverlayCanvas, (0, 0))
+        continueBtn.draw(screen)
+        backToTitleScreenBtn.draw(screen)
+        muteSoundsBtn.draw(screen)
+
+        if continueBtn.click():
+            global gameIsPaused
+            gameIsPaused = False
+
+        if backToTitleScreenBtn.click():
+            global gameIsPaused
+            gameIsPaused = False
+            SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
+
+        if muteSoundsBtn.click(): # only works for music NOT sound
+            global allSoundIsMuted
+            allSoundIsMuted = not allSoundIsMuted
+            if allSoundIsMuted:
+                pygame.mixer.music.pause()
+            else:
+                pygame.mixer.music.unpause()
+
+
 

@@ -7,6 +7,7 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__(*sprite_groups)
 
         self.name = "Base Enemy"
+        self.description = "This is an enemy"
         self.direction = 0  # What is the angle of this enemy(used for rotating)
         self.health = 100
         self.movementSpeed = 80
@@ -16,6 +17,10 @@ class Enemy(pygame.sprite.Sprite):
         self.nextPositionToGoTo = None
         self.position = Vector2(positionsToFollow[0][0], positionsToFollow[0][1]) # Start on the line ofcourse
 
+        self.scoreOnKill = 20
+        self.goldOnKill = 100
+        self.goldToSteal = 10
+        self.hasStolenGoldFromBank = False
 
     def takeDamage(self, damageTaken):
         raise NotImplemented
