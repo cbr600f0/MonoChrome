@@ -26,11 +26,11 @@ class BubbleShooterScene(SceneManager.Scene):
                             'Black': pygame.image.load("BubbleShooter2\Images\Enemy7.png").convert_alpha()
                           }
 
-        self.player = Player(self.allSprites, self.lightBallSprites, self.lightBallImages, self.allSprites, self.playerSprites)
 
         self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 700])
         self.spawnTimer = 0
         self.ballsToSpawn = 10
+        self.player = Player(self.allSprites, self.lightBallSprites, self.lightBallImages, self.routePositions, self.allSprites, self.playerSprites)
 
 
         mark = 0
@@ -69,11 +69,11 @@ class BubbleShooterScene(SceneManager.Scene):
                     firstIsGettingPushed = True
                 if i < len(self.lightBallSprites.sprites()) - 1:
                     nextLightballInList = self.lightBallSprites.sprites()[i + 1]
-
-                    if currentLightball.position.get_distance(nextLightballInList.position) < 40:
-                        nextLightballInList.canMove = True
-                    else:
-                        nextLightballInList.canMove = False
+                    if nextLightballInList.isOnRoute:
+                        if currentLightball.position.get_distance(nextLightballInList.position) < 40:
+                            nextLightballInList.canMove = True
+                        else:
+                            nextLightballInList.canMove = False
 
         self.allSprites.update(deltaTime, self.allSprites, self.lightBallSprites)
 
