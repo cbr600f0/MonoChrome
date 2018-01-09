@@ -36,7 +36,7 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
         self.bossSprites = pygame.sprite.Group()
 
         # Setting
-        self.wave = 9
+        self.wave = 0
         self.wavesLbl = ""
         self.timerLbl = ""
         self.showNextWave = False

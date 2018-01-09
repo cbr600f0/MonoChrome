@@ -2,7 +2,9 @@ import pygame, math
 from pygame.math import Vector2
 import SceneManager
 from DXBall.Paddle import Paddle
-from DXBall.Block import Block
+from Pong.Player1 import Player1
+from Pong.Player2 import Player2
+from Pong.Block import Block
 
 class Ball(pygame.sprite.Sprite):
 
@@ -18,8 +20,11 @@ class Ball(pygame.sprite.Sprite):
         self.ballSurface = self.ballSurface.convert_alpha()
         pygame.draw.ellipse(self.ballSurface, [255, 255, 255], pygame.Rect(0, 0, self.width, self.height))  # ball
 
-        self.xVel = 850 # How fast is the ball going on the X-Axis (Left or Right)
-        self.yVel = 310 # How fast is the ball going on the Y-Axis (Up or Down)
+        self.baseVelocity = 100
+        self.currentVelocity = self.baseVelocity
+
+        self.xVel = 9 # How fast is the ball going on the X-Axis (Left or Right)
+        self.yVel = 3 # How fast is the ball going on the Y-Axis (Up or Down)
 
         self.image = self.ballSurface
         self.rect = self.ballSurface.get_rect()
@@ -99,11 +104,15 @@ class Ball(pygame.sprite.Sprite):
                         self.position.x = ballCollideSprite.rect.right
                         self.xVel = abs(self.xVel)
 
-                if isinstance(ballCollideSprite, Paddle): # Ball has hit the paddle
+                if isinstance(ballCollideSprite, Player1): # Ball has hit the paddle
+                    self.currentVelocity += 10
+                    pass
+                if isinstance(ballCollideSprite, Player2): # Ball has hit the paddle
+                    self.currentVelocity += 10
                     pass
                 if isinstance(ballCollideSprite, Block): # Ball has hit a block
-                    ballCollideSprite.kill()  # Destroys the block that was hit
-                break
+                    self.currentVelocity += 20  # Destroys the block that was hit
+                pass
 
         # Screen collision
 
@@ -117,10 +126,12 @@ class Ball(pygame.sprite.Sprite):
             self.position.y = 60
             self.yVel = -self.yVel
 
-        self.position.x += self.xVel * deltaTime
-        self.position.y += self.yVel * deltaTime
+        self.position.x += self.xVel * (self.currentVelocity * deltaTime)
+        self.position.y += self.yVel * (self.currentVelocity * deltaTime)
         self.rect.x = self.position.x
         self.rect.y = self.position.y
+
+
 
 
 

@@ -64,7 +64,7 @@ class EnemyBoss(pygame.sprite.Sprite):
             # Shoot timer
             if self.timer >= 0.35:
                 if randint(1, 25) == 1:
-                    posToShootFrom = Vector2(self.position.x - 40, self.position.y - 100)  # Center of the sprite.
+                    posToShootFrom = Vector2(self.position.x - 120, self.position.y - 10)  # Center of the sprite.
                     self.shoot(posToShootFrom, allSprites, bulletSprites)
 
                     posToShootFrom = Vector2(self.position.x - 20, self.position.y - 50)  # Center of the sprite.
@@ -76,7 +76,7 @@ class EnemyBoss(pygame.sprite.Sprite):
                     posToShootFrom = Vector2(self.position.x + 20, self.position.y - 50)  # Center of the sprite.
                     self.shoot(posToShootFrom, allSprites, bulletSprites)
 
-                    posToShootFrom = Vector2(self.position.x + 40, self.position.y - 100)  # Center of the sprite.
+                    posToShootFrom = Vector2(self.position.x + 120, self.position.y - 10)  # Center of the sprite.
                     self.shoot(posToShootFrom, allSprites, bulletSprites)
 
             # Move timer
