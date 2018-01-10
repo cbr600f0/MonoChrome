@@ -7,12 +7,16 @@ import importlib
 
 try:
     pygame.mixer.pre_init(44100, -16, 2, 1024)
-    pygame.mixer.set_num_channels(110)
 except:
-    pygame.mixer.quit()
+    pass
 
 # Starts the game by initializing pygame
 pygame.init()
+
+try:
+    pygame.mixer.set_num_channels(110)
+except:
+    pass
 gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
 
 if gameIsInFullscreen == False:
