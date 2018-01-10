@@ -60,6 +60,12 @@ class DXBallLevel1 (SceneManager.Scene):
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
+        blockStartX = 100
+        for i in range (12):
+            spawnPos2 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 500)
+
+            Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
 
