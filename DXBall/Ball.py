@@ -121,7 +121,7 @@ class Ball(pygame.sprite.Sprite):
             self.position.x = 800
 
             #BALL IS BELOW SCREEN RESET THE BALL HERE
-            self.position.y = 700 # sets the balls y position to 900
+            self.position.y = 700 # sets the balls y position to 700
             self.yVel = -self.yVel
             self.xVel = 0
             self.yVel = 150
@@ -137,11 +137,3 @@ class Ball(pygame.sprite.Sprite):
         self.position.y += self.yVel * deltaTime
         self.rect.x = self.position.x
         self.rect.y = self.position.y
-
-
-
-
-
-
-
-

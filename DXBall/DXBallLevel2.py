@@ -23,8 +23,8 @@ class DXBallLevel2 (SceneManager.Scene):
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
         self.DXBallFont2 = pygame.font.Font("DXBall/Fonts/Megatron Condensed.otf", 52)
-        self.DXBallFont3 = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 100)
-        self.DXBallFont4 = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 80)
+        self.DXBallFont3 = pygame.font.Font("DXBall/Fonts/SFAlienEncounters.ttf", 100)
+        self.DXBallFont4 = pygame.font.Font("DXBall/Fonts/SFAlienEncounters.ttf", 80)
 
         self.health = 3
 
@@ -49,8 +49,8 @@ class DXBallLevel2 (SceneManager.Scene):
 
         self.gameOverLbl = self.DXBallFont3.render("Game Over", True, [0, 0, 0])
 
-        self.retryBtn = Button(False, self.DXBallFont4, "[Retry]", None, None, [255, 255, 255], [0, 0, 0], 600, 400,None, 60)
-        self.exitBtn = Button(False, self.DXBallFont4, "[Exit]", None, None, [255, 255, 255], [0, 0, 0], 620, 490, None,60)
+        self.retryBtn = Button(False, self.DXBallFont4, "[Retry]", None, None, [255, 255, 255], [0, 0, 0], 620, 380,None, 60)
+        self.exitBtn = Button(False, self.DXBallFont4, "[Exit]", None, None, [255, 255, 255], [0, 0, 0], 650, 470, None,60)
 
         self.gameOverSurface.blit(self.gameOverLbl, (480, 200))
 
