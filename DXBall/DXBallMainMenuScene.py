@@ -10,7 +10,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
         super(DXBallMainMenuScene, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\MiamiNights1984-Accelerated.ogg')
-        #pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.play(loops=-1)
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 52)
         self.DXBallFont2 = pygame.font.Font("DXBall/Fonts/Megatron Condensed.otf", 52)
