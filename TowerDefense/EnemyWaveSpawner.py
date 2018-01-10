@@ -22,11 +22,11 @@ class EnemyWaveSpawner():
             if self.spawnTimer >= self.spawnEnemyInterval:
                 self.spawnTimer = 0
                 if random.randint(0, 100) < 70:
+                    self.spawnedEnemies += 1
                     Robber(self.levelReference.level1LinePositions, self.levelReference, self.levelReference.allSprites, self.levelReference.enemySprites)
                 else:
+                    self.spawnedEnemies += 2 # de robber en de horse dus 2
                     robber = Robber(self.levelReference.level1LinePositions, self.levelReference)
                     HorseRobber(robber, self.levelReference.level1LinePositions, self.levelReference, self.levelReference.allSprites, self.levelReference.enemySprites)
-
-                self.spawnedEnemies += 1
 
 
