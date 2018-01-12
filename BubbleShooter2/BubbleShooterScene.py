@@ -25,12 +25,14 @@ class BubbleShooterScene(SceneManager.Scene):
                             'Yellow': pygame.image.load("BubbleShooter2\Images\Enemy6.png").convert_alpha(),
                             'Black': pygame.image.load("BubbleShooter2\Images\Enemy7.png").convert_alpha()
                           }
+        self.lightBallCount = 0
+        int(self.lightBallCount)
 
 
         self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 700])
         self.spawnTimer = 0
-        self.ballsToSpawn = 10
-        self.player = Player(self.allSprites, self.lightBallSprites, self.lightBallImages, self.routePositions, self.allSprites, self.playerSprites)
+        self.ballsToSpawn = 20
+        self.player = Player(self, self.allSprites, self.lightBallSprites, self.lightBallCount, self.lightBallImages, self.routePositions, self.allSprites, self.playerSprites)
 
 
         mark = 0
@@ -40,7 +42,7 @@ class BubbleShooterScene(SceneManager.Scene):
             if mark == 2:
                 mark = 0
                 lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-                LightBall((self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
+                LightBall(self, (self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, self.lightBallCount, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
 
     def render(self, screen):
         self.allSprites.clear(screen, self.backgroundImage)

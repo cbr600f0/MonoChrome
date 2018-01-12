@@ -4,9 +4,11 @@ from Vector2 import Vector2
 
 class LightBall(pygame.sprite.Sprite):
 
-    def __init__(self, spawnPos, playerInstance, lightBallImage, lightBallColor, isOnRoute, routePositions, *sprite_groups):
+    def __init__(self, BubbleShooterScene, spawnPos, playerInstance, lightBallId, lightBallImage, lightBallColor, isOnRoute, routePositions, *sprite_groups):
         super().__init__(*sprite_groups)
 
+        lightBallId += 1
+        self.lightBallId = lightBallId
         self.lightBallImage = lightBallImage
         self.lightBallImage = pygame.transform.scale(self.lightBallImage, (40, 40))
         self.position = Vector2(spawnPos)
@@ -19,6 +21,8 @@ class LightBall(pygame.sprite.Sprite):
         self.velocity = 400
         self.movementSpeed = 200
         self.velocityVector = Vector2(0, 0)
+
+        self.bubbleShooterScene = BubbleShooterScene
 
         self.image = self.lightBallImage
         self.rect = self.lightBallImage.get_rect()
@@ -34,6 +38,9 @@ class LightBall(pygame.sprite.Sprite):
         self.destinationPosIndex = 0
         self.destinationPosIndex += 1
         self.nextPositionToGoTo = None
+
+        self.rearrangeList = []
+        self.sameColors = 0
 
         if self.isOnRoute:
             self.nextPositionToGoTo = Vector2(self.routePositions[self.destinationPosIndex][0], self.routePositions[self.destinationPosIndex][1])
@@ -64,20 +71,67 @@ class LightBall(pygame.sprite.Sprite):
         self.rect.center = self.position
 
         if(self.isOnRoute == False):
+
+            #2 sprites (light balls) colliding with each other
             for collidedSprite in pygame.sprite.spritecollide(self, lightBallSprites, False):
                 if collidedSprite is not self:
                     for i in range(len(lightBallSprites.sprites())):
+
+                        #to find the collided sprite
                         if collidedSprite == lightBallSprites.sprites()[i]:
+
+                            #The shot sprite will be changed to a route sprite
                             self.isOnRoute = True
                             self.nextPositionToGoTo = collidedSprite.nextPositionToGoTo
                             self.destinationPosIndex = collidedSprite.destinationPosIndex
-                            for i in range(len(lightBallSprites.sprites())):
-                                print(lightBallSprites.sprites()[i].lightBallColor)
-                                if i < 3:
-                                    lightBallSprites.sprites()[i], lightBallSprites.sprites()[i + 1] = lightBallSprites.sprites()[i + 1], lightBallSprites.sprites()[i]
+
+                            #The list will be re-ordered due to the changed sprite
+                            for y in range(len(lightBallSprites.sprites())):
+                                self.rearrangeList.append(lightBallSprites.sprites()[y])
+                                print(lightBallSprites.sprites()[y].lightBallColor)
                             print("-----------------------")
+                            x = len(self.rearrangeList) - 2
+                            self.rearrangeList.append(lightBallSprites.sprites()[len(lightBallSprites.sprites()) - 1])
+                            while x > 0:
+                                if x > i:
+                                    self.rearrangeList[x + 1] = self.rearrangeList[x]
+                                    #Hier moet ik programeren, dat de balletjes ongeveer 45 pixels naar de volgende
+                                    #destination word geduwd. (dit zodat er ruimte is voor de nieuwe bal)
+                                    #current ball is self.rearrangeList[x]
+                                    # self.rearrangeList[x].position =
+                                elif x == i:
+                                    p = i
+                                    listOfPoppedBalls = []
+                                    while p >= 0:
+                                        if self.rearrangeList[p].lightBallColor == self.lightBallColor:
+                                            self.sameColors += 1
+                                            listOfPoppedBalls.append(self.rearrangeList[p])
+                                        else:
+                                            break
+                                        p -= 1
+                                    p = i
+                                    while p <= len(self.rearrangeList):
+                                        if self.rearrangeList[p].lightBallColor == self.lightBallColor:
+                                            self.sameColors += 1
+                                        else:
+                                            break
+                                        p += 1
+                                    if self.sameColors >= 3:
+                                        for z in range(len(lightBallSprites.sprites())):
+                                            for y in range(len(listOfPoppedBalls)):
+                                                if self.rearrangeList[z].lightBallId == listOfPoppedBalls[y].lightBallId:
+                                                    self.rearrangeList[z].kill()
+                                    else:
+                                        self.rearrangeList[x + 1] = self
+                                x -= 1
+                            if self.sameColors >= 3:
+                                pass
+                            lightBallSprites.empty()
+                            for y in range(len(self.rearrangeList)):
+                                self.rearrangeList[y].add(lightBallSprites)
                             for i in range(len(lightBallSprites.sprites())):
                                 print(lightBallSprites.sprites()[i].lightBallColor)
+
                             # self.playerInstance.lightBallInTheAir = False
                             # self.playerInstance.loadNewLightBall()
                             self.position = Vector2(collidedSprite.position)
