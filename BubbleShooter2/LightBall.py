@@ -12,14 +12,10 @@ class LightBall(pygame.sprite.Sprite):
         self.lightBallImage = lightBallImage
         self.lightBallImage = pygame.transform.scale(self.lightBallImage, (40, 40))
         self.position = Vector2(spawnPos)
-        self.velocity = 400
-        self.movementSpeed = 200
+        self.velocity = 600
+        self.movementSpeed = 100
+
         self.lightBallColor = lightBallColor
-        self.lightBallImage = lightBallImage
-        self.lightBallImage = pygame.transform.scale(self.lightBallImage, (40, 40))
-        self.position = Vector2(spawnPos)
-        self.velocity = 400
-        self.movementSpeed = 200
         self.velocityVector = Vector2(0, 0)
 
         self.bubbleShooterScene = BubbleShooterScene
@@ -98,11 +94,18 @@ class LightBall(pygame.sprite.Sprite):
                                     #Hier moet ik programeren, dat de balletjes ongeveer 45 pixels naar de volgende
                                     #destination word geduwd. (dit zodat er ruimte is voor de nieuwe bal)
                                     #current ball is self.rearrangeList[x]
+
                                     currentBall = self.rearrangeList[x]
-                                    currentBall.position += Vector2(0, 40)
+                                    distanceToMove = 40
+
+                                    moveToPositionVector = currentBall.nextPositionToGoTo - currentBall.position
+                                    moveToPositionVector.length = 40
+                                    currentBall.position += moveToPositionVector
+
                                 elif x == i:
                                     p = i
                                     listOfPoppedBalls = []
+
                                     while p >= 0:
                                         if self.rearrangeList[p].lightBallColor == self.lightBallColor:
                                             self.sameColors += 1
@@ -124,6 +127,13 @@ class LightBall(pygame.sprite.Sprite):
                                                     self.rearrangeList[z].kill()
                                     else:
                                         self.rearrangeList[x + 1] = self
+
+                                        currentBall = self.rearrangeList[x + 1]
+                                        distanceToMove = 40
+
+                                        moveToPositionVector = currentBall.nextPositionToGoTo - currentBall.position
+                                        moveToPositionVector.length = 40
+                                        currentBall.position += moveToPositionVector
                                 x -= 1
                             if self.sameColors >= 3:
                                 pass

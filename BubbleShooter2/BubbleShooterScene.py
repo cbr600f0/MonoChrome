@@ -31,18 +31,14 @@ class BubbleShooterScene(SceneManager.Scene):
 
         self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 700])
         self.spawnTimer = 0
-        self.ballsToSpawn = 20
+        self.ballsToSpawn = 4 # 20
         self.player = Player(self, self.allSprites, self.lightBallSprites, self.lightBallCount, self.lightBallImages, self.routePositions, self.allSprites, self.playerSprites)
 
 
-        mark = 0
         #     def __init__(self, spawnPos, playerInstance, lightBallImage, lightBallColor, *sprite_groups):
         for i in range(0, self.ballsToSpawn):
-            mark += 1
-            if mark == 2:
-                mark = 0
-                lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-                LightBall(self, (self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, self.lightBallCount, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
+            lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
+            LightBall(self, (self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, self.lightBallCount, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
 
     def render(self, screen):
         self.allSprites.clear(screen, self.backgroundImage)
