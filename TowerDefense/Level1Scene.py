@@ -18,8 +18,8 @@ class Level1Scene(SceneManager.Scene):
     def __init__(self, *optionalInformation):
         super(Level1Scene, self).__init__()
 
-        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 180], [130, 180], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
-        self.gold = 5000000
+        self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 226], [130, 226], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
+        self.gold = 300
         self.score = 0
         self.difficulty = "Normal"
         self.totalEnemiesKilled = 0
@@ -33,12 +33,12 @@ class Level1Scene(SceneManager.Scene):
         self.projectileSprites = pygame.sprite.Group()
         self.moneybagSprites = pygame.sprite.Group()
 
-        self.bank = Bank(Vector2(290, 720), 180, self, self.bankSprite, self.allSprites)
+        self.bank = Bank(Vector2(440, 150), 90, self, self.bankSprite, self.allSprites)
 
         #Spawner Stuff (Maybe make a seperate Spawner class)
         self.spawnerIsActive = False
         self.spawnPauseTimer = 0
-        self.pauseDuration = 12
+        self.pauseDuration = 30
 
         self.currentRound = 0
 
@@ -79,9 +79,9 @@ class Level1Scene(SceneManager.Scene):
         self.tnt = TntTurret(Vector2(0 ,0), self)
         self.sniper = SniperTurret(Vector2(0 ,0), self)
 
-        self.akimboShopSquare = ShopTurretSquare(1326, 100, self.akimbo, 200, "Akimbo")
-        self.tntShopSqaure = ShopTurretSquare(1456, 100, self.tnt, 200, "Tnt")
-        self.sniperShopSquare = ShopTurretSquare(1390, 230, self.sniper, 200, "Sniper")
+        self.akimboShopSquare = ShopTurretSquare(1326, 100, self.akimbo, "Akimbo")
+        self.tntShopSqaure = ShopTurretSquare(1456, 100, self.tnt, "Tnt")
+        self.sniperShopSquare = ShopTurretSquare(1390, 230, self.sniper, "Sniper")
 
         self.turretPlacementSound = pygame.mixer.Sound("TowerDefense/Sounds/turretPlacement.wav")
         self.turretPlacementSound.set_volume(0.008)
@@ -228,7 +228,9 @@ class Level1Scene(SceneManager.Scene):
                     self.spawnerIsActive = True
             else:
                 if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
-                    self.spawnPauseTimer = self.pauseDuration
+                    self.spawnPauseTimer = 0
+                    self.currentRound += 1
+                    self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
         self.allSprites.update(deltaTime)
 
@@ -466,6 +468,21 @@ class Level1Scene(SceneManager.Scene):
 
         self.tutNextBtn.draw(screen)
 
+    def GetClosestEnemyToDestination(self, centerPos, radius, enemySprites):
+        closestEnemyPosition = None
+        closestEnemy = None
+
+        for enemy in enemySprites:
+            distanceToEnemy = centerPos.get_distance(enemy.position)
+
+            if distanceToEnemy <= radius:
+                if closestEnemyPosition is None:
+                    closestEnemyPosition = distanceToEnemy
+                    closestEnemy = enemy
+                elif distanceToEnemy < closestEnemyPosition:
+                    closestEnemyPosition = distanceToEnemy
+                    closestEnemy = enemy
+
     def GetClosestEnemyInRadius(self, centerPos, radius, enemySprites):
 
         closestEnemyPosition = None
@@ -541,12 +558,15 @@ class Level1Scene(SceneManager.Scene):
 
                         if self.currentShopSquare.turretName == "Akimbo":# hier gebleven met self.currentShopSquare
                             AkimboRevolverTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
+                            self.gold -= self.currentShopSquare.price
 
                         elif self.currentShopSquare.turretName == "Tnt":
                             TntTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
+                            self.gold -= self.currentShopSquare.price
 
                         elif self.currentShopSquare.turretName == "Sniper":
                             SniperTurret(Vector2(mousePos), self, self.allSprites, self.turretSprites)
+                            self.gold -= self.currentShopSquare.price
 
                         self.currentShopSquare.isDragginTurret = False
                         self.currentShopSquare = None

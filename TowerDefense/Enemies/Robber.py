@@ -6,19 +6,19 @@ from TowerDefense.Moneybag import Moneybag
 
 class Robber(Enemy):
 
-    def __init__(self, positionsToFollow, levelReference, *sprite_groups):
+    def __init__(self, health, goldOnKill, scoreOnKill, goldToSteal, positionsToFollow, levelReference, *sprite_groups):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
-        self.health = 100
+        self.health = health
         self.enemyWidth = 65
         self.enemyHeight = 40
         self.movementSpeed = 90
 
         self.levelReference = levelReference
 
-        self.goldToSteal = 100
-        self.goldOnKill = 100
-        self.scoreOnKill = 50
+        self.goldToSteal = goldToSteal
+        self.goldOnKill = goldOnKill
+        self.scoreOnKill = scoreOnKill
         self.totalGoldOnEnemy = 0
         self.name = "Bank Robber"
         self.description = "A bank robber, an enemy with medium stats."
