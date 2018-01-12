@@ -23,9 +23,6 @@ class Enemy(pygame.sprite.Sprite):
         self.hasStolenGoldFromBank = False
         self.distanceLeft = 0
 
-        for postionToGoTo in self.positionsToFollow:
-            pass
-
     def takeDamage(self, damageTaken):
         raise NotImplemented
 

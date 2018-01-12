@@ -12,7 +12,7 @@ class EnemyWaveSpawner():
         self.spawnEnemyInterval = 1.3
 
         self.spawnedEnemies = 0
-        self.enemiesToSpawn = 10
+        self.enemiesToSpawn = 1
 
     def update(self, deltaTime):
 

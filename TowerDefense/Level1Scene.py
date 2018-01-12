@@ -469,19 +469,10 @@ class Level1Scene(SceneManager.Scene):
         self.tutNextBtn.draw(screen)
 
     def GetClosestEnemyToDestination(self, centerPos, radius, enemySprites):
-        closestEnemyPosition = None
         closestEnemy = None
 
         for enemy in enemySprites:
             distanceToEnemy = centerPos.get_distance(enemy.position)
-
-            if distanceToEnemy <= radius:
-                if closestEnemyPosition is None:
-                    closestEnemyPosition = distanceToEnemy
-                    closestEnemy = enemy
-                elif distanceToEnemy < closestEnemyPosition:
-                    closestEnemyPosition = distanceToEnemy
-                    closestEnemy = enemy
 
     def GetClosestEnemyInRadius(self, centerPos, radius, enemySprites):
 

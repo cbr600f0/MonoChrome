@@ -41,6 +41,26 @@ class LightBall(pygame.sprite.Sprite):
         if self.isOnRoute:
             self.nextPositionToGoTo = Vector2(self.routePositions[self.destinationPosIndex][0], self.routePositions[self.destinationPosIndex][1])
 
+    def moveBallFurther(self, x):
+        currentBall = self.rearrangeList[x]
+        distanceToMove = 40
+
+        moveToPositionVector = currentBall.nextPositionToGoTo - currentBall.position
+        moveToPositionVector.length = distanceToMove
+
+        if moveToPositionVector.length <= currentBall.nextPositionToGoTo.get_distance(currentBall.position):
+            currentBall.position += moveToPositionVector
+        else:
+            if moveToPositionVector.length > currentBall.nextPositionToGoTo.get_distance(currentBall.position):
+                excessDistance = moveToPositionVector.length - currentBall.nextPositionToGoTo.get_distance(currentBall.position)
+
+                moveToPositionVector2 = currentBall.routePositions[currentBall.destinationPosIndex + 1] - currentBall.nextPositionToGoTo
+                moveToPositionVector2.length = excessDistance
+
+                currentBall.position = currentBall.nextPositionToGoTo + moveToPositionVector2
+                currentBall.nextPositionToGoTo = Vector2(currentBall.routePositions[currentBall.destinationPosIndex + 1])
+                currentBall.destinationPosIndex += 1
+
     def update(self, deltaTime, allSprites, lightBallSprites):
         if (self.canMove):
             if (self.isOnRoute == False): # Shooting
@@ -88,19 +108,14 @@ class LightBall(pygame.sprite.Sprite):
                             print("-----------------------")
                             x = len(self.rearrangeList) - 2
                             self.rearrangeList.append(lightBallSprites.sprites()[len(lightBallSprites.sprites()) - 1])
-                            while x > 0:
+                            while x >= 0:
                                 if x > i:
                                     self.rearrangeList[x + 1] = self.rearrangeList[x]
                                     #Hier moet ik programeren, dat de balletjes ongeveer 45 pixels naar de volgende
                                     #destination word geduwd. (dit zodat er ruimte is voor de nieuwe bal)
                                     #current ball is self.rearrangeList[x]
 
-                                    currentBall = self.rearrangeList[x]
-                                    distanceToMove = 40
-
-                                    moveToPositionVector = currentBall.nextPositionToGoTo - currentBall.position
-                                    moveToPositionVector.length = 40
-                                    currentBall.position += moveToPositionVector
+                                    self.moveBallFurther(x)
 
                                 elif x == i:
                                     p = i
@@ -128,12 +143,21 @@ class LightBall(pygame.sprite.Sprite):
                                     else:
                                         self.rearrangeList[x + 1] = self
 
-                                        currentBall = self.rearrangeList[x + 1]
-                                        distanceToMove = 40
+                                        self.position = Vector2(collidedSprite.position)
+                                        self.moveBallFurther(x + 1)
+                                elif x < i:
+                                    if i == len(self.rearrangeList) - 2:
+                                        self.rearrangeList[len(self.rearrangeList) - 1] = self
 
-                                        moveToPositionVector = currentBall.nextPositionToGoTo - currentBall.position
-                                        moveToPositionVector.length = 40
-                                        currentBall.position += moveToPositionVector
+                                        self.position = Vector2(collidedSprite.position)
+                                        self.moveBallFurther(len(self.rearrangeList) - 1)
+                                    elif i == len(self.rearrangeList) - 3:
+                                        self.rearrangeList[len(self.rearrangeList) - 1] = self.rearrangeList[len(self.rearrangeList) - 2]
+                                        self.rearrangeList[len(self.rearrangeList) - 2] = self
+
+                                        self.position = Vector2(collidedSprite.position)
+                                        self.moveBallFurther(len(self.rearrangeList) - 2)
+
                                 x -= 1
                             if self.sameColors >= 3:
                                 pass
@@ -145,9 +169,8 @@ class LightBall(pygame.sprite.Sprite):
 
                             # self.playerInstance.lightBallInTheAir = False
                             # self.playerInstance.loadNewLightBall()
-                            self.position = Vector2(collidedSprite.position)
                             break
-
+                break
             if (self.position.x > 1650 or
                 self.position.x < -50 or
                 self.position.y > 950 or
@@ -155,6 +178,7 @@ class LightBall(pygame.sprite.Sprite):
                     self.playerInstance.lightBallInTheAir = False
                     self.kill()
                     self.playerInstance.loadNewLightBall()
+
 
 
 # lightballsprites.position,

@@ -61,6 +61,9 @@ class Robber(Enemy):
 
         self.hasChangedImageToGoldBags = False
 
+        for positionToGoTo in self.positionsToFollow:
+            self.distanceLeft += Vector2(positionToGoTo).get_distance(self.position)
+
     def update(self, deltaTime):
 
         if self.hasDied is False:
@@ -84,6 +87,8 @@ class Robber(Enemy):
                         self.hasDied = True
                 else:
                     self.position += moveToPositionVector
+                    self.distanceLeft -= moveToPositionVector.length
+                    print(self.distanceLeft)
 
             for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
                 if collidedMoneybag.enemyCanPickupBag:

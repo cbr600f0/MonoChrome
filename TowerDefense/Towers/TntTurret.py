@@ -33,10 +33,10 @@ class TntTurret(Turret):
         self.fuseTime = 0.8
         self.nextLevelFuseTime = 0.7
 
-        self.damage = 18
-        self.nextLevelDamage = 32
+        self.damage = 10
+        self.nextLevelDamage = 18
 
-        self.throwVelocity = 460
+        self.throwVelocity = 510
         self.name = "Dynamite Cowboy"
         self.description = "A cowboy with dynamite sticks, deals damage to all enemies hit in a radius"
 
@@ -139,7 +139,7 @@ class TntTurret(Turret):
         self.fuseTime = self.nextLevelFuseTime
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 58
+            self.nextLevelDamage = 32
             self.nextLevelFireRate = 0.7
             self.nextLevelRange = 150
 
@@ -149,7 +149,7 @@ class TntTurret(Turret):
             self.upgradeCost = 360
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 80
+            self.nextLevelDamage = 52
             self.nextLevelFireRate = 0.85
             self.nextLevelRange = 170
 

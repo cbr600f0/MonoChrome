@@ -13,11 +13,11 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 5
-        self.nextLevelDamage = 9
+        self.damage = 6
+        self.nextLevelDamage = 11
 
-        self.fireRate = 1.8 # shots per second
-        self.nextLevelFireRate = 1.85
+        self.fireRate = 1.85 # shots per second
+        self.nextLevelFireRate = 1.9
 
         self.range = 170
         self.nextLevelRange = 175
@@ -126,15 +126,15 @@ class AkimboRevolverTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 14
+            self.nextLevelDamage = 16
             self.nextLevelUpgradeCost = 600
-            self.nextLevelFireRate = 1.9
+            self.nextLevelFireRate = 1.95
             self.nextLevelRange = 180
             self.upgradeCost = 300
 
         elif self.turretLevel == 3:
             self.nextLevelDamage = 24
-            self.nextLevelFireRate = 3.8
+            self.nextLevelFireRate = 3.9
             self.nextLevelRange = 210
             self.upgradeCost = 600
 
