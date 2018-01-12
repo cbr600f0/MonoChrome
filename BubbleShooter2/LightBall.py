@@ -98,7 +98,8 @@ class LightBall(pygame.sprite.Sprite):
                                     #Hier moet ik programeren, dat de balletjes ongeveer 45 pixels naar de volgende
                                     #destination word geduwd. (dit zodat er ruimte is voor de nieuwe bal)
                                     #current ball is self.rearrangeList[x]
-                                    # self.rearrangeList[x].position =
+                                    currentBall = self.rearrangeList[x]
+                                    currentBall.position += Vector2(0, 40)
                                 elif x == i:
                                     p = i
                                     listOfPoppedBalls = []
