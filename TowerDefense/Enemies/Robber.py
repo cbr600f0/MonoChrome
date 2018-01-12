@@ -12,7 +12,7 @@ class Robber(Enemy):
         self.health = health
         self.enemyWidth = 65
         self.enemyHeight = 40
-        self.movementSpeed = 90
+        self.movementSpeed = 80
 
         self.levelReference = levelReference
 
@@ -61,8 +61,10 @@ class Robber(Enemy):
 
         self.hasChangedImageToGoldBags = False
 
+        previousPos = Vector2(self.position)
         for positionToGoTo in self.positionsToFollow:
-            self.distanceLeft += Vector2(positionToGoTo).get_distance(self.position)
+            self.distanceLeft += Vector2(positionToGoTo).get_distance(previousPos)
+            previousPos = Vector2(positionToGoTo)
 
     def update(self, deltaTime):
 
@@ -87,8 +89,7 @@ class Robber(Enemy):
                         self.hasDied = True
                 else:
                     self.position += moveToPositionVector
-                    self.distanceLeft -= moveToPositionVector.length
-                    print(self.distanceLeft)
+                    self.distanceLeft -= self.movementSpeed * deltaTime
 
             for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
                 if collidedMoneybag.enemyCanPickupBag:

@@ -19,7 +19,7 @@ class Level1Scene(SceneManager.Scene):
         super(Level1Scene, self).__init__()
 
         self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 226], [130, 226], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
-        self.gold = 300
+        self.gold = 300 #300
         self.score = 0
         self.difficulty = "Normal"
         self.totalEnemiesKilled = 0
@@ -132,8 +132,10 @@ class Level1Scene(SceneManager.Scene):
 
         self.enemySpawnerObjects = []
 
+        self.userAtLastPage = False
         self.showTutorial = True
         self.currentTutorialPage = 1
+        self.tutorialImages = [pygame.image.load("TowerDefense\Images\Tutorials\Tutorial1.png"), pygame.image.load("TowerDefense\Images\Tutorials\Tutorial2.png"),pygame.image.load("TowerDefense\Images\Tutorials\Tutorial3.png"),pygame.image.load("TowerDefense\Images\Tutorials\Tutorial4.png"),pygame.image.load("TowerDefense\Images\Tutorials\Tutorial5.png"), pygame.image.load("TowerDefense\Images\Tutorials\Tutorial6.png"),]
         self.tutorialRect = pygame.Rect(400, 160, 580, 400)
 
         self.tutorialBodyFont = pygame.font.SysFont("monospace", 19)
@@ -154,9 +156,9 @@ class Level1Scene(SceneManager.Scene):
         self.outlineTurretImage = self.getOutline(self.sniperTurretImage, [0, 0, 0])
         self.sniperTurretImage.blit(self.outlineTurretImage, (0, 0))
 
-        self.tutCloseBtn = Button(True, None, "Close", None, None, [40, 40, 40], [0, 0, 0], 480, 480, None, 60)
-        self.tutNextBtn = Button(True, None, "Next", None, None, [40, 40, 40], [0, 0, 0], 780, 480, None, 60)
-        self.tutPreviousBtn = Button(True, None, "Previous", None, None, [40, 40, 40], [0, 0, 0], 480, 480, None, 60)
+        self.tutCloseBtn = Button(True, None, "Close", None, None, [40, 40, 40], [0, 0, 0], 480, 495, None, 40)
+        self.tutNextBtn = Button(True, None, "Next", None, None, [40, 40, 40], [0, 0, 0], 780, 495, None, 40)
+        self.tutPreviousBtn = Button(True, None, "Previous", None, None, [40, 40, 40], [0, 0, 0], 480, 495, None, 40)
 
 
     def render(self, screen):
@@ -445,34 +447,52 @@ class Level1Scene(SceneManager.Scene):
         canvasRect = pygame.draw.rect(screen, [70, 50, 34], self.tutorialRect)
         pygame.draw.rect(screen, [50, 30, 14], self.tutorialRect, 3)  # Border
 
-        if self.currentTutorialPage == 1:
+        screen.blit(self.tutorialImages[self.currentTutorialPage - 1], (400, 160))
 
-            headerRect = pygame.Rect(0, 180, 360, 70)
-            headerRect.centerx = canvasRect.centerx
-
-            self.drawText(screen, "You can build these 3 towers", [0, 0, 0], headerRect, self.upgradeTurretStatsHeaderFont, True, None)
-
-            screen.blit(self.akimboTurretImage, (500, 240))
-            screen.blit(self.tntTurretImage, (645, 240))
-            screen.blit(self.sniperTurretImage, (820, 240))
-
-            bodyRect = pygame.Rect(0, 380, canvasRect.width - 80, 270)
-            bodyRect.centerx = canvasRect.centerx
-
-            self.drawText(screen, "You can find the towers in the top right corner of your screen.", [0, 0, 0], bodyRect, self.tutorialBodyFont, True, None)
-
-        if self.currentTutorialPage == 1:
+        if self.currentTutorialPage == 1 or self.currentTutorialPage == 6:
             self.tutCloseBtn.draw(screen)
-        else:
+
+        if self.currentTutorialPage > 1:
             self.tutPreviousBtn.draw(screen)
 
-        self.tutNextBtn.draw(screen)
+        if self.currentTutorialPage >= 1 and self.currentTutorialPage < 6:
+            self.tutNextBtn.draw(screen)
+
+        if self.currentTutorialPage == 3:
+            self.tutPreviousBtn.xPos = 634
+            self.tutNextBtn.xPos = 872
+
+            self.tutPreviousBtn.yPos = 505
+            self.tutNextBtn.yPos = 505
+
+        elif self.currentTutorialPage == 6:
+            self.userAtLastPage = True
+            self.tutPreviousBtn.xPos = 634
+            self.tutCloseBtn.xPos = 872
+
+            self.tutPreviousBtn.yPos = 495
+            self.tutCloseBtn.yPos = 495
+        else: # geen else maak een elif per page waar de buttons moeten
+            self.tutPreviousBtn.xPos = 490
+            self.tutNextBtn.xPos = 770
 
     def GetClosestEnemyToDestination(self, centerPos, radius, enemySprites):
+
+        closestEnemyPosition = None
         closestEnemy = None
 
         for enemy in enemySprites:
             distanceToEnemy = centerPos.get_distance(enemy.position)
+
+            if distanceToEnemy <= radius:
+                if closestEnemyPosition is None:
+                    closestEnemyPosition = enemy.distanceLeft
+                    closestEnemy = enemy
+                elif enemy.distanceLeft < closestEnemyPosition:
+                    closestEnemyPosition = enemy.distanceLeft
+                    closestEnemy = enemy
+
+        return closestEnemy
 
     def GetClosestEnemyInRadius(self, centerPos, radius, enemySprites):
 

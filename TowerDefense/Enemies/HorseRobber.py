@@ -77,6 +77,11 @@ class HorseRobber(Enemy):
 
         self.hasChangedImageToGoldBags = False
 
+        previousPos = Vector2(self.position)
+        for positionToGoTo in self.positionsToFollow:
+            self.distanceLeft += Vector2(positionToGoTo).get_distance(previousPos)
+            previousPos = Vector2(positionToGoTo)
+
     def update(self, deltaTime):
 
         if self.hasDied is False:
@@ -99,6 +104,7 @@ class HorseRobber(Enemy):
                         self.hasDied = True
                 else:
                     self.position += moveToPositionVector
+                    self.distanceLeft -= self.movementSpeed * deltaTime
 
 
             if self.hasRobber:

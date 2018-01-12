@@ -49,7 +49,7 @@ class SniperTurret(Turret):
 
     def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
+            enemyToShoot = self.levelReference.GetClosestEnemyToDestination(self.position, self.range, self.levelReference.enemySprites)
 
             if enemyToShoot is not None:
 

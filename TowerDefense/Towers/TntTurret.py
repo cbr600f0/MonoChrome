@@ -60,7 +60,7 @@ class TntTurret(Turret):
 
     def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToFollow = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
+            enemyToFollow = self.levelReference.GetClosestEnemyToDestination(self.position, self.range, self.levelReference.enemySprites)
 
             if enemyToFollow is not None:
 
