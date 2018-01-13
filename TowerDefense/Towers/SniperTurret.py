@@ -14,11 +14,11 @@ class SniperTurret(Turret):
         self.turretWidth = 50
         self.turretHeight = 98
 
-        self.damage = 16
-        self.nextLevelDamage = 26
+        self.damage = 23
+        self.nextLevelDamage = 38
 
-        self.fireRate = 0.55 # shots per second
-        self.nextLevelFireRate = 0.55
+        self.fireRate = 0.65 # shots per second
+        self.nextLevelFireRate = 0.7
 
         self.range = 230
         self.nextLevelRange = 250
@@ -123,15 +123,16 @@ class SniperTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 48
+            self.nextLevelDamage = 52
             self.nextLevelRange = 270
+            self.nextLevelFireRate = 0.75
 
             self.nextLevelUpgradeCost = 480
             self.upgradeCost = 620
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 106
-            self.nextLevelFireRate = 0.6
+            self.nextLevelDamage = 110
+            self.nextLevelFireRate = 0.8
 
             self.nextLevelRange = 320
             self.upgradeCost = 1000

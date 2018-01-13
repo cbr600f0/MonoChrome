@@ -13,11 +13,11 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 8
+        self.damage = 6
         self.nextLevelDamage = 14
 
-        self.fireRate = 1.7 # shots per second
-        self.nextLevelFireRate = 1.7
+        self.fireRate = 1.5 # shots per second
+        self.nextLevelFireRate = 1.5
 
         self.range = 170
         self.nextLevelRange = 175
