@@ -118,6 +118,7 @@ class Level1Scene(SceneManager.Scene):
         self.finalScoreLbl = self.gameOverStatsFont.render("Score " + str(self.score), True, [0, 0, 0])
         self.totalEnemiesKilledLbl = self.gameOverStatsFont.render("Enemies Killed " + str(self.totalEnemiesKilled), True, [0, 0, 0])
 
+        self.retryGameBtn = Button(False, self.westernFont, "Retry", None, None, [20, 20, 20], [0, 0,  0], 800, 650, None, 70)
         self.backToMainMenuBtn = Button(False, self.westernFont, "Main menu", None, None, [20, 20, 20], [0, 0,  0], 900, 650, None, 70)
 
         pygame.draw.rect(self.gameOverOverlay, [0, 0, 0], self.gameOverOverlay.get_rect(), 4)
@@ -192,6 +193,7 @@ class Level1Scene(SceneManager.Scene):
 
         if self.gold < 0:
             self.gameOver = True
+            self.gold = 0
 
         if self.showTutorial:
             if self.tutCloseBtn.click():
@@ -203,7 +205,7 @@ class Level1Scene(SceneManager.Scene):
             if self.tutNextBtn.click():
                 self.currentTutorialPage += 1
 
-        if not self.gameOver:
+        if not self.gameOver and not self.showTutorial:
 
             if self.spawnerIsActive:
 
@@ -213,40 +215,42 @@ class Level1Scene(SceneManager.Scene):
                 self.spawnPauseTimer += deltaTime
 
                 if self.spawnPauseTimer > self.pauseDuration:
-                    self.spawnPauseTimer = 0
 
-                    self.currentRound += 1
-                    self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
-
-
-            if not self.spawnerIsActive:
-                if self.startGameBtn.click():
-                    self.spawnPauseTimer = self.pauseDuration
-                    self.spawnerIsActive = True
-            else:
-                if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
                     self.spawnPauseTimer = 0
                     self.currentRound += 1
                     self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
-        self.allSprites.update(deltaTime)
+            if not self.showTutorial:
+                if not self.spawnerIsActive:
+                    if self.startGameBtn.click():
+                        self.spawnPauseTimer = self.pauseDuration
+                        self.spawnerIsActive = True
+                else:
+                    if self.nextRoundBtn.click():  # Probably remove the function to go to the next round
+                        self.spawnPauseTimer = 0
+                        self.currentRound += 1
+                        self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
-        if self.currentShopSquare is not None and self.currentShopSquare.isDragginTurret and self.gold < self.currentShopSquare.price:
-            self.currentShopSquare.isDragginTurret = False
+        if not self.gameOver:
+            self.allSprites.update(deltaTime)
 
-        if self.currentShopSquare is not None:
-            self.CheckHoverTurretCollision()
+        if not self.showTutorial:
+            if self.currentShopSquare is not None and self.currentShopSquare.isDragginTurret and self.gold < self.currentShopSquare.price:
+                self.currentShopSquare.isDragginTurret = False
 
-        if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and self.focusedSprite.hasDied:
-            self.focusedSprite = None
+            if self.currentShopSquare is not None:
+                self.CheckHoverTurretCollision()
 
-        if self.focusedSprite is not None and isinstance(self.focusedSprite, Turret):
-            if self.upgradeTurretSellButton.click():
-                self.focusedSprite.sellTurret()
+            if self.focusedSprite is not None and isinstance(self.focusedSprite, Enemy) and self.focusedSprite.hasDied:
                 self.focusedSprite = None
 
-            if self.upgradeTurretUpgradeButton.click():
-                self.focusedSprite.upgradeTurret()
+            if self.focusedSprite is not None and isinstance(self.focusedSprite, Turret):
+                if self.upgradeTurretSellButton.click():
+                    self.focusedSprite.sellTurret()
+                    self.focusedSprite = None
+
+                if self.upgradeTurretUpgradeButton.click():
+                    self.focusedSprite.upgradeTurret()
 
     def renderGameOverScreen(self, screen):
 
@@ -256,16 +260,20 @@ class Level1Scene(SceneManager.Scene):
         self.totalEnemiesKilledLbl = self.gameOverStatsFont.render("Enemies Killed " + str(self.totalEnemiesKilled), True, [0, 0, 0])
 
         self.gameOverOverlay.blit(self.gameOverLbl, (190, 20))
-        self.gameOverOverlay.blit(self.roundsSurvivedLbl, (40, 160))
-        self.gameOverOverlay.blit(self.finalScoreLbl, (40, 230))
-        self.gameOverOverlay.blit(self.totalEnemiesKilledLbl, (40, 300))
+        self.gameOverOverlay.blit(self.roundsSurvivedLbl, (40, 170))
+        self.gameOverOverlay.blit(self.finalScoreLbl, (40, 250))
+        self.gameOverOverlay.blit(self.totalEnemiesKilledLbl, (40, 320))
 
         screen.blit(self.gameOverOverlay, (500, 150))
 
         self.backToMainMenuBtn.draw(screen)
+        self.retryGameBtn.draw(screen)
 
         if self.backToMainMenuBtn.click():
             SceneManager.SceneManager.goToScene("TowerDefense.TowerDefenseMainMenuScene.TowerDefenseMainMenuScene")
+
+        if self.retryGameBtn.click():
+            SceneManager.SceneManager.goToScene("TowerDefense.Level1Scene.Level1Scene")
 
     def drawText(self, surface, text, color, rect, font, aa=False, bkg=None):
         rect = pygame.Rect(rect)
@@ -531,7 +539,12 @@ class Level1Scene(SceneManager.Scene):
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.spawnerIsActive and not self.showTutorial:
+                self.spawnPauseTimer = 0
+                self.currentRound += 1
+                self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.showTutorial and not self.gameOver:
                 mousePos = pygame.mouse.get_pos()
 
                 if self.sniperShopSquare.isDragginTurret == False and self.akimboShopSquare.isDragginTurret == False and self.tntShopSqaure.isDragginTurret == False:
@@ -616,7 +629,7 @@ class Level1Scene(SceneManager.Scene):
                     for turret in self.turretSprites.sprites():
                         turret.isFocusedByUser = False
 
-            if event.type == pygame.MOUSEMOTION:
+            if event.type == pygame.MOUSEMOTION and not self.showTutorial and not self.gameOver:
                 mousePos = pygame.mouse.get_pos()
 
                 self.isHoveringOverAkimboShopRect = self.akimboShopRect.collidepoint(mousePos) # Mouse is hovering over this shop sqaure
@@ -632,6 +645,8 @@ class Level1Scene(SceneManager.Scene):
 
                 if self.isHoveringOverAkimboShopRect == False and self.isHoveringOverTntShopRect == False and self.isHoveringOverSniperShopRect == False:
                     self.hoverTurretObject = None
+            else:
+                self.hoverTurretObject = None
 
     def renderPath(self, screen):
         COLOR = [80, 60, 44]
