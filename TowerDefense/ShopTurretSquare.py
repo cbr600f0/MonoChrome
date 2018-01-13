@@ -2,9 +2,9 @@ import pygame, math
 
 class ShopTurretSquare():
 
-    def __init__(self, xPos, yPos, turretObject, price, turretName):
+    def __init__(self, xPos, yPos, turretObject, turretName):
 
-        self.price = price
+        self.price = turretObject.buyPrice
         self.turretObject = turretObject
         self.turretName = turretName
         self.xPos = xPos

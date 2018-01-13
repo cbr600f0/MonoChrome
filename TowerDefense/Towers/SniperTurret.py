@@ -14,20 +14,20 @@ class SniperTurret(Turret):
         self.turretWidth = 50
         self.turretHeight = 98
 
-        self.damage = 60
-        self.nextLevelDamage = 280
+        self.damage = 16
+        self.nextLevelDamage = 26
 
-        self.fireRate = 0.5 # shots per second
+        self.fireRate = 0.55 # shots per second
         self.nextLevelFireRate = 0.55
 
-        self.range = 260
-        self.nextLevelRange = 340
+        self.range = 230
+        self.nextLevelRange = 250
 
         self.name = "Rifle Cowboy"
         self.description = "A cowboy with his rifle, deals massive damage with high range at the cost of firerate."
 
-        self.upgradeCost = 330
-        self.buyPrice = 280
+        self.upgradeCost = 350
+        self.buyPrice = 250
         self.totalGoldSpendOnTurret = self.buyPrice
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\SniperTurret.png").convert_alpha()
@@ -49,7 +49,7 @@ class SniperTurret(Turret):
 
     def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
+            enemyToShoot = self.levelReference.GetClosestEnemyToDestination(self.position, self.range, self.levelReference.enemySprites)
 
             if enemyToShoot is not None:
 
@@ -123,17 +123,18 @@ class SniperTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 300
-            self.nextLevelFireRate = 0.6
-            self.nextLevelRange = 380
-            self.nextLevelUpgradeCost = 250
-            self.upgradeCost = 500
+            self.nextLevelDamage = 48
+            self.nextLevelRange = 270
+
+            self.nextLevelUpgradeCost = 480
+            self.upgradeCost = 620
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 500
-            self.nextLevelFireRate = 0.8
-            self.nextLevelRange = 530
-            self.upgradeCost = 950
+            self.nextLevelDamage = 106
+            self.nextLevelFireRate = 0.6
+
+            self.nextLevelRange = 320
+            self.upgradeCost = 1000
 
 
 

@@ -21,6 +21,7 @@ class Enemy(pygame.sprite.Sprite):
         self.goldOnKill = 100
         self.goldToSteal = 10
         self.hasStolenGoldFromBank = False
+        self.distanceLeft = 0
 
     def takeDamage(self, damageTaken):
         raise NotImplemented

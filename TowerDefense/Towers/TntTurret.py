@@ -21,26 +21,26 @@ class TntTurret(Turret):
         self.turretWidth = 86
         self.turretHeight = 74
 
-        self.range = 210
-        self.nextLevelRange = 240
+        self.range = 140
+        self.nextLevelRange = 150
 
-        self.areaOfEffect = 140
-        self.nextLevelAOE = 150
+        self.areaOfEffect = 110
+        self.nextLevelAOE = 115
 
-        self.fireRate = 1.2 # shots per second
-        self.nextLevelFireRate = 1.35
+        self.fireRate = 0.5 # shots per second
+        self.nextLevelFireRate = 0.5
 
-        self.fuseTime = 0.9
-        self.nextLevelFuseTime = 0.75
+        self.fuseTime = 0.75
+        self.nextLevelFuseTime = 0.7
 
-        self.damage = 80
-        self.nextLevelDamage = 120
+        self.damage = 8
+        self.nextLevelDamage = 12
 
-        self.throwVelocity = 460
+        self.throwVelocity = 500
         self.name = "Dynamite Cowboy"
         self.description = "A cowboy with dynamite sticks, deals damage to all enemies hit in a radius"
 
-        self.upgradeCost = 210
+        self.upgradeCost = 280
         self.buyPrice = 180
         self.totalGoldSpendOnTurret = self.buyPrice
 
@@ -60,7 +60,7 @@ class TntTurret(Turret):
 
     def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToFollow = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
+            enemyToFollow = self.levelReference.GetClosestEnemyToDestination(self.position, self.range, self.levelReference.enemySprites)
 
             if enemyToFollow is not None:
 
@@ -139,23 +139,23 @@ class TntTurret(Turret):
         self.fuseTime = self.nextLevelFuseTime
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 140
-            self.nextLevelFireRate = 1.5
-            self.nextLevelRange = 270
+            self.nextLevelDamage = 20
+            self.nextLevelFireRate = 0.55
+            self.nextLevelRange = 160
 
-            self.nextLevelAOE = 160
-            self.nextLevelFuseTime = 0.6
+            self.nextLevelAOE = 120
+            self.nextLevelFuseTime = 0.65
 
-            self.upgradeCost = 350
+            self.upgradeCost = 450
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 190
-            self.nextLevelFireRate = 1.8
-            self.nextLevelRange = 310
+            self.nextLevelDamage = 42
+            self.nextLevelFireRate = 0.65
+            self.nextLevelRange = 185
 
-            self.nextLevelAOE = 210
-            self.nextLevelFuseTime = 0.4
+            self.nextLevelAOE = 130
+            self.nextLevelFuseTime = 0.55
 
-            self.upgradeCost = 600
+            self.upgradeCost = 900
 
 

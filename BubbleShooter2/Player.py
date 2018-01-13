@@ -6,13 +6,15 @@ from BubbleShooter2.LightBall import LightBall
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, allSprites, lightBallSprites, lightBallImages, routePositions, *sprite_groups):
+    def __init__(self, BubbleShooterScene, allSprites, lightBallSprites, lightBallCount,lightBallImages, routePositions, *sprite_groups):
         super().__init__(*sprite_groups)
 
         self.allSprites = allSprites
         self.lightBallSprites = lightBallSprites
-
+        self.lightBallCount = lightBallCount
         self.lightBallImages = lightBallImages
+
+        self.bubbleShooterScene = BubbleShooterScene
 
         self.playerImage = pygame.image.load("BubbleShooter2\Images\Player.png").convert_alpha()
         self.playerImage = pygame.transform.scale(self.playerImage, (100, 100))
@@ -39,8 +41,6 @@ class Player(pygame.sprite.Sprite):
         self.eventHandler = None
 
     def update(self, deltaTime, allSprites, lightBallSprites):
-        self.allSprites = allSprites
-        self.lightBallSprites = lightBallSprites
         self.rotate()
         mousePos = pygame.mouse.get_pos()
         velocityVector = Vector2(mousePos) - self.position
@@ -72,4 +72,4 @@ class Player(pygame.sprite.Sprite):
 
     def loadNewLightBall(self):
         lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-        self.currentLightBall = LightBall(self.positionShootingFrom, self, lightBallImage, lightBallColor, False, self.routePositions, self.allSprites, self.lightBallSprites)
+        self.currentLightBall = LightBall(self.bubbleShooterScene, self.positionShootingFrom, self, self.lightBallCount, lightBallImage, lightBallColor, False, self.routePositions, self.allSprites)
