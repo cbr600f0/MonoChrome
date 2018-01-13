@@ -11,8 +11,15 @@ class EnemyWaveSpawner():
         self.spawnTimer = 0
         self.spawnEnemyInterval = 1.4
 
+        numberOf5Rounds = 0
+        i = waveNumber
+        while i >= 3:
+            i -= 3
+            numberOf5Rounds += 1
+
         self.spawnedEnemies = 0
-        self.enemiesToSpawn = 12
+        self.enemiesToSpawn = 10 + numberOf5Rounds
+
 
     def update(self, deltaTime):
 
@@ -21,16 +28,16 @@ class EnemyWaveSpawner():
             if self.spawnTimer >= self.spawnEnemyInterval:
                 self.spawnTimer = 0
 
-                robberHealth = math.floor(18 + (18 / 100 * (self.waveNumber * 28)))
-                robberGoldOnKill = math.floor(14 + (14 / 100 * (self.waveNumber * 25)))
+                robberHealth = math.floor(18 + (18 / 100 * (self.waveNumber * 32)))
+                robberGoldOnKill = math.floor(10 + (10 / 100 * (self.waveNumber * 20)))
                 robberScoreOnKill = math.floor(10 + (10 / 100 * (self.waveNumber * 10)))
                 robberGoldToSteal = math.floor(32 + (32 / 100 * (self.waveNumber * 20)))
 
                 if robberGoldToSteal > 700:
                     robberGoldToSteal = 700
 
-                horseHealth = math.floor(10 + (10 / 100 * (self.waveNumber * 28)))
-                horseGoldOnKill = math.floor(8 + (8 / 100 * (self.waveNumber * 18)))
+                horseHealth = math.floor(6 + (6 / 100 * (self.waveNumber * 32)))
+                horseGoldOnKill = math.floor(6 + (6 / 100 * (self.waveNumber * 20)))
                 horseScoreOnKill = math.floor(10 + (10 / 100 * (self.waveNumber * 10)))
 
                 if self.waveNumber < 3:

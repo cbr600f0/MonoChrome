@@ -38,7 +38,7 @@ class Level1Scene(SceneManager.Scene):
         #Spawner Stuff (Maybe make a seperate Spawner class)
         self.spawnerIsActive = False
         self.spawnPauseTimer = 0
-        self.pauseDuration = 30
+        self.pauseDuration = 999999999930
 
         self.currentRound = 0
 
