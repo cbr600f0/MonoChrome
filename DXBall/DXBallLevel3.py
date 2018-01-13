@@ -15,7 +15,7 @@ class DXBallLevel3 (SceneManager.Scene):
         super(DXBallLevel3, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
-        #pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.play(loops=-1)
 
         # shows the mouse
         #pygame.mouse.set_visible(False)

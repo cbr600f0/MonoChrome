@@ -15,7 +15,7 @@ class DXBallLevel5 (SceneManager.Scene):
         super(DXBallLevel5, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
-        #pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.play(loops=-1)
 
         # shows the mouse
         #pygame.mouse.set_visible(False)
@@ -137,7 +137,7 @@ class DXBallLevel5 (SceneManager.Scene):
             self.gameOver = True
 
         if self.nextBtn.click():
-            pass #SceneManager.SceneManager.goToScene("DXBall.DXBallLevel5.DXBallLevel5")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel6.DXBallLevel6")
 
         if self.ball.position.y > 900:
             self.health = self.health - 1

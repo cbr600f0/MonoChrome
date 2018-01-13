@@ -5,6 +5,7 @@ from DXBall.Ball import Ball
 from DXBall.Paddle import Paddle
 from DXBall.Block import Block
 from DXBall.Block2 import Block2
+from DXBall.Block3 import Block3
 from ButtonClass import Button
 from pygame.math import Vector2
 
@@ -19,7 +20,7 @@ class DXBallLevel7 (SceneManager.Scene):
         # shows the mouse
         #pygame.mouse.set_visible(False)
         # loads the background and changes it to fit the screen
-        self.MainBG = pygame.image.load('DXBall\Images\Level1.png').convert_alpha()
+        self.MainBG = pygame.image.load('DXBall\Images\Level7.png').convert_alpha()
         self.MainBG = pygame.transform.scale(self.MainBG, (1600, 900))
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
@@ -61,23 +62,35 @@ class DXBallLevel7 (SceneManager.Scene):
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
-        blockStartX = 100
-        for i in range (12):
+        blockStartX = 200
+        for i in range (10):
             spawnPos2 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 500)
 
             Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
         blockStartX = 100
-        for i in range(12):
+        for i in range(2):
             spawnPos3 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 300)
 
             Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
         blockStartX = 100
-        for i in range(12):
-            spawnPos3 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 200)
+        for i in range(4):
+            spawnPos4 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 200)
 
-            Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
+            Block2(spawnPos4, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 1080
+        for i in range(2):
+            spawnPos5 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 300)
+
+            Block3(spawnPos5, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 980
+        for i in range(4):
+            spawnPos5 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 200)
+
+            Block3(spawnPos5, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
@@ -88,7 +101,7 @@ class DXBallLevel7 (SceneManager.Scene):
         PowerUps = self.DXBallFont.render("Power Ups: Big upgrade", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
-        CurrentLevel = self.DXBallFont.render("Level: 1", False, (2, 255, 149))
+        CurrentLevel = self.DXBallFont.render("Level: 7", False, (2, 255, 149))
         screen.blit(CurrentLevel, (1300, 20))
 
         self.nextBtn.draw(screen)
@@ -109,7 +122,7 @@ class DXBallLevel7 (SceneManager.Scene):
         self.exitBtn.draw(screen)
 
         if self.retryBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel1.DXBallLevel1")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel7.DXBallLevel7")
 
         if self.exitBtn.click():
             SceneManager.SceneManager.goToScene("DXBall.DXBallMainMenuScene.DXBallMainMenuScene")
