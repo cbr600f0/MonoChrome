@@ -14,7 +14,7 @@ class AkimboRevolverTurret(Turret):
         self.turretHeight = 98
 
         self.damage = 6
-        self.nextLevelDamage = 11
+        self.nextLevelDamage = 13
 
         self.fireRate = 1.85 # shots per second
         self.nextLevelFireRate = 1.9
@@ -25,7 +25,7 @@ class AkimboRevolverTurret(Turret):
         self.name = "Akimbo Cowboy"
         self.description = "A cowboy with 2 revolvers, shoots fast with short range and medium damage."
 
-        self.buyPrice = 100
+        self.buyPrice = 150
         self.upgradeCost = 180
         self.totalGoldSpendOnTurret = self.buyPrice
 
@@ -126,17 +126,17 @@ class AkimboRevolverTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 16
+            self.nextLevelDamage = 24
             self.nextLevelUpgradeCost = 600
             self.nextLevelFireRate = 1.95
             self.nextLevelRange = 180
-            self.upgradeCost = 300
+            self.upgradeCost = 340
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 24
-            self.nextLevelFireRate = 3.9
+            self.nextLevelDamage = 38
+            self.nextLevelFireRate = 3.4
             self.nextLevelRange = 210
-            self.upgradeCost = 600
+            self.upgradeCost = 610
 
 
 

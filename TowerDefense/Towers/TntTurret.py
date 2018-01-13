@@ -21,11 +21,11 @@ class TntTurret(Turret):
         self.turretWidth = 86
         self.turretHeight = 74
 
-        self.range = 130
-        self.nextLevelRange = 140
+        self.range = 140
+        self.nextLevelRange = 150
 
         self.areaOfEffect = 110
-        self.nextLevelAOE = 120
+        self.nextLevelAOE = 115
 
         self.fireRate = 0.6 # shots per second
         self.nextLevelFireRate = 0.65
@@ -33,15 +33,15 @@ class TntTurret(Turret):
         self.fuseTime = 0.8
         self.nextLevelFuseTime = 0.7
 
-        self.damage = 10
-        self.nextLevelDamage = 18
+        self.damage = 12
+        self.nextLevelDamage = 19
 
-        self.throwVelocity = 510
+        self.throwVelocity = 520
         self.name = "Dynamite Cowboy"
         self.description = "A cowboy with dynamite sticks, deals damage to all enemies hit in a radius"
 
-        self.upgradeCost = 210
-        self.buyPrice = 150
+        self.upgradeCost = 240
+        self.buyPrice = 180
         self.totalGoldSpendOnTurret = self.buyPrice
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\TntTurret.png").convert_alpha()
@@ -139,23 +139,23 @@ class TntTurret(Turret):
         self.fuseTime = self.nextLevelFuseTime
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 32
+            self.nextLevelDamage = 36
             self.nextLevelFireRate = 0.7
-            self.nextLevelRange = 150
+            self.nextLevelRange = 160
 
-            self.nextLevelAOE = 130
+            self.nextLevelAOE = 120
             self.nextLevelFuseTime = 0.6
 
-            self.upgradeCost = 360
+            self.upgradeCost = 380
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 52
+            self.nextLevelDamage = 68
             self.nextLevelFireRate = 0.85
-            self.nextLevelRange = 170
+            self.nextLevelRange = 180
 
-            self.nextLevelAOE = 150
+            self.nextLevelAOE = 135
             self.nextLevelFuseTime = 0.45
 
-            self.upgradeCost = 720
+            self.upgradeCost = 680
 
 

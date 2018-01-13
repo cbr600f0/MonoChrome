@@ -17,17 +17,17 @@ class SniperTurret(Turret):
         self.damage = 19
         self.nextLevelDamage = 38
 
-        self.fireRate = 0.8 # shots per second
-        self.nextLevelFireRate = 0.8
+        self.fireRate = 0.6 # shots per second
+        self.nextLevelFireRate = 0.6
 
-        self.range = 220
-        self.nextLevelRange = 250
+        self.range = 230
+        self.nextLevelRange = 260
 
         self.name = "Rifle Cowboy"
         self.description = "A cowboy with his rifle, deals massive damage with high range at the cost of firerate."
 
-        self.upgradeCost = 220
-        self.buyPrice = 220
+        self.upgradeCost = 310
+        self.buyPrice = 250
         self.totalGoldSpendOnTurret = self.buyPrice
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\SniperTurret.png").convert_alpha()
@@ -124,17 +124,16 @@ class SniperTurret(Turret):
 
         if self.turretLevel == 2:
             self.nextLevelDamage = 76
-            self.nextLevelRange = 280
+            self.nextLevelRange = 290
 
             self.nextLevelUpgradeCost = 480
-            self.upgradeCost = 480
+            self.upgradeCost = 510
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 164
-            self.nextLevelFireRate = 0.65
+            self.nextLevelDamage = 152
 
-            self.nextLevelRange = 340
-            self.upgradeCost = 800
+            self.nextLevelRange = 350
+            self.upgradeCost = 830
 
 
 

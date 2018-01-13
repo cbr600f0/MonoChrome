@@ -19,7 +19,7 @@ class Level1Scene(SceneManager.Scene):
         super(Level1Scene, self).__init__()
 
         self.level1LinePositions = ([950, 980], [950, 500], [1090, 500], [1090, 226], [130, 226], [130, 800], [370, 800], [370, 500], [750, 500], [750, 920])
-        self.gold = 300 #300
+        self.gold = 400 #400
         self.score = 0
         self.difficulty = "Normal"
         self.totalEnemiesKilled = 0
@@ -119,11 +119,6 @@ class Level1Scene(SceneManager.Scene):
         self.totalEnemiesKilledLbl = self.gameOverStatsFont.render("Enemies Killed " + str(self.totalEnemiesKilled), True, [0, 0, 0])
 
         self.backToMainMenuBtn = Button(False, self.westernFont, "Main menu", None, None, [20, 20, 20], [0, 0,  0], 900, 650, None, 70)
-
-        self.gameOverOverlay.blit(self.gameOverLbl, (190, 20))
-        self.gameOverOverlay.blit(self.roundsSurvivedLbl, (40, 160))
-        self.gameOverOverlay.blit(self.finalScoreLbl, (40, 230))
-        self.gameOverOverlay.blit(self.totalEnemiesKilledLbl, (40, 300))
 
         pygame.draw.rect(self.gameOverOverlay, [0, 0, 0], self.gameOverOverlay.get_rect(), 4)
 
@@ -254,6 +249,16 @@ class Level1Scene(SceneManager.Scene):
                 self.focusedSprite.upgradeTurret()
 
     def renderGameOverScreen(self, screen):
+
+        self.gameOverLbl = self.gameOverFont.render("Game Over", True, [0, 0, 0])
+        self.roundsSurvivedLbl = self.gameOverStatsFont.render("Final Round " + str(self.currentRound), True, [0, 0, 0])
+        self.finalScoreLbl = self.gameOverStatsFont.render("Score " + str(self.score), True, [0, 0, 0])
+        self.totalEnemiesKilledLbl = self.gameOverStatsFont.render("Enemies Killed " + str(self.totalEnemiesKilled), True, [0, 0, 0])
+
+        self.gameOverOverlay.blit(self.gameOverLbl, (190, 20))
+        self.gameOverOverlay.blit(self.roundsSurvivedLbl, (40, 160))
+        self.gameOverOverlay.blit(self.finalScoreLbl, (40, 230))
+        self.gameOverOverlay.blit(self.totalEnemiesKilledLbl, (40, 300))
 
         screen.blit(self.gameOverOverlay, (500, 150))
 

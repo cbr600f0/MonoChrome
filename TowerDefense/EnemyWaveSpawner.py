@@ -12,7 +12,7 @@ class EnemyWaveSpawner():
         self.spawnEnemyInterval = 1.3
 
         self.spawnedEnemies = 0
-        self.enemiesToSpawn = 10
+        self.enemiesToSpawn = 14
 
     def update(self, deltaTime):
 
@@ -21,22 +21,28 @@ class EnemyWaveSpawner():
             if self.spawnTimer >= self.spawnEnemyInterval:
                 self.spawnTimer = 0
 
-                robberHealth = math.floor(28 + (30 / 100 * (self.waveNumber * 16)))
-                print("LVL: " + str(self.waveNumber) + " Robber: " + str(robberHealth))
-                robberGoldOnKill = 20
-                robberScoreOnKill = 10
-                robberGoldToSteal = 20
+                robberHealth = math.floor(22 + (22 / 100 * (self.waveNumber * 28)))
+                robberGoldOnKill = math.floor(15 + (15 / 100 * (self.waveNumber * 16)))
+                robberScoreOnKill = math.floor(10 + (10 / 100 * (self.waveNumber * 10)))
+                robberGoldToSteal = math.floor(30 + (30 / 100 * (self.waveNumber * 20)))
 
-                horseHealth = math.floor(12 + (12 / 100 * (self.waveNumber * 16)))
-                print("LVL: " + str(self.waveNumber) + "Horse: " + str(horseHealth))
-                horseGoldOnKill = 10
-                horseScoreOnKill = 10
+                if robberGoldToSteal > 700:
+                    robberGoldToSteal = 700
 
-                if self.waveNumber < 5:
+                horseHealth = math.floor(14 + (14 / 100 * (self.waveNumber * 28)))
+                horseGoldOnKill = math.floor(8 + (8 / 100 * (self.waveNumber * 14)))
+                horseScoreOnKill = math.floor(10 + (10 / 100 * (self.waveNumber * 10)))
+
+                if self.waveNumber < 3:
                     self.spawnedEnemies += 1
                     Robber(robberHealth, robberGoldOnKill, robberScoreOnKill, robberGoldToSteal, self.levelReference.level1LinePositions, self.levelReference, self.levelReference.allSprites, self.levelReference.enemySprites)
                 else:
-                    if random.randint(0, 100) < 70:
+                    chanceToSpawnOnlyRobber = math.floor(70 - (70 / 100 * (self.waveNumber * 1)))
+
+                    if chanceToSpawnOnlyRobber <= 40:
+                        chanceToSpawnOnlyRobber = 40
+
+                    if random.randint(0, 100) < chanceToSpawnOnlyRobber:
                         self.spawnedEnemies += 1
                         Robber(robberHealth, robberGoldOnKill, robberScoreOnKill, robberGoldToSteal,
                                self.levelReference.level1LinePositions, self.levelReference,
