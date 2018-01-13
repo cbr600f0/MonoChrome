@@ -4,6 +4,8 @@ import pygame.gfxdraw
 from DXBall.Ball import Ball
 from DXBall.Paddle import Paddle
 from DXBall.Block import Block
+from DXBall.Block2 import Block2
+from DXBall.Block2 import Block2
 from ButtonClass import Button
 from pygame.math import Vector2
 
@@ -54,11 +56,29 @@ class DXBallLevel4 (SceneManager.Scene):
 
         self.gameOverSurface.blit(self.gameOverLbl, (480, 200))
 
-        blockStartX = 100
-        for i in range (12):
+        blockStartX = 150
+        for i in range(10):
             spawnPos = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 400)
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 150
+        for i in range(10):
+            spawnPos2 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 500)
+
+            Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStarty = 500
+        for i in range(4):
+            spawnPos3 = Vector2(360, blockStarty - 100 * (i + 1) + (10 * i))
+
+            Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStarty = 500
+        for i in range(4):
+            spawnPos4 = Vector2(1130, blockStarty - 100 * (i + 1) + (10 * i))
+
+            Block2(spawnPos4, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))

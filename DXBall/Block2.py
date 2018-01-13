@@ -2,11 +2,11 @@ import pygame, random
 from pygame.math import Vector2
 
 
-class Block(pygame.sprite.Sprite):
+class Block2(pygame.sprite.Sprite):
 
-    def __init__(self, spawnPos, spawnPos2, *sprite_groups):
+    def __init__(self, spawnPos3, spawnPos4, *sprite_groups):
         super().__init__(*sprite_groups)
-        self.position = Vector2(spawnPos, spawnPos2)
+        self.position = Vector2(spawnPos3, spawnPos4)
         self.blockSurface = pygame.Surface((100, 50))
         self.blockSurface.fill((255, 255, 255))
         #self.blockSurface = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]

@@ -4,6 +4,8 @@ from pygame.math import Vector2
 import SceneManager
 from DXBall.Paddle import Paddle
 from DXBall.Block import Block
+from DXBall.Block2 import Block2
+from DXBall.Block3 import Block3
 
 class Ball(pygame.sprite.Sprite):
 
@@ -110,6 +112,10 @@ class Ball(pygame.sprite.Sprite):
                     elif ballCollideSprite.rect.left:
                         self.xVel = -770
                 if isinstance(ballCollideSprite, Block): # Ball has hit a block
+                    ballCollideSprite.kill()  # Destroys the block that was hit
+                if isinstance(ballCollideSprite, Block2): # Ball has hit a block
+                    ballCollideSprite.kill()  # Destroys the block that was hit
+                if isinstance(ballCollideSprite, Block3): # Ball has hit a block
                     ballCollideSprite.kill()  # Destroys the block that was hit
                 break
 

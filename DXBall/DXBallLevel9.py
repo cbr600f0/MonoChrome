@@ -8,13 +8,13 @@ from DXBall.Block2 import Block2
 from ButtonClass import Button
 from pygame.math import Vector2
 
-class DXBallLevel1 (SceneManager.Scene):
+class DXBallLevel9 (SceneManager.Scene):
 
     def __init__(self):
-        super(DXBallLevel1, self).__init__()
+        super(DXBallLevel9, self).__init__()
 
-        #pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
-        #pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
+        pygame.mixer.music.play(loops=-1)
 
         # shows the mouse
         #pygame.mouse.set_visible(False)
@@ -124,7 +124,7 @@ class DXBallLevel1 (SceneManager.Scene):
             self.gameOver = True
 
         if self.nextBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel2.DXBallLevel2")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel10.DXBallLevel10")
 
         if self.ball.position.y > 900:
             self.health = self.health - 1
