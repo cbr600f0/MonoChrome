@@ -4,6 +4,8 @@ import pygame.gfxdraw
 from DXBall.Ball import Ball
 from DXBall.Paddle import Paddle
 from DXBall.Block import Block
+from DXBall.Block2 import Block2
+from DXBall.Block3 import Block3
 from ButtonClass import Button
 from pygame.math import Vector2
 
@@ -54,11 +56,41 @@ class DXBallLevel5 (SceneManager.Scene):
 
         self.gameOverSurface.blit(self.gameOverLbl, (480, 200))
 
-        blockStartX = 100
-        for i in range (12):
+        blockStartX = 150
+        for i in range(10):
             spawnPos = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 400)
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 150
+        for i in range(10):
+            spawnPos2 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 500)
+
+            Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStarty = 400
+        for i in range(3):
+            spawnPos3 = Vector2(150, blockStarty - 100 * (i + 1) + (10 * i))
+
+            Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStarty = 400
+        for i in range(3):
+            spawnPos4 = Vector2(1350, blockStarty - 100 * (i + 1) + (10 * i))
+
+            Block2(spawnPos4, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartx = 310
+        for i in range(6):
+            spawnPos5 = Vector2(blockStartx + 100 * (i + 1) + (10 * i), 600)
+
+            Block3(spawnPos5, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartx = 310
+        for i in range(6):
+            spawnPos6 = Vector2(blockStartx + 100 * (i + 1) + (10 * i), 300)
+
+            Block3(spawnPos6, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
