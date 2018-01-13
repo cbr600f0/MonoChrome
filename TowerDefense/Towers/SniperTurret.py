@@ -14,14 +14,14 @@ class SniperTurret(Turret):
         self.turretWidth = 50
         self.turretHeight = 98
 
-        self.damage = 23
-        self.nextLevelDamage = 38
+        self.damage = 40
+        self.nextLevelDamage = 80
 
-        self.fireRate = 0.65 # shots per second
-        self.nextLevelFireRate = 0.7
+        self.fireRate = 0.3 # shots per second
+        self.nextLevelFireRate = 0.35
 
-        self.range = 230
-        self.nextLevelRange = 250
+        self.range = 300
+        self.nextLevelRange = 320
 
         self.name = "Rifle Cowboy"
         self.description = "A cowboy with his rifle, deals massive damage with high range at the cost of firerate."
@@ -123,18 +123,18 @@ class SniperTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 52
-            self.nextLevelRange = 270
-            self.nextLevelFireRate = 0.75
+            self.nextLevelDamage = 120
+            self.nextLevelRange = 340
+            self.nextLevelFireRate = 0.4
 
             self.nextLevelUpgradeCost = 480
             self.upgradeCost = 620
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 110
-            self.nextLevelFireRate = 0.8
+            self.nextLevelDamage = 170
+            self.nextLevelFireRate = 0.45
 
-            self.nextLevelRange = 320
+            self.nextLevelRange = 360
             self.upgradeCost = 1000
 
 
