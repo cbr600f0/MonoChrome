@@ -12,7 +12,7 @@ class Robber(Enemy):
         self.health = health
         self.enemyWidth = 65
         self.enemyHeight = 40
-        self.movementSpeed = 80
+        self.movementSpeed = 85
 
         self.levelReference = levelReference
 

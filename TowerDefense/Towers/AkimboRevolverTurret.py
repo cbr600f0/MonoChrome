@@ -13,11 +13,11 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 6
-        self.nextLevelDamage = 13
+        self.damage = 8
+        self.nextLevelDamage = 14
 
-        self.fireRate = 1.85 # shots per second
-        self.nextLevelFireRate = 1.9
+        self.fireRate = 1.7 # shots per second
+        self.nextLevelFireRate = 1.7
 
         self.range = 170
         self.nextLevelRange = 175
@@ -26,7 +26,7 @@ class AkimboRevolverTurret(Turret):
         self.description = "A cowboy with 2 revolvers, shoots fast with short range and medium damage."
 
         self.buyPrice = 150
-        self.upgradeCost = 180
+        self.upgradeCost = 210
         self.totalGoldSpendOnTurret = self.buyPrice
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
@@ -126,17 +126,17 @@ class AkimboRevolverTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 24
+            self.nextLevelDamage = 20
             self.nextLevelUpgradeCost = 600
-            self.nextLevelFireRate = 1.95
             self.nextLevelRange = 180
-            self.upgradeCost = 340
+            self.upgradeCost = 380
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 38
-            self.nextLevelFireRate = 3.4
-            self.nextLevelRange = 210
-            self.upgradeCost = 610
+            self.nextLevelDamage = 35
+            self.nextLevelFireRate = 2.4
+            self.nextLevelRange = 200
+
+            self.upgradeCost = 760
 
 
 

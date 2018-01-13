@@ -16,7 +16,7 @@ class HorseRobber(Enemy):
 
         self.enemyWidth = 68
         self.enemyHeight = 114
-        self.movementSpeed = 170
+        self.movementSpeed = 140
         self.hasRobber = True
 
         self.levelReference = levelReference
@@ -192,7 +192,7 @@ class HorseRobber(Enemy):
         self.hasRobber = False
         self.currentImage = self.horseImage
         self.rotate()
-        self.movementSpeed = 310
+        self.movementSpeed = 260
         self.currentRobber = None
 
     def addRobber(self, robber):
