@@ -544,6 +544,12 @@ class Level1Scene(SceneManager.Scene):
                 self.currentRound += 1
                 self.enemySpawnerObjects.append(EnemyWaveSpawner(self, self.currentRound))
 
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3 and not self.showTutorial and not self.gameOver:
+                self.tntShopSqaure.isDragginTurret = False
+                self.akimboShopSquare.isDragginTurret = False
+                self.sniperShopSquare.isDragginTurret = False
+                self.currentShopSquare = None
+
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not self.showTutorial and not self.gameOver:
                 mousePos = pygame.mouse.get_pos()
 
@@ -600,10 +606,11 @@ class Level1Scene(SceneManager.Scene):
                         self.currentShopSquare.isDragginTurret = False
                         self.currentShopSquare = None
                 else:
-                    self.tntShopSqaure.isDragginTurret = False
-                    self.akimboShopSquare.isDragginTurret = False
-                    self.sniperShopSquare.isDragginTurret = False
-                    self.currentShopSquare = None
+                    pass
+                    # self.tntShopSqaure.isDragginTurret = False
+                    # self.akimboShopSquare.isDragginTurret = False
+                    # self.sniperShopSquare.isDragginTurret = False
+                    # self.currentShopSquare = None
 
                 if self.gold >= self.akimboShopSquare.price and self.akimboShopSquare.isDragginTurret == False and self.akimboShopRect.collidepoint(mousePos):
                     self.akimboShopSquare.clicked()
