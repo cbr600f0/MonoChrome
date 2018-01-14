@@ -56,10 +56,12 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
             self.audio = True
 
         # BG settings
-        self.BGSound = pygame.mixer.Sound("SpaceInvaders/audio/Shooting_Stars_8_bit.ogg")
+        #self.BGSound = pygame.mixer.Sound("SpaceInvaders/audio/Shooting_Stars_8_bit.ogg")
+        self.BGSound = pygame.mixer.music.load("SpaceInvaders/audio/Shooting_Stars_8_bit.ogg")
 
         if self.audio:
-            self.BGSound.play(-1)
+            #self.BGSound.play(-1)
+            pygame.mixer.music.play(-1, 0.0)
 
         # Get previous high score
         if optionalSceneParam[0][1] != None:
@@ -79,6 +81,9 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
             for j in range(10):
                 spawnPos = Vector2(50 + (j * 50), 100 + (i * 50))
                 Enemy(spawnPos, i, self.allSprites, self.enemySprites)
+
+    def getAudio(self):
+        return self.audio
 
     def update(self, deltaTime):
 
@@ -113,16 +118,19 @@ class SpaceInvaderLevelScene(SceneManager.Scene):
         # Get player lives
         for playerSettings in pygame.sprite.GroupSingle(self.playerSprites):
             self.lives = str(playerSettings.getLives())
+            playerSettings.setAudio(self.audio)
 
         # Get and Set enemy setting
         for enemySettings in pygame.sprite.RenderUpdates(self.enemySprites):
             self.enemyReachedLastRow = enemySettings.getLastRowInfo()
             enemySettings.setWave(self.wave)
+            enemySettings.setAudio(self.audio)
 
         # Get and Set boss setting
         for bossSettings in pygame.sprite.RenderUpdates(self.bossSprites):
             self.bossLives = bossSettings.getLives()
             self.bossOriginalLives = bossSettings.getOriginalLives()
+            bossSettings.setAudio(self.audio)
 
         # Lives == 0 or enemies reached bottom
         if self.lives <= str(0) or self.enemyReachedLastRow:

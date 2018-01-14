@@ -11,10 +11,6 @@ class EnemyBullet(pygame.sprite.Sprite):
         self.playerBulletImage = pygame.transform.scale(self.playerBulletImage, (8, 23))
         self.playerMask = pygame.mask.from_surface(self.playerBulletImage)
 
-    # Audio settings
-        self.bulletSound = pygame.mixer.Sound("SpaceInvaders/audio/laser.ogg")
-        self.bulletSound.play(0)
-
     # Bullet settings
         self.speed = 500
         self.damage = 100

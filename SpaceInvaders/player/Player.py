@@ -43,6 +43,9 @@ class Player(pygame.sprite.Sprite):
             self.kill()
             self.hasDied = True
 
+    def setAudio(self, audio):
+        self.audio = audio
+
     def update(self, deltaTime, allSprites, enemySprites, playerSprites, bulletSprites, bossSprites):
 
         if self.hasDied is False:
@@ -69,3 +72,7 @@ class Player(pygame.sprite.Sprite):
 
     def shoot(self, spawnPosition, allSprites, bulletSprites):
         bulletToShoot = PlayerBullet(spawnPosition, allSprites, bulletSprites)
+        if self.audio == True:
+            # Audio settings
+            self.bulletSound = pygame.mixer.Sound("SpaceInvaders/audio/laser.ogg")
+            self.bulletSound.play(0)
