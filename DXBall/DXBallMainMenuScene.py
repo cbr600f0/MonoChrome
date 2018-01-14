@@ -25,7 +25,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
 
         self.startBtn = Button(False, self.DXBallFont, "[Start]", None, None, [2, 255, 149], [2, 255, 149], 44, 540, None, 60)
         self.optionsBtn = Button(False, self.DXBallFont, "[Options]", None, None, [2, 255, 149], [2, 255, 149], 44, 590, None, 60)
-        self.quitBtn = Button(False, self.DXBallFont, "[Quit]", None, None, [2, 255, 149], [2, 255, 149], 44, 640, None, 60)
+        self.quitBtn = Button(False, self.DXBallFont, "[Quit]", None, None, [2, 255, 149], [2, 255, 149], 44, 590, None, 60)
 
         self.buttonList.append(self.startBtn)
         self.buttonList.append(self.optionsBtn)
@@ -38,7 +38,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
         screen.blit(self.arrowLbl, self.currentArrowPos)
 
         self.startBtn.draw(screen)
-        self.optionsBtn.draw(screen)
+        #self.optionsBtn.draw(screen)
         self.quitBtn.draw(screen)
 
     def update(self, deltaTime):
