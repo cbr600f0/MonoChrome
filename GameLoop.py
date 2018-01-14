@@ -5,11 +5,19 @@ from pygame.locals import *
 from SceneManager import SceneManager  # This class takes care of switching between scenes (Examples of scene could be: the main menu, Tower Defense, Pong, ETC) Every game is its own scene (For badbois who already have experience with Unity the concept of a scene is the same here as in Unity)
 import importlib
 
-pygame.mixer.pre_init(44100, -16, 2, 1024)
+try:
+    pygame.mixer.pre_init(44100, -16, 2, 1024)
+except:
+    pass
+
 # Starts the game by initializing pygame
 pygame.init()
+
+try:
+    pygame.mixer.set_num_channels(110)
+except:
+    pass
 gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
-pygame.mixer.set_num_channels(110)
 
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size
@@ -113,6 +121,7 @@ while gameIsRunning:
             global gameIsPaused
             gameIsPaused = False
             SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
+            pygame.mixer.music.stop()
 
         if muteSoundsBtn.click(): # only works for music NOT sound
             global allSoundIsMuted

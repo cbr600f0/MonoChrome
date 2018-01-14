@@ -28,7 +28,8 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.dxBallHeaderImage = pygame.image.load("MainMenu/Images/Minigames/DXBallHeader.png").convert()
         self.dxBallHeaderImage = pygame.transform.scale(self.dxBallHeaderImage, self.headerSurfaceSize)
 
-        #self.spaceInvadersHeaderImage = pygame.image.load("MainMenu/Images/Minigames/PongHeader.png").convert() # i wont use this title its title quality is too bad
+        self.spaceInvadersHeaderImage = pygame.image.load("MainMenu/Images/Minigames/SpaceInvadersHeader.png").convert()
+        self.spaceInvadersHeaderImage = pygame.transform.scale(self.spaceInvadersHeaderImage, self.headerSurfaceSize)
 
         self.bubbleShooterHeaderImage = pygame.image.load("MainMenu/Images/Minigames/LightballShooterHeader.png").convert()
         self.bubbleShooterHeaderImage = pygame.transform.scale(self.bubbleShooterHeaderImage, self.headerSurfaceSize)
@@ -43,7 +44,8 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.dxBallBodyImage = pygame.image.load("MainMenu/Images/Minigames/DXBallHeader.png").convert()
         self.dxBallBodyImage = pygame.transform.scale(self.dxBallBodyImage, self.bodySurfaceSize)
 
-        #self.spaceInvadersBodyImage = pygame.image.load("MainMenu/Images/Minigames/PongHeader.png").convert() # i wont use this title its title quality is too bad
+        self.spaceInvadersBodyImage = pygame.image.load("MainMenu/Images/Minigames/SpaceInvadersArcadeBodyImage.png").convert() # i wont use this title its title quality is too bad
+        self.spaceInvadersBodyImage = pygame.transform.scale(self.spaceInvadersBodyImage, self.bodySurfaceSize)
 
         self.bubbleShooterBodyImage = pygame.image.load("MainMenu/Images/Minigames/LightballShooterHeader.png").convert()
         self.bubbleShooterBodyImage = pygame.transform.scale(self.bubbleShooterBodyImage, self.bodySurfaceSize)
@@ -77,14 +79,14 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.headerImageList.append(self.pongHeaderImage)
         self.headerImageList.append(self.towerDefenseHeaderImage)
         self.headerImageList.append(self.dxBallHeaderImage)
-        self.headerImageList.append(self.dxBallHeaderImage) # this should be space invaders but i dont have an image for that yet
+        self.headerImageList.append(self.spaceInvadersHeaderImage) # this should be space invaders but i dont have an image for that yet
         self.headerImageList.append(self.bubbleShooterHeaderImage)
 
         self.bodyImageList = []
         self.bodyImageList.append(self.pongBodyImage)
         self.bodyImageList.append(self.towerDefenseBodyImage)
         self.bodyImageList.append(self.dxBallBodyImage)
-        self.bodyImageList.append(self.dxBallBodyImage) # this should be space invaders but i dont have an image for that yet
+        self.bodyImageList.append(self.spaceInvadersBodyImage) # this should be space invaders but i dont have an image for that yet
         self.bodyImageList.append(self.bubbleShooterBodyImage)
 
     # The function of this method is explained in the class Scene
@@ -123,7 +125,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
             SceneManager.SceneManager.goToScene("Pong.PongMainMenuScene.PongMainMenuScene") # Changes the scene to Pong
 
         if self.spaceInvadersBtn.click():
-            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderMainMenuScene.SpaceInvaderMainMenuScene", None) # Changes the scene to SpaceInvaders
+            SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderMainMenuScene.SpaceInvaderMainMenuScene", None, None) # Changes the scene to SpaceInvaders
 
         if self.bubbleShooterBtn.click():
             SceneManager.SceneManager.goToScene("BubbleShooter2.BubbleShooterMainMenuScene.BubbleShooterMainMenuScene") # Changes the scene to BubbleShooter

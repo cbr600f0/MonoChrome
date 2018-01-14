@@ -13,20 +13,20 @@ class AkimboRevolverTurret(Turret):
         self.turretWidth = 48
         self.turretHeight = 98
 
-        self.damage = 30
-        self.nextLevelDamage = 90
+        self.damage = 6
+        self.nextLevelDamage = 12
 
-        self.fireRate = 1.3 # shots per second
+        self.fireRate = 1.5 # shots per second
         self.nextLevelFireRate = 1.5
 
-        self.range = 180
-        self.nextLevelRange = 200
+        self.range = 170
+        self.nextLevelRange = 175
 
         self.name = "Akimbo Cowboy"
         self.description = "A cowboy with 2 revolvers, shoots fast with short range and medium damage."
 
-        self.upgradeCost = 120
-        self.buyPrice = 100
+        self.buyPrice = 150
+        self.upgradeCost = 210
         self.totalGoldSpendOnTurret = self.buyPrice
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\AkimboRevolverTurret.png").convert_alpha()
@@ -49,7 +49,7 @@ class AkimboRevolverTurret(Turret):
 
     def update(self, deltaTime):
         if not self.isUpgrading:
-            enemyToShoot = self.levelReference.GetClosestEnemyInRadius(self.position, self.range, self.levelReference.enemySprites)
+            enemyToShoot = self.levelReference.GetClosestEnemyToDestination(self.position, self.range, self.levelReference.enemySprites)
             if enemyToShoot is not None:
 
                 self.posToFollow = enemyToShoot.position
@@ -126,17 +126,18 @@ class AkimboRevolverTurret(Turret):
         self.range = self.nextLevelRange
 
         if self.turretLevel == 2:
-            self.nextLevelDamage = 160
-            self.nextLevelFireRate = 1.9
-            self.nextLevelRange = 250
-            self.nextLevelUpgradeCost = 250
-            self.upgradeCost = 350
+            self.nextLevelDamage = 18
+            self.nextLevelUpgradeCost = 600
+            self.nextLevelRange = 180
+            self.upgradeCost = 400
 
         elif self.turretLevel == 3:
-            self.nextLevelDamage = 130
-            self.nextLevelFireRate = 3.1
-            self.nextLevelRange = 330
-            self.upgradeCost = 600
+            self.nextLevelDamage = 26
+
+            self.nextLevelFireRate = 2
+            self.nextLevelRange = 190
+
+            self.upgradeCost = 800
 
 
 

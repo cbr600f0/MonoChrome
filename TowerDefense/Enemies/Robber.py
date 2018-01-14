@@ -6,19 +6,19 @@ from TowerDefense.Moneybag import Moneybag
 
 class Robber(Enemy):
 
-    def __init__(self, positionsToFollow, levelReference, *sprite_groups):
+    def __init__(self, bonusSpeed, health, goldOnKill, scoreOnKill, goldToSteal, positionsToFollow, levelReference, *sprite_groups):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
-        self.health = 100
+        self.health = health
         self.enemyWidth = 65
         self.enemyHeight = 40
-        self.movementSpeed = 90
+        self.movementSpeed = 80 + bonusSpeed
 
         self.levelReference = levelReference
 
-        self.goldToSteal = 100
-        self.goldOnKill = 100
-        self.scoreOnKill = 50
+        self.goldToSteal = goldToSteal
+        self.goldOnKill = goldOnKill
+        self.scoreOnKill = scoreOnKill
         self.totalGoldOnEnemy = 0
         self.name = "Bank Robber"
         self.description = "A bank robber, an enemy with medium stats."
@@ -61,6 +61,11 @@ class Robber(Enemy):
 
         self.hasChangedImageToGoldBags = False
 
+        previousPos = Vector2(self.position)
+        for positionToGoTo in self.positionsToFollow:
+            self.distanceLeft += Vector2(positionToGoTo).get_distance(previousPos)
+            previousPos = Vector2(positionToGoTo)
+
     def update(self, deltaTime):
 
         if self.hasDied is False:
@@ -84,6 +89,7 @@ class Robber(Enemy):
                         self.hasDied = True
                 else:
                     self.position += moveToPositionVector
+                    self.distanceLeft -= self.movementSpeed * deltaTime
 
             for collidedMoneybag in pygame.sprite.spritecollide(self, self.levelReference.moneybagSprites, False):
                 if collidedMoneybag.enemyCanPickupBag:

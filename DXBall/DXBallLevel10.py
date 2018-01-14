@@ -8,10 +8,10 @@ from DXBall.Block2 import Block2
 from ButtonClass import Button
 from pygame.math import Vector2
 
-class DXBallLevel1 (SceneManager.Scene):
+class DXBallLevel10 (SceneManager.Scene):
 
     def __init__(self):
-        super(DXBallLevel1, self).__init__()
+        super(DXBallLevel10, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
         pygame.mixer.music.play(loops=-1)
@@ -19,7 +19,7 @@ class DXBallLevel1 (SceneManager.Scene):
         # shows the mouse
         #pygame.mouse.set_visible(False)
         # loads the background and changes it to fit the screen
-        self.MainBG = pygame.image.load('DXBall\Images\Level1.png').convert_alpha()
+        self.MainBG = pygame.image.load('DXBall\Images\Level10.png').convert_alpha()
         self.MainBG = pygame.transform.scale(self.MainBG, (1600, 900))
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
@@ -61,8 +61,8 @@ class DXBallLevel1 (SceneManager.Scene):
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
-        blockStartX = 100
-        for i in range (12):
+        blockStartX = 400
+        for i in range (6):
             spawnPos2 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 500)
 
             Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
@@ -73,8 +73,8 @@ class DXBallLevel1 (SceneManager.Scene):
 
             Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
-        blockStartX = 100
-        for i in range(12):
+        blockStartX = 400
+        for i in range(6):
             spawnPos3 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 200)
 
             Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
@@ -88,7 +88,7 @@ class DXBallLevel1 (SceneManager.Scene):
         PowerUps = self.DXBallFont.render("Power Ups: Big upgrade", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
-        CurrentLevel = self.DXBallFont.render("Level: 1", False, (2, 255, 149))
+        CurrentLevel = self.DXBallFont.render("Level: 9", False, (2, 255, 149))
         screen.blit(CurrentLevel, (1300, 20))
 
         self.nextBtn.draw(screen)
@@ -109,7 +109,7 @@ class DXBallLevel1 (SceneManager.Scene):
         self.exitBtn.draw(screen)
 
         if self.retryBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel1.DXBallLevel1")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel10.DXBallLevel10")
 
         if self.exitBtn.click():
             SceneManager.SceneManager.goToScene("DXBall.DXBallMainMenuScene.DXBallMainMenuScene")
@@ -124,7 +124,7 @@ class DXBallLevel1 (SceneManager.Scene):
             self.gameOver = True
 
         if self.nextBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel2.DXBallLevel2")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallMainMenu.DXBallMainMenu")
 
         if self.ball.position.y > 900:
             self.health = self.health - 1

@@ -4,6 +4,8 @@ from pygame.math import Vector2
 import SceneManager
 from DXBall.Paddle import Paddle
 from DXBall.Block import Block
+from DXBall.Block2 import Block2
+from DXBall.Block3 import Block3
 
 class Ball(pygame.sprite.Sprite):
 
@@ -111,6 +113,10 @@ class Ball(pygame.sprite.Sprite):
                         self.xVel = -770
                 if isinstance(ballCollideSprite, Block): # Ball has hit a block
                     ballCollideSprite.kill()  # Destroys the block that was hit
+                if isinstance(ballCollideSprite, Block2): # Ball has hit a block
+                    ballCollideSprite.kill()  # Destroys the block that was hit
+                if isinstance(ballCollideSprite, Block3): # Ball has hit a block
+                    ballCollideSprite.kill()  # Destroys the block that was hit
                 break
 
         # Screen collision
@@ -121,7 +127,7 @@ class Ball(pygame.sprite.Sprite):
             self.position.x = 800
 
             #BALL IS BELOW SCREEN RESET THE BALL HERE
-            self.position.y = 700 # sets the balls y position to 900
+            self.position.y = 700 # sets the balls y position to 700
             self.yVel = -self.yVel
             self.xVel = 0
             self.yVel = 150
@@ -137,11 +143,3 @@ class Ball(pygame.sprite.Sprite):
         self.position.y += self.yVel * deltaTime
         self.rect.x = self.position.x
         self.rect.y = self.position.y
-
-
-
-
-
-
-
-

@@ -4,6 +4,8 @@ import pygame.gfxdraw
 from DXBall.Ball import Ball
 from DXBall.Paddle import Paddle
 from DXBall.Block import Block
+from DXBall.Block2 import Block2
+from DXBall.Block3 import Block3
 from ButtonClass import Button
 from pygame.math import Vector2
 
@@ -13,7 +15,7 @@ class DXBallLevel2 (SceneManager.Scene):
         super(DXBallLevel2, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
-        #pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.play(loops=-1)
 
         # shows the mouse
         #pygame.mouse.set_visible(False)
@@ -23,6 +25,10 @@ class DXBallLevel2 (SceneManager.Scene):
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 45)
         self.DXBallFont2 = pygame.font.Font("DXBall/Fonts/Megatron Condensed.otf", 52)
+        self.DXBallFont3 = pygame.font.Font("DXBall/Fonts/SFAlienEncounters.ttf", 100)
+        self.DXBallFont4 = pygame.font.Font("DXBall/Fonts/SFAlienEncounters.ttf", 80)
+
+        self.health = 3
 
         self.buttonList = []
 
@@ -35,13 +41,20 @@ class DXBallLevel2 (SceneManager.Scene):
         self.blockSprites = pygame.sprite.Group()
         self.ballcollideSprites = pygame.sprite.Group()
 
-        Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
+        self.ball = Ball(Vector2(800, 450), self.allSprites, self.ballSprites)
         Paddle(self.allSprites, self.ballcollideSprites)
 
-        self.isPaused = False
-        self.pausedSurface = pygame.Surface((1600, 900))
-        self.pausedSurface.set_alpha(90)
-        self.pausedSurface.fill((150, 46, 91))
+        self.gameOver = False
+        self.gameOverSurface = pygame.Surface((1600, 900))
+        #self.gameOverSurface.set_alpha(90)
+        self.gameOverSurface.fill((150, 46, 91))
+
+        self.gameOverLbl = self.DXBallFont3.render("Game Over", True, [0, 0, 0])
+
+        self.retryBtn = Button(False, self.DXBallFont4, "[Retry]", None, None, [255, 255, 255], [0, 0, 0], 620, 380,None, 60)
+        self.exitBtn = Button(False, self.DXBallFont4, "[Exit]", None, None, [255, 255, 255], [0, 0, 0], 650, 470, None,60)
+
+        self.gameOverSurface.blit(self.gameOverLbl, (480, 200))
 
         blockStartX = 100
         for i in range (12):
@@ -49,13 +62,43 @@ class DXBallLevel2 (SceneManager.Scene):
 
             Block(spawnPos, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
+        blockStartX = 200
+        for i in range(10):
+            spawnPos2 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 500)
+
+            Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 100
+        for i in range(12):
+            spawnPos3 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 300)
+
+            Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 200
+        for i in range(10):
+            spawnPos4 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 200)
+
+            Block2(spawnPos4, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 300
+        for i in range(8):
+            spawnPos5 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 100)
+
+            Block3(spawnPos5, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
+        blockStartX = 300
+        for i in range(8):
+            spawnPos6 = Vector2(blockStartX + 100 * (i + 1) + (10 * i), 600)
+
+            Block3(spawnPos6, self.blockSprites, self.ballcollideSprites, self.allSprites)
+
     def render(self, screen):
         screen.blit(self.MainBG, (0, 0))
 
-        CurrentLives = self.DXBallFont.render("Lives: 3", False, (2, 255, 149))
+        CurrentLives = self.DXBallFont.render("Lives: " + str(self.health), False, (2, 255, 149))
         screen.blit(CurrentLives, (100, 20))
 
-        PowerUps = self.DXBallFont.render("Power Ups: Big Dick", False, (2, 255, 149))
+        PowerUps = self.DXBallFont.render("Power Ups: Big upgrade", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
         CurrentLevel = self.DXBallFont.render("Level: 2", False, (2, 255, 149))
@@ -68,21 +111,36 @@ class DXBallLevel2 (SceneManager.Scene):
         for spriteToDraw in self.allSprites:  #Make a forloop wich calls a draw method from each sprite instead of using draw on a sprite group
             spriteToDraw.draw(screen)
 
-        if self.isPaused:
-            screen.blit(self.pausedSurface, (0, 0))
+        if self.gameOver:
+            self.renderGameOverScreen(screen)
+
+    def renderGameOverScreen(self, screen):
+
+        screen.blit(self.gameOverSurface, (0, 0))
+
+        self.retryBtn.draw(screen)
+        self.exitBtn.draw(screen)
+
+        if self.retryBtn.click():
+            SceneManager.SceneManager.goToScene("DXBall.DXBallLevel2.DXBallLevel2")
+
+        if self.exitBtn.click():
+            SceneManager.SceneManager.goToScene("DXBall.DXBallMainMenuScene.DXBallMainMenuScene")
+
 
 
     def update(self, deltaTime):
         self.allSprites.update(deltaTime, self.allSprites, self.ballSprites, self.ballcollideSprites)
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_p]:
-            self.isPaused = True
-        if pressed[pygame.K_o]:
-            self.isPaused = False
+        if self.health == 0:
+            self.gameOver = True
 
         if self.nextBtn.click():
             SceneManager.SceneManager.goToScene("DXBall.DXBallLevel3.DXBallLevel3")
+
+        if self.ball.position.y > 900:
+            self.health = self.health - 1
 
     def handle_events(self, events):
         pass

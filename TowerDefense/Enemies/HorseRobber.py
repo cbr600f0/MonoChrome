@@ -7,22 +7,22 @@ from TowerDefense.Moneybag import Moneybag
 
 class HorseRobber(Enemy):
 
-    def __init__(self, robber, positionsToFollow, levelReference, *sprite_groups):
+    def __init__(self, bonusSpeed, health, goldOnKill, scoreOnKill, robber, positionsToFollow, levelReference, *sprite_groups):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
         self.currentRobber = robber
-        self.horseHealth = 70
+        self.horseHealth = health
         self.robberHealth = robber.health
 
         self.enemyWidth = 68
         self.enemyHeight = 114
-        self.movementSpeed = 170
+        self.movementSpeed = 140 + bonusSpeed
         self.hasRobber = True
 
         self.levelReference = levelReference
 
-        self.goldOnHorseKill = 60
-        self.scoreOnHorseKill = 60
+        self.goldOnHorseKill = goldOnKill
+        self.scoreOnHorseKill = scoreOnKill
 
         self.goldToSteal = robber.goldToSteal
         self.goldOnKill = robber.goldOnKill
@@ -77,6 +77,11 @@ class HorseRobber(Enemy):
 
         self.hasChangedImageToGoldBags = False
 
+        previousPos = Vector2(self.position)
+        for positionToGoTo in self.positionsToFollow:
+            self.distanceLeft += Vector2(positionToGoTo).get_distance(previousPos)
+            previousPos = Vector2(positionToGoTo)
+
     def update(self, deltaTime):
 
         if self.hasDied is False:
@@ -99,6 +104,7 @@ class HorseRobber(Enemy):
                         self.hasDied = True
                 else:
                     self.position += moveToPositionVector
+                    self.distanceLeft -= self.movementSpeed * deltaTime
 
 
             if self.hasRobber:
@@ -178,6 +184,7 @@ class HorseRobber(Enemy):
         self.scoreOnKill = self.scoreOnHorseKill
 
         if self.totalGoldOnEnemy > 0:
+            self.goldDropSound.play()
             Moneybag(Vector2(self.position), 90, self.levelReference, self.totalGoldOnEnemy, self.levelReference.allSprites, self.levelReference.moneybagSprites)
 
         self.totalGoldOnEnemy = 0
@@ -185,7 +192,7 @@ class HorseRobber(Enemy):
         self.hasRobber = False
         self.currentImage = self.horseImage
         self.rotate()
-        self.movementSpeed = 310
+        self.movementSpeed = 260
         self.currentRobber = None
 
     def addRobber(self, robber):
