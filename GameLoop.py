@@ -52,7 +52,7 @@ if gameIsInFullscreen == True:
 #Pause overlay stuff
 continueBtn = Button(True, None, "Continue", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 300, 900, 100)
 backToTitleScreenBtn = Button(True, None, "Back to title screen", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 450, 900, 100)
-muteSoundsBtn = Button(True, None, "MuteAllSounds", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 600, 900, 100)
+muteSoundsBtn = Button(True, None, "Mute/Unmute Music", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 600, 900, 100)
 
 pauseOverlayCanvas = pygame.Surface([1600, 900], pygame.SRCALPHA, 32)
 pauseOverlayCanvas = pauseOverlayCanvas.convert_alpha()
