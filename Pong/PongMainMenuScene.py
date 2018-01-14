@@ -10,9 +10,11 @@ class PongMainMenuScene (SceneManager.Scene):
         self.myfont = pygame.font.SysFont("monospace", 48)
         self.SinglePlayerButton = Button(False, self.myfont, "Single player", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 225, 400, 75)
         self.MultiplayerButton = Button(False, self.myfont, "Multiplayer", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 325, 400, 75)
-        self.AudioButton = Button(False, self.myfont, "Audio", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 425, 400, 75)
-        self.ExitButton = Button(False, self.myfont, "Exit", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 625, 400, 75)
-        self.InstructionsButton = Button (False, self.myfont, "Instructions", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 525, 400, 75)
+        self.ExitButton = Button(False, self.myfont, "Exit", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 525, 400, 75)
+        self.InstructionsButton = Button(False, self.myfont, "Instructions", (255, 255, 255), (255, 255, 255), (255, 255, 255), (0, 0, 0), 600, 425, 400, 75)
+        pygame.mixer.music.load("Pong/PongMusic.ogg")
+        pygame.mixer.music.set_volume(0.0158)
+        pygame.mixer.music.play(-1)
 
     def render(self, screen):
         screen.fill((0, 0, 0))
@@ -30,7 +32,6 @@ class PongMainMenuScene (SceneManager.Scene):
 
         self.SinglePlayerButton.draw(screen)
         self.MultiplayerButton.draw(screen)
-        self.AudioButton.draw(screen)
         self.ExitButton.draw(screen)
         self.InstructionsButton.draw(screen)
         label = self.headerFont.render("PONG", 1, (255, 255, 255))
