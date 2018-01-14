@@ -15,7 +15,7 @@ class DXBallLevel4 (SceneManager.Scene):
         super(DXBallLevel4, self).__init__()
 
         pygame.mixer.music.load('DXBall\Sounds\Lazerhawk-Overdrive.ogg')
-        #pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.play(loops=-1)
 
         # shows the mouse
         #pygame.mouse.set_visible(False)
@@ -68,14 +68,14 @@ class DXBallLevel4 (SceneManager.Scene):
 
             Block(spawnPos2, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
-        blockStarty = 500
-        for i in range(4):
+        blockStarty = 400
+        for i in range(3):
             spawnPos3 = Vector2(360, blockStarty - 100 * (i + 1) + (10 * i))
 
             Block2(spawnPos3, self.blockSprites, self.ballcollideSprites, self.allSprites)
 
-        blockStarty = 500
-        for i in range(4):
+        blockStarty = 400
+        for i in range(3):
             spawnPos4 = Vector2(1130, blockStarty - 100 * (i + 1) + (10 * i))
 
             Block2(spawnPos4, self.blockSprites, self.ballcollideSprites, self.allSprites)
