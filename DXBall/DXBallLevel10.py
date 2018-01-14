@@ -88,7 +88,7 @@ class DXBallLevel10 (SceneManager.Scene):
         PowerUps = self.DXBallFont.render("Power Ups: Big upgrade", False, (2, 255, 149))
         screen.blit(PowerUps, (550, 20))
 
-        CurrentLevel = self.DXBallFont.render("Level: 9", False, (2, 255, 149))
+        CurrentLevel = self.DXBallFont.render("Level: 10", False, (2, 255, 149))
         screen.blit(CurrentLevel, (1300, 20))
 
         self.nextBtn.draw(screen)
@@ -124,7 +124,7 @@ class DXBallLevel10 (SceneManager.Scene):
             self.gameOver = True
 
         if self.nextBtn.click():
-            SceneManager.SceneManager.goToScene("DXBall.DXBallMainMenu.DXBallMainMenu")
+            SceneManager.SceneManager.goToScene("DXBall.DXBallMainMenuScene.DXBallMainMenuScene")
 
         if self.ball.position.y > 900:
             self.health = self.health - 1

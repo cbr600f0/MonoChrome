@@ -121,7 +121,6 @@ while gameIsRunning:
             global gameIsPaused
             gameIsPaused = False
             SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
-            pygame.mixer.music.stop()
 
         if muteSoundsBtn.click(): # only works for music NOT sound
             global allSoundIsMuted

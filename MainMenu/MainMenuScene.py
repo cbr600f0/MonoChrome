@@ -41,7 +41,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.towerDefenseBodyImage = pygame.image.load("MainMenu/Images/Minigames/TowerDefenseArcadeBodyImage.png").convert()
         self.towerDefenseBodyImage = pygame.transform.scale(self.towerDefenseBodyImage, self.bodySurfaceSize)
 
-        self.dxBallBodyImage = pygame.image.load("MainMenu/Images/Minigames/DXBallHeader.png").convert()
+        self.dxBallBodyImage = pygame.image.load("MainMenu/Images/Minigames/RetroballArcadeBodyImage.png").convert()
         self.dxBallBodyImage = pygame.transform.scale(self.dxBallBodyImage, self.bodySurfaceSize)
 
         self.spaceInvadersBodyImage = pygame.image.load("MainMenu/Images/Minigames/SpaceInvadersArcadeBodyImage.png").convert() # i wont use this title its title quality is too bad
