@@ -23,7 +23,7 @@ class Ball(pygame.sprite.Sprite):
         self.baseVelocity = 100
         self.currentVelocity = self.baseVelocity
 
-        self.xVel = 9 # How fast is the ball going on the X-Axis (Left or Right)
+        self.xVel = 8 # How fast is the ball going on the X-Axis (Left or Right)
         self.yVel = 3 # How fast is the ball going on the Y-Axis (Up or Down)
 
         self.image = self.ballSurface
