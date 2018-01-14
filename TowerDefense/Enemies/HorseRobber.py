@@ -7,7 +7,7 @@ from TowerDefense.Moneybag import Moneybag
 
 class HorseRobber(Enemy):
 
-    def __init__(self, health, goldOnKill, scoreOnKill, robber, positionsToFollow, levelReference, *sprite_groups):
+    def __init__(self, bonusSpeed, health, goldOnKill, scoreOnKill, robber, positionsToFollow, levelReference, *sprite_groups):
         Enemy.__init__(self, positionsToFollow, *sprite_groups)
 
         self.currentRobber = robber
@@ -16,7 +16,7 @@ class HorseRobber(Enemy):
 
         self.enemyWidth = 68
         self.enemyHeight = 114
-        self.movementSpeed = 140
+        self.movementSpeed = 140 + bonusSpeed
         self.hasRobber = True
 
         self.levelReference = levelReference

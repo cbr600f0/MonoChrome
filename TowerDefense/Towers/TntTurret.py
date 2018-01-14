@@ -40,8 +40,8 @@ class TntTurret(Turret):
         self.name = "Dynamite Cowboy"
         self.description = "A cowboy with dynamite sticks, deals damage to all enemies hit in a radius"
 
-        self.upgradeCost = 280
-        self.buyPrice = 180
+        self.upgradeCost = 320
+        self.buyPrice = 200
         self.totalGoldSpendOnTurret = self.buyPrice
 
         self.turretImage = pygame.image.load("TowerDefense\Images\Turrets\TntTurret.png").convert_alpha()
@@ -146,7 +146,7 @@ class TntTurret(Turret):
             self.nextLevelAOE = 120
             self.nextLevelFuseTime = 0.65
 
-            self.upgradeCost = 450
+            self.upgradeCost = 550
 
         elif self.turretLevel == 3:
             self.nextLevelDamage = 62
