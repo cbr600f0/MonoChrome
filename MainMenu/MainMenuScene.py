@@ -12,6 +12,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.pongFont = pygame.font.SysFont("monospace", 40)
         self.spaceInvadersFont = pygame.font.Font("SpaceInvaders/font/OCRAEXT.TTF", 30)
         self.towerDefenseFont = pygame.font.Font("TowerDefense/WesternFont.otf", 40)
+        self.bubbleShooterFont = pygame.font.Font("BubbleShooter2/d2k.ttf", 58)
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 52)
 
         self.backgroundImage = pygame.image.load("MainMenu/Images/MainMenuBackgroundPlusMachine.png").convert()
@@ -61,7 +62,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.pongBtn = Button(False, self.pongFont, "Pong", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 100, 600, 60)
         self.DXBallBtn = Button(False, self.DXBallFont, "Retroball", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 340, 600, 60)
         self.spaceInvadersBtn = Button(False, self.spaceInvadersFont, "Space Invaders", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 220, 600, 60)
-        self.bubbleShooterBtn = Button(True, None, "Bubble Shooter", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 280, 600, 60)
+        self.bubbleShooterBtn = Button(False, self.bubbleShooterFont, "LightballShooter", [220, 220, 220], [0, 0, 0], [120, 120, 120], [0, 0, 0], 900, 280, 600, 60)
 
         self.currentHeaderImage = self.pongHeaderImage
         self.currentBodyImage = self.pongBodyImage

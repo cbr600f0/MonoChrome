@@ -1,14 +1,14 @@
 import sys, pygame, math, random, SceneManager, Vector2
 from BubbleShooter2.Player import Player
 from BubbleShooter2.LightBall import LightBall
-import ButtonClass as Button
+from ButtonClass import Button
 
 class GameOverScene(SceneManager.Scene):
     def __init__(self, *optionalSceneParam):
         super(GameOverScene, self).__init__()
         self.backgroundImage = pygame.image.load("BubbleShooter2\Images\GameOverImage.png")
-        self.RetryButton = Button.Button(True, None, "", (255, 0, 0), (255, 0, 0), (220, 220, 220), (220, 220, 220), 350, 700, 1280, 120)
-        self.ManMenuButton = Button.Button(True, None, "", (255, 0, 0), (255, 0, 0), (220, 220, 220), (220, 220, 220), 600, 700, 1280, 120)
+        self.RetryButton = Button(True, None, "Retry", None, None, [0, 5, 255], [0, 5, 110], 715, 630, None, 82)
+        self.MainMenuButton = Button(True, None, "Main Menu", None, None, [0, 5, 255], [0, 5, 110], 715, 730, None, 82)
 
     def render(self, screen):
         screen.blit(self.backgroundImage, (0, 0))

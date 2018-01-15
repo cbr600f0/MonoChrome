@@ -17,7 +17,7 @@ try:
     pygame.mixer.set_num_channels(110)
 except:
     pass
-gameIsInFullscreen = False  # Change this to False if you want to make the screen windowed at the start
+gameIsInFullscreen = True  # Change this to False if you want to make the screen windowed at the start
 
 if gameIsInFullscreen == False:
     # Sets to screen size to a specified size
@@ -50,9 +50,10 @@ if gameIsInFullscreen == True:
     switchScreenButton.set_text("Windowed")
 
 #Pause overlay stuff
-continueBtn = Button(True, None, "Continue", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 300, 900, 100)
-backToTitleScreenBtn = Button(True, None, "Back to title screen", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 450, 900, 100)
-muteSoundsBtn = Button(True, None, "Mute/Unmute Music", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 600, 900, 100)
+continueBtn = Button(True, None, "Continue", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 150, 900, 100)
+backToTitleScreenBtn = Button(True, None, "Back to title screen", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 300, 900, 100)
+muteSoundsBtn = Button(True, None, "Mute/Unmute Music", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 450, 900, 100)
+quitGameBtn = Button(True, None, "Quit Game", [50, 50, 50], [120, 120, 120], [30, 30, 30], [120, 120, 120], 350, 600, 900, 100)
 
 pauseOverlayCanvas = pygame.Surface([1600, 900], pygame.SRCALPHA, 32)
 pauseOverlayCanvas = pauseOverlayCanvas.convert_alpha()
@@ -80,7 +81,7 @@ while gameIsRunning:
     else:
         handlePauseOverlay()
 
-    switchScreenButton.draw(screen)
+    #switchScreenButton.draw(screen)
     if switchScreenButton.click():
         changedWindowMode = False
         if gameIsInFullscreen == True:
@@ -99,7 +100,7 @@ while gameIsRunning:
     if gameIsPaused == False:
         # draw FPS text
         FPSLbl = FPSLblFont.render("FPS: " + str(int(clock.get_fps())), 1, (255, 255, 255))
-        screen.blit(FPSLbl, (4, 4))
+        #screen.blit(FPSLbl, (4, 4))
 
     pygame.display.update()  # This makes pygame update its canvas thus rendering everything on the screen
 
@@ -112,6 +113,7 @@ while gameIsRunning:
         continueBtn.draw(screen)
         backToTitleScreenBtn.draw(screen)
         muteSoundsBtn.draw(screen)
+        quitGameBtn.draw(screen)
 
         if continueBtn.click():
             global gameIsPaused
@@ -130,6 +132,10 @@ while gameIsRunning:
                 pygame.mixer.music.pause()
             else:
                 pygame.mixer.music.unpause()
+
+        if quitGameBtn.click():
+            global gameIsRunning
+            gameIsRunning = False
 
 
 
