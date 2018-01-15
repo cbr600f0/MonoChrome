@@ -7,10 +7,8 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         super(BubbleShooterMainMenuScene, self).__init__()
 
         # Adds buttons
-        self.NewGameButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 75, 1280, 120)
-        self.PasswordButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 280, 1280, 120)
-        self.OptionsButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 487, 1280, 120)
-        self.QuitGameButton = Button.Button(True, None, "", None, None,  (220, 220, 220), (220, 220, 220), 180, 690, 1280, 120)
+        self.NewGameButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 305, 1280, 120)
+        self.QuitGameButton = Button.Button(True, None, "", None, None,  (220, 220, 220), (220, 220, 220), 180, 583, 1280, 120)
 
         self.backgroundImage = pygame.image.load('BubbleShooter2\Images\MainMenu.png').convert_alpha()
         self.backgroundImage = pygame.transform.scale(self.backgroundImage, (1600, 900))
@@ -20,8 +18,6 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         screen.blit(self.backgroundImage, self.backgroundImageRect)
         # Draws buttons
         self.NewGameButton.draw(screen)
-        self.PasswordButton.draw(screen)
-        self.OptionsButton.draw(screen)
         self.QuitGameButton.draw(screen)
 
     def handle_events(self, events):
@@ -30,10 +26,6 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
 
     def update(self, deltaTime):
         if(self.NewGameButton.click()):
-            SceneManager.SceneManager.goToScene('BubbleShooter2.BubbleShooterScene.BubbleShooterScene')
-        if (self.PasswordButton.click()):
-            pass
-        if (self.OptionsButton.click()):
-            pass
+            SceneManager.SceneManager.goToScene('BubbleShooter2.BubbleShooterScene.BubbleShooterScene', 1)
         if (self.QuitGameButton.click()):
             SceneManager.SceneManager.goToScene('MainMenu.MainMenuScene.MainMenuScene')

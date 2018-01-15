@@ -3,8 +3,11 @@ from BubbleShooter2.Player import Player
 from BubbleShooter2.LightBall import LightBall
 
 class BubbleShooterScene(SceneManager.Scene):
-    def __init__(self):
+    def __init__(self, *optionalSceneParam):
         super(BubbleShooterScene, self).__init__()
+
+        self.gameOver = False
+        self.level = optionalSceneParam[0][0]
 
         # Loads in the images and changes it where needed
         self.backgroundImage = pygame.image.load('BubbleShooter\Images\BackgroundDiscoGrid.png').convert_alpha()
@@ -26,20 +29,29 @@ class BubbleShooterScene(SceneManager.Scene):
                             'Black': pygame.image.load("BubbleShooter2\Images\Enemy7.png").convert_alpha()
                           }
         self.lightBallCount = 0
-        int(self.lightBallCount)
 
-
-        self.routePositions = ([400 ,700], [400, 50], [1200, 50], [1200, 700])
+        self.level1 = ([400 ,900], [400, 50], [1200, 50], [1200, 700])
+        self.level2 = ([0, 50], [1550, 50], [1550, 850], [50, 850], [50, 150], [200, 150], [200, 500])
+        if self.level == 1:
+            self.routePositions = self.level1
+        elif self.level == 2:
+            self.routePositions = self.level2
         self.spawnTimer = 0
-        self.ballsToSpawn = 4 # 20
+        self.ballsToSpawn = 30
         self.player = Player(self, self.allSprites, self.lightBallSprites, self.lightBallCount, self.lightBallImages, self.routePositions, self.allSprites, self.playerSprites)
 
+        startBalls = 6
 
         #     def __init__(self, spawnPos, playerInstance, lightBallImage, lightBallColor, *sprite_groups):
         for i in range(0, self.ballsToSpawn):
             lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-            LightBall(self, (self.routePositions[0][0], self.routePositions[0][1] - 45 * i), self.player, self.lightBallCount, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
+            self.lightBallCount += 1
+            if self.level == 1:
+                LightBall(self, (self.routePositions[0][0], self.routePositions[0][1] + ((self.ballsToSpawn * 40) - (40 * startBalls)) - (i * 40)), self.player, self.lightBallCount, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
+            elif self.level == 2:
+                LightBall(self, (self.routePositions[0][0] - ((self.ballsToSpawn * 40) + (40 * startBalls)) + (i * 40), self.routePositions[0][1]), self.player, self.lightBallCount, lightBallImage, lightBallColor, True, self.routePositions, self.allSprites, self.lightBallSprites)
 
+        self.player.loadNewLightBall()
     def render(self, screen):
         self.allSprites.clear(screen, self.backgroundImage)
         screen.blit(self.backgroundImage, self.backgroundImageRect)
@@ -48,15 +60,18 @@ class BubbleShooterScene(SceneManager.Scene):
 
     def handle_events(self, events):
         self.player.eventHandler = events
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                mousePos = pygame.mouse.get_pos()
-                for sprite in self.lightBallSprites.sprites():
-
-                    if sprite.rect.collidepoint(mousePos):
-                        sprite.kill()
 
     def update(self, deltaTime):
+
+        if len(self.lightBallSprites.sprites()) == 0:
+            if self.level == 1:
+                self.level = 2
+            elif self.level == 2:
+                self.level = 1
+            SceneManager.SceneManager.goToScene('BubbleShooter2.BubbleShooterScene.BubbleShooterScene', self.level)
+
+        if self.gameOver:
+            SceneManager.SceneManager.goToScene('BubbleShooter2.GameOverScene.GameOverScene')
 
         firstIsGettingPushed = False
         for i in range(len(self.lightBallSprites.sprites())):

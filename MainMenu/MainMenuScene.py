@@ -47,7 +47,7 @@ class MainMenuScene(SceneManager.Scene): # MainMenuScene inherits from the class
         self.spaceInvadersBodyImage = pygame.image.load("MainMenu/Images/Minigames/SpaceInvadersArcadeBodyImage.png").convert() # i wont use this title its title quality is too bad
         self.spaceInvadersBodyImage = pygame.transform.scale(self.spaceInvadersBodyImage, self.bodySurfaceSize)
 
-        self.bubbleShooterBodyImage = pygame.image.load("MainMenu/Images/Minigames/LightballShooterHeader.png").convert()
+        self.bubbleShooterBodyImage = pygame.image.load("MainMenu/Images/Minigames/LightballShooterArcadeBodyImage.png").convert()
         self.bubbleShooterBodyImage = pygame.transform.scale(self.bubbleShooterBodyImage, self.bodySurfaceSize)
 
         #Surfaces

@@ -36,7 +36,6 @@ class Player(pygame.sprite.Sprite):
         self.routePositions = routePositions
         self.positionShootingFrom = Vector2(self.position) + offset
         self.currentLightBall = None
-        self.loadNewLightBall()
 
         self.eventHandler = None
 
@@ -71,5 +70,13 @@ class Player(pygame.sprite.Sprite):
         self.angle = angle
 
     def loadNewLightBall(self):
-        lightBallColor, lightBallImage = random.choice(list(self.lightBallImages.items()))
-        self.currentLightBall = LightBall(self.bubbleShooterScene, self.positionShootingFrom, self, self.lightBallCount, lightBallImage, lightBallColor, False, self.routePositions, self.allSprites)
+        availableColors = []
+        for lightballSprite in self.bubbleShooterScene.lightBallSprites.sprites():
+            if lightballSprite.lightBallColor not in availableColors:
+                availableColors.append(lightballSprite.lightBallColor)
+
+        if len(availableColors) > 0:
+            lightBallColor = random.choice(availableColors)
+            lightBallImage = self.lightBallImages[lightBallColor]
+            self.bubbleShooterScene.lightBallCount += 1
+            self.currentLightBall = LightBall(self.bubbleShooterScene, self.positionShootingFrom, self, self.lightBallCount, lightBallImage, lightBallColor, False, self.routePositions, self.allSprites)

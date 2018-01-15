@@ -2,18 +2,19 @@ import sys, pygame, math, random, SceneManager
 from pygame import gfxdraw
 from Vector2 import Vector2
 
+# in gameloop, comment regels: 102 en 83. en regel 20 "full screen" op true zetten.
+
 class LightBall(pygame.sprite.Sprite):
 
     def __init__(self, BubbleShooterScene, spawnPos, playerInstance, lightBallId, lightBallImage, lightBallColor, isOnRoute, routePositions, *sprite_groups):
         super().__init__(*sprite_groups)
 
-        lightBallId += 1
-        self.lightBallId = lightBallId
+        self.lightBallId = BubbleShooterScene.lightBallCount
         self.lightBallImage = lightBallImage
         self.lightBallImage = pygame.transform.scale(self.lightBallImage, (40, 40))
         self.position = Vector2(spawnPos)
         self.velocity = 600
-        self.movementSpeed = 100
+        self.movementSpeed = 50
 
         self.lightBallColor = lightBallColor
         self.velocityVector = Vector2(0, 0)
@@ -52,14 +53,17 @@ class LightBall(pygame.sprite.Sprite):
             currentBall.position += moveToPositionVector
         else:
             if moveToPositionVector.length > currentBall.nextPositionToGoTo.get_distance(currentBall.position):
-                excessDistance = moveToPositionVector.length - currentBall.nextPositionToGoTo.get_distance(currentBall.position)
+                if currentBall.routePositions[len(currentBall.routePositions) - 1] == currentBall.nextPositionToGoTo:
+                    self.bubbleShooterScene.gameOver = True
+                else:
+                    excessDistance = moveToPositionVector.length - currentBall.nextPositionToGoTo.get_distance(currentBall.position)
 
-                moveToPositionVector2 = currentBall.routePositions[currentBall.destinationPosIndex + 1] - currentBall.nextPositionToGoTo
-                moveToPositionVector2.length = excessDistance
+                    moveToPositionVector2 = currentBall.routePositions[currentBall.destinationPosIndex + 1] - currentBall.nextPositionToGoTo
+                    moveToPositionVector2.length = excessDistance
 
-                currentBall.position = currentBall.nextPositionToGoTo + moveToPositionVector2
-                currentBall.nextPositionToGoTo = Vector2(currentBall.routePositions[currentBall.destinationPosIndex + 1])
-                currentBall.destinationPosIndex += 1
+                    currentBall.position = currentBall.nextPositionToGoTo + moveToPositionVector2
+                    currentBall.nextPositionToGoTo = Vector2(currentBall.routePositions[currentBall.destinationPosIndex + 1])
+                    currentBall.destinationPosIndex += 1
 
     def update(self, deltaTime, allSprites, lightBallSprites):
         if (self.canMove):
@@ -79,7 +83,7 @@ class LightBall(pygame.sprite.Sprite):
                             self.nextPositionToGoTo = Vector2(self.routePositions[self.destinationPosIndex][0],
                                                              self.routePositions[self.destinationPosIndex][1])
                         else:# Reached the end
-                            self.kill()
+                            self.bubbleShooterScene.gameOver = True
 
                     self.position += moveToPositionVector
 
@@ -104,71 +108,69 @@ class LightBall(pygame.sprite.Sprite):
                             #The list will be re-ordered due to the changed sprite
                             for y in range(len(lightBallSprites.sprites())):
                                 self.rearrangeList.append(lightBallSprites.sprites()[y])
-                                print(lightBallSprites.sprites()[y].lightBallColor)
-                            print("-----------------------")
                             x = len(self.rearrangeList) - 2
                             self.rearrangeList.append(lightBallSprites.sprites()[len(lightBallSprites.sprites()) - 1])
-                            while x >= 0:
+                            while True:
                                 if x > i:
                                     self.rearrangeList[x + 1] = self.rearrangeList[x]
-                                    #Hier moet ik programeren, dat de balletjes ongeveer 45 pixels naar de volgende
-                                    #destination word geduwd. (dit zodat er ruimte is voor de nieuwe bal)
-                                    #current ball is self.rearrangeList[x]
-
-                                    self.moveBallFurther(x)
 
                                 elif x == i:
-                                    p = i
-                                    listOfPoppedBalls = []
 
-                                    while p >= 0:
-                                        if self.rearrangeList[p].lightBallColor == self.lightBallColor:
-                                            self.sameColors += 1
-                                            listOfPoppedBalls.append(self.rearrangeList[p])
-                                        else:
-                                            break
-                                        p -= 1
-                                    p = i
-                                    while p <= len(self.rearrangeList):
-                                        if self.rearrangeList[p].lightBallColor == self.lightBallColor:
-                                            self.sameColors += 1
-                                        else:
-                                            break
-                                        p += 1
-                                    if self.sameColors >= 3:
-                                        for z in range(len(lightBallSprites.sprites())):
-                                            for y in range(len(listOfPoppedBalls)):
-                                                if self.rearrangeList[z].lightBallId == listOfPoppedBalls[y].lightBallId:
-                                                    self.rearrangeList[z].kill()
-                                    else:
                                         self.rearrangeList[x + 1] = self
-
                                         self.position = Vector2(collidedSprite.position)
-                                        self.moveBallFurther(x + 1)
+                                        break
                                 elif x < i:
                                     if i == len(self.rearrangeList) - 2:
                                         self.rearrangeList[len(self.rearrangeList) - 1] = self
 
                                         self.position = Vector2(collidedSprite.position)
-                                        self.moveBallFurther(len(self.rearrangeList) - 1)
+                                        break
                                     elif i == len(self.rearrangeList) - 3:
                                         self.rearrangeList[len(self.rearrangeList) - 1] = self.rearrangeList[len(self.rearrangeList) - 2]
                                         self.rearrangeList[len(self.rearrangeList) - 2] = self
 
                                         self.position = Vector2(collidedSprite.position)
-                                        self.moveBallFurther(len(self.rearrangeList) - 2)
-
+                                        break
                                 x -= 1
-                            if self.sameColors >= 3:
-                                pass
+                            if len(lightBallSprites.sprites()) > 1:
+                                p = i
+                                listOfPoppedBalls = []
+                                # Back part of the chain
+                                while p >= 0:
+                                    if self.rearrangeList[p].lightBallColor == self.lightBallColor:
+                                        self.sameColors += 1
+                                        listOfPoppedBalls.append(self.rearrangeList[p])
+                                        p -= 1
+                                    else:
+                                        break
+                                p = i + 1
+                                # Front part of the chain
+                                while p <= len(self.rearrangeList) - 1:
+                                    if self.rearrangeList[p].lightBallColor == self.lightBallColor:
+                                        self.sameColors += 1
+                                        listOfPoppedBalls.append(self.rearrangeList[p])
+                                        p += 1
+                                    else:
+                                        break
+                                # check if there were 3 or more of the same color and delete them if needed
+                                if self.sameColors >= 3:
+
+                                    for y in listOfPoppedBalls:
+                                        self.rearrangeList.remove(y)
+                                        y.kill()
+                                    self.kill()
+
                             lightBallSprites.empty()
                             for y in range(len(self.rearrangeList)):
                                 self.rearrangeList[y].add(lightBallSprites)
-                            for i in range(len(lightBallSprites.sprites())):
-                                print(lightBallSprites.sprites()[i].lightBallColor)
+                            h = i
+                            if self.sameColors < 3:
+                                while h < len(self.rearrangeList) - 1:
+                                    self.moveBallFurther(h + 1)
+                                    h += 1
 
-                            # self.playerInstance.lightBallInTheAir = False
-                            # self.playerInstance.loadNewLightBall()
+                            self.playerInstance.lightBallInTheAir = False
+                            self.playerInstance.loadNewLightBall()
                             break
                 break
             if (self.position.x > 1650 or
@@ -178,7 +180,3 @@ class LightBall(pygame.sprite.Sprite):
                     self.playerInstance.lightBallInTheAir = False
                     self.kill()
                     self.playerInstance.loadNewLightBall()
-
-
-
-# lightballsprites.position,
