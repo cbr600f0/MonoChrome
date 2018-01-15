@@ -158,6 +158,7 @@ class LightBall(pygame.sprite.Sprite):
                                     for y in listOfPoppedBalls:
                                         self.rearrangeList.remove(y)
                                         y.kill()
+                                        self.bubbleShooterScene.score += 50
                                     self.kill()
 
                             lightBallSprites.empty()

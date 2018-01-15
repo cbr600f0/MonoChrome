@@ -43,6 +43,7 @@ class SpaceInvaderMainMenuScene (SceneManager.Scene):
             SceneManager.SceneManager.goToScene("SpaceInvaders.SpaceInvaderOptionsScene.SpaceInvaderOptionsScene", self.audio, self.highestWave)
 
         if self.quitBtn.click():
+            pygame.mixer.music.stop()
             SceneManager.SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene") # , self.audio, self.highestWave
 
     def render(self, screen):

@@ -11,6 +11,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
 
         pygame.mixer.music.load('DXBall\Sounds\MiamiNights1984-Accelerated.ogg')
         pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.set_volume(0.05)
 
         self.DXBallFont = pygame.font.Font("DXBall/SFAlienEncounters-Italic.ttf", 52)
         self.DXBallFont2 = pygame.font.Font("DXBall/Fonts/Megatron Condensed.otf", 52)
@@ -57,6 +58,7 @@ class DXBallMainMenuScene(SceneManager.Scene):
             pass
 
         if self.quitBtn.click():
+            pygame.mixer.music.stop()
             SceneManager.SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
 
     def handle_events(self, events):

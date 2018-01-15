@@ -44,6 +44,7 @@ class PongMainMenuScene (SceneManager.Scene):
         if self.MultiplayerButton.click():
             SceneManager.SceneManager.goToScene("Pong.PongMultiplayerScene.PongMultiplayerScene")
         if self.ExitButton.click():
+            pygame.mixer.music.stop()
             SceneManager.SceneManager.goToScene("MainMenu.MainMenuScene.MainMenuScene")
         if self.InstructionsButton.click():
             SceneManager.SceneManager.goToScene("Pong.InstructionsScene.InstructionsScene")

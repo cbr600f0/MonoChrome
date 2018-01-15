@@ -6,6 +6,10 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
     def __init__(self):
         super(BubbleShooterMainMenuScene, self).__init__()
 
+        pygame.mixer.music.load("BubbleShooter2/Sound/BackgroundSong.mp3")
+        pygame.mixer.music.set_volume(0.0158)
+        pygame.mixer.music.play(-1)
+
         # Adds buttons
         self.NewGameButton = Button.Button(True, None, "", None, None, (220, 220, 220), (220, 220, 220), 180, 305, 1280, 120)
         self.QuitGameButton = Button.Button(True, None, "", None, None,  (220, 220, 220), (220, 220, 220), 180, 583, 1280, 120)
@@ -28,4 +32,5 @@ class BubbleShooterMainMenuScene(SceneManager.Scene):
         if(self.NewGameButton.click()):
             SceneManager.SceneManager.goToScene('BubbleShooter2.BubbleShooterScene.BubbleShooterScene', 1)
         if (self.QuitGameButton.click()):
+            pygame.mixer.music.stop()
             SceneManager.SceneManager.goToScene('MainMenu.MainMenuScene.MainMenuScene')

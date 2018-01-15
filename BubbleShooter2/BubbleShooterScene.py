@@ -8,9 +8,12 @@ class BubbleShooterScene(SceneManager.Scene):
 
         self.gameOver = False
         self.level = optionalSceneParam[0][0]
+        self.score = 0
+        self.myfont = pygame.font.SysFont("monospace", 25)
+        self.myfont.set_bold(True)
 
         # Loads in the images and changes it where needed
-        self.backgroundImage = pygame.image.load('BubbleShooter\Images\BackgroundDiscoGrid.png').convert_alpha()
+        self.backgroundImage = pygame.image.load('BubbleShooter2\Images\BackgroundDiscoGrid.png').convert_alpha()
         self.backgroundImage = pygame.transform.scale(self.backgroundImage, (1600, 900))
         self.backgroundImageRect = self.backgroundImage.get_rect()
 
@@ -57,6 +60,8 @@ class BubbleShooterScene(SceneManager.Scene):
         screen.blit(self.backgroundImage, self.backgroundImageRect)
         pygame.draw.lines(screen, [55, 55, 55], False, self.routePositions, 50)
         self.allSprites.draw(screen)
+        self.scoreLbl = self.myfont.render("Score: " + str(self.score), True, [0, 180, 0])
+        screen.blit(self.scoreLbl, (800, 600))
 
     def handle_events(self, events):
         self.player.eventHandler = events
